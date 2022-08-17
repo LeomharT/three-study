@@ -1,0 +1,13 @@
+// blueprtin ui scss variables
+@import '@blueprintjs/core/lib/scss/variables.scss';
+
+*
+{
+    margin    : 0;
+    padding   : 0;
+    list-style: none;
+}
+body
+{
+    color: inherit;
+}
