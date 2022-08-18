@@ -1,3 +1,4 @@
+import { Easing, Tween } from "@tweenjs/tween.js";
 import { PerspectiveCamera, Scene } from "three";
 
 export default class _Camera
@@ -24,6 +25,36 @@ export default class _Camera
         this.camera.position.set(300, 150, 300);
         this.camera.lookAt(scene.position);
         this.camera.updateProjectionMatrix();
+
+        this._camera.userData = {
+            fovVolume: this._camera.fov
+        };
+    };
+
+    public OnWheel = (ev: WheelEvent) =>
+    {
+        if (ev.deltaY > 0)
+        {
+            if (this._camera.userData.fovVolume >= 120) return;
+            this._camera.userData.fovVolume += 5;
+        } else
+        {
+            if (this._camera.userData.fovVolume <= 60) return;
+            this._camera.userData.fovVolume -= 5;
+        }
+
+        const target = { fov: this.camera.fov };
+
+        new Tween(target)
+            .to({ fov: this._camera.userData.fovVolume })
+            .easing(Easing.Quadratic.Out)
+            .onUpdate(() =>
+            {
+                this.camera.fov = target.fov;
+
+                this.camera.updateProjectionMatrix();
+            })
+            .start();
     };
 
     get camera(): PerspectiveCamera

@@ -1,5 +1,6 @@
+import { update } from "@tweenjs/tween.js";
 import { RefObject } from "react";
-import { Scene } from "three";
+import { ArrowHelper, Object3D, Scene, Vector3 } from "three";
 import _Camera from "./core/camera";
 import _Controler from "./core/controler";
 import _Renderer from "./core/renderer";
@@ -25,8 +26,10 @@ export class ApplicationService
     )
     {
         window.onresize = this._OnWindowsResize;
+        window.onwheel = this.camera.OnWheel;
     }
 
+    /** 拖拽窗体时重新定义canvas大小 */
     private _OnWindowsResize = (e: UIEvent) =>
     {
         const width = document.body.clientWidth;
@@ -38,16 +41,6 @@ export class ApplicationService
         this.renderer.SetRendererSize(width, height);
     };
 
-    /** 初始化场景 */
-    public InitScene = (domEl: RefObject<HTMLElement>) =>
-    {
-        //添加到指定DOM节点
-        domEl.current?.appendChild(this.renderer.GetCanvasElement());
-
-        this.LoopRender();
-    };
-
-
     /** 循环渲染 */
     public LoopRender = (time?: number): void =>
     {
@@ -56,5 +49,33 @@ export class ApplicationService
         this.controler.UpdateControler();
 
         this.renderer.RenderScene(this.camera.camera, this.scene);
+
+        //这里调用才会触发onUpdate
+        update(time);
+    };
+
+    /** 初始化场景 */
+    public InitScene = (domEl: RefObject<HTMLElement>): void =>
+    {
+        //添加箭头坐标助手
+        const arrowHelpers: Object3D[] = [
+            new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 250, "#FF0000"),
+            new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
+            new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
+        ];
+
+        this.scene.add(...arrowHelpers);
+
+        //添加到指定DOM节点
+        domEl.current?.appendChild(this.renderer.GetCanvasElement());
+
+        this.LoopRender();
+    };
+
+    /** 卸载场景 */
+    public DisPoseScene = (): void =>
+    {
+        window.onresize = null;
+        window.onwheel = null;
     };
 }
