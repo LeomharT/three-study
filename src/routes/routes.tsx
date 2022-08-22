@@ -1,6 +1,6 @@
 import { IndexRouteProps, LayoutRouteProps, PathRouteProps } from "react-router-dom";
+import Animation from "../page/Basics/Animation";
 import Navigation from "../page/Navigation";
-import PictureTransform from "../page/PictureTransform";
 
 /** 路由数组 */
 export default [
@@ -8,7 +8,7 @@ export default [
         path: '/',
         element: <Navigation />
     }, {
-        path: '/picture_transform',
-        element: <PictureTransform />
+        path: '/animation',
+        element: <Animation />
     }
 ] as PathRouteProps[] & LayoutRouteProps[] & IndexRouteProps[];

@@ -4,11 +4,6 @@ import { Color, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 
 export default class _Renderer
 {
-    constructor()
-    {
-        this._SetUpWebGLRenderer();
-    }
-
     /** WebGLRenderer 渲染器 */
     private _webGLRenderer: WebGLRenderer = new WebGLRenderer({
         antialias: true,             //->抗锯齿
@@ -16,7 +11,7 @@ export default class _Renderer
     });
 
     /** 设置渲染器 */
-    private _SetUpWebGLRenderer = (): void =>
+    public SetUpWebGLRenderer = (): void =>
     {
         //分辨率
         this._webGLRenderer.setPixelRatio(window.devicePixelRatio);
