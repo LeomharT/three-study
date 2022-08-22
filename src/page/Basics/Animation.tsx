@@ -1,23 +1,11 @@
-import { RefObject, useEffect, useRef } from "react";
-import { ApplicationService } from "../../app/application-service";
+import { RefObject, useRef } from "react";
+import useScene from "../../hooks/useScene";
 
 export default function Animation()
 {
     const domEl: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
-    const app: RefObject<ApplicationService> = useRef<ApplicationService>(new ApplicationService());
-
-    useEffect(() =>
-    {
-        const instance = app.current;
-
-        instance?.InitScene(domEl);
-
-        return () =>
-        {
-            instance?.DisPoseScene();
-        };
-    }, []);
+    useScene(domEl);
 
     return (
         <div ref={domEl}></div>
