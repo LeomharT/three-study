@@ -8,7 +8,10 @@ import _Renderer from "./core/renderer";
 /**
  * 主程序
  */
-export class ApplicationService
+
+export let app: Application;
+
+export class Application
 {
     constructor(
 
@@ -34,6 +37,8 @@ export class ApplicationService
         public controler: _Controler = new _Controler({ camera: camera, domElement: renderer.GetCanvasElement() })
     )
     {
+        app = this;
+
         window.onresize = this._OnWindowsResize;
         window.onwheel = this.camera.OnWheel;
     }
@@ -51,7 +56,7 @@ export class ApplicationService
     };
 
     /** 循环渲染 */
-    private _LoopRender = (time?: number): void =>
+    public _LoopRender = (time?: number): void =>
     {
         requestAnimationFrame(this._LoopRender);
 
@@ -70,15 +75,6 @@ export class ApplicationService
 
         this.camera.SetUpCamera(this.scene);
 
-        //添加箭头坐标助手
-        const arrowHelpers: Object3D[] = [
-            new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 250, "#FF0000"),
-            new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
-            new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
-        ];
-
-        this.scene.add(...arrowHelpers);
-
         //添加到指定DOM节点
         domEl.current?.appendChild(this.renderer.GetCanvasElement());
 
@@ -90,5 +86,17 @@ export class ApplicationService
     {
         window.onresize = null;
         window.onwheel = null;
+    };
+
+    public addArrowHelper = (): void =>
+    {
+        //添加箭头坐标助手
+        const arrowHelpers: Object3D[] = [
+            new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 250, "#FF0000"),
+            new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
+            new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
+        ];
+
+        this.scene.add(...arrowHelpers);
     };
 }

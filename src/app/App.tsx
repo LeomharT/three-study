@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import routes from "../routes/routes";
+import { Application } from "./application-service";
 /**
  * 主组件
  */
@@ -14,6 +15,8 @@ export default function App()
         if (root.classList.contains('bp4-dark')) return;
 
         root.classList.add('bp4-dark');
+
+        new Application();
     }, []);
     return (
         <BrowserRouter basename="/">
