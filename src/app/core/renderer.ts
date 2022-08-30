@@ -11,13 +11,13 @@ export default class _Renderer
     });
 
     /** 设置渲染器 */
-    public SetUpWebGLRenderer = (): void =>
+    public setUpWebGLRenderer = (): void =>
     {
         //分辨率
         this._webGLRenderer.setPixelRatio(window.devicePixelRatio);
 
         //画布大小
-        this.SetRendererSize(document.body.clientWidth, document.body.clientHeight);
+        this.setRendererSize(document.body.clientWidth, document.body.clientHeight);
         //场景背景颜色
         this._webGLRenderer.setClearColor(new Color(0, 0, 0));
         //分辨率
@@ -25,19 +25,19 @@ export default class _Renderer
     };
 
     /** 设置画布大小 */
-    public SetRendererSize = (width: number, height: number) =>
+    public setRendererSize = (width: number, height: number) =>
     {
         this._webGLRenderer.setSize(width, height);
     };
 
     /** 渲染场景 */
-    public RenderScene = (camera: PerspectiveCamera, scene: Scene): void =>
+    public renderScene = (camera: PerspectiveCamera, scene: Scene): void =>
     {
         this._webGLRenderer.render(scene, camera);
     };
 
     /** 获取canvas元素 */
-    public GetCanvasElement = (): HTMLElement =>
+    public getCanvasElement = (): HTMLElement =>
     {
         return this._webGLRenderer.domElement;
     };

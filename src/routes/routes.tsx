@@ -10,5 +10,5 @@ export default [
     }, {
         path: '/base_scene',
         element: <BaseScene />
-    }
+    },
 ] as PathRouteProps[] & LayoutRouteProps[] & IndexRouteProps[];

@@ -14,11 +14,11 @@ export default class _Controler
         private _controler: OrbitControls = new OrbitControls(props.camera, props.domElement)
     )
     {
-        this._SetUpControler();
+        this._setUpControler();
     }
 
     /** 轨道控制器设置 */
-    private _SetUpControler(): void
+    private _setUpControler(): void
     {
         //禁止右键点击拖拽轨道相机
         this._controler.enablePan = false;
@@ -36,7 +36,7 @@ export default class _Controler
     }
 
     /** 更新控制器 */
-    public UpdateControler = (): boolean => this._controler.update();
+    public updateControler = (): boolean => this._controler.update();
 
     get controler(): OrbitControls
     {

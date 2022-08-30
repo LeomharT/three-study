@@ -3,7 +3,7 @@ import { PerspectiveCamera, Scene } from "three";
 
 export default class _Camera extends PerspectiveCamera
 {
-    public SetUpCamera = (scene: Scene) =>
+    public setUpCamera = (scene: Scene) =>
     {
         //设置相机初始视角和位置
         this.position.set(300, 150, 300);
@@ -15,7 +15,7 @@ export default class _Camera extends PerspectiveCamera
         };
     };
 
-    public OnWheel = (ev: WheelEvent) =>
+    public onWheel = (ev: WheelEvent) =>
     {
         if (ev.deltaY > 0)
         {

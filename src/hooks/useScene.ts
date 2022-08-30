@@ -5,11 +5,11 @@ export default function useScene(domEl: RefObject<HTMLDivElement>): void
 {
     useEffect(() =>
     {
-        app?.InitScene(domEl);
+        app?.initScene(domEl);
 
         return () =>
         {
-            app?.DisPoseScene();
+            app?.disPoseScene();
         };
     }, [domEl]);
 }

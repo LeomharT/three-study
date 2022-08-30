@@ -8,40 +8,39 @@ import _Renderer from "./core/renderer";
 /**
  * 主程序
  */
-
 export let app: Application;
 
 export class Application
 {
-    constructor(
-
-        /** 场景 -> 场景没必要封装 */
-        public scene: Scene = new Scene(),
-
-        /** 相机 */
-        public camera: _Camera = new _Camera(
-            //视野角度,后续缩放修改这个,默认给90
-            90,
-            //摄像机视锥体长宽比(必须保证大于0否则看不见场景)
-            document.body.clientWidth / document.body.clientHeight,
-            //近截面,相机视角小于这个值不渲染
-            .1,
-            //远截面,相机视角大于这个值不渲染
-            1000,
-        ),
-
-        /** WebGLRenderer */
-        public renderer: _Renderer = new _Renderer(),
-
-        /** 轨道控制器 */
-        public controler: _Controler = new _Controler({ camera: camera, domElement: renderer.GetCanvasElement() })
-    )
+    constructor()
     {
         app = this;
 
         window.onresize = this._OnWindowsResize;
-        window.onwheel = this.camera.OnWheel;
+        window.onwheel = this.camera.onWheel;
     }
+    /** 场景 -> 场景没必要封装 */
+    public scene: Scene = new Scene();
+
+    /** 相机 */
+    public camera: _Camera = new _Camera(
+        //视野角度,后续缩放修改这个,默认给90
+        90,
+        //摄像机视锥体长宽比(必须保证大于0否则看不见场景)
+        document.body.clientWidth / document.body.clientHeight,
+        //近截面,相机视角小于这个值不渲染
+        .1,
+        //远截面,相机视角大于这个值不渲染
+        1000,
+    );
+
+    /** WebGLRenderer */
+    public renderer: _Renderer = new _Renderer();
+
+    /** 轨道控制器 */
+    public controler: _Controler = new _Controler({ camera: this.camera, domElement: this.renderer.getCanvasElement() });
+
+    public injectFunction: Function | null = null;
 
     /** 拖拽窗体时重新定义canvas大小 */
     private _OnWindowsResize = (e: UIEvent) =>
@@ -52,40 +51,47 @@ export class Application
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
 
-        this.renderer.SetRendererSize(width, height);
+        this.renderer.setRendererSize(width, height);
     };
 
     /** 循环渲染 */
-    public _LoopRender = (time?: number): void =>
+    public _loopRender = (time?: number): void =>
     {
-        requestAnimationFrame(this._LoopRender);
+        requestAnimationFrame(this._loopRender);
 
-        this.controler.UpdateControler();
+        this.controler.updateControler();
 
-        this.renderer.RenderScene(this.camera, this.scene);
+        this.renderer.renderScene(this.camera, this.scene);
 
         //这里调用才会触发onUpdate
         update(time);
+
+
+        if (this.injectFunction)
+        {
+            this.injectFunction(time);
+        }
     };
 
     /** 初始化场景 */
-    public InitScene = (domEl: RefObject<HTMLElement>): void =>
+    public initScene = (domEl: RefObject<HTMLElement>): void =>
     {
-        this.renderer.SetUpWebGLRenderer();
+        this.renderer.setUpWebGLRenderer();
 
-        this.camera.SetUpCamera(this.scene);
+        this.camera.setUpCamera(this.scene);
 
         //添加到指定DOM节点
-        domEl.current?.appendChild(this.renderer.GetCanvasElement());
+        domEl.current?.appendChild(this.renderer.getCanvasElement());
 
-        this._LoopRender();
+        this._loopRender();
     };
 
     /** 卸载场景 */
-    public DisPoseScene = (): void =>
+    public disPoseScene = (): void =>
     {
         window.onresize = null;
         window.onwheel = null;
+        this.injectFunction = null;
     };
 
     public addArrowHelper = (): void =>
