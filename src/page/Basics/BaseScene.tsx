@@ -1,57 +1,112 @@
-import { RefObject, useEffect, useRef } from "react";
-import { Box3, Color, MathUtils, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import { MutableRefObject, RefObject, useCallback, useEffect, useRef } from "react";
+import { AmbientLight, BufferGeometry, CatmullRomCurve3, Color, DirectionalLight, LineBasicMaterial, LineLoop, Mesh, MeshStandardMaterial, Vector3 } from "three";
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
-import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { Flow } from 'three/examples/jsm/modifiers/CurveModifier';
 import { app } from "../../app/application-service";
 import useScene from "../../hooks/useScene";
+
+
 export default function BaseScene()
 {
     const domEl: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+    let flow: MutableRefObject<Flow | null> = useRef<Flow | null>(null);
+
+    const createText: () => Promise<Mesh> = useCallback(async (): Promise<Mesh> =>
+    {
+        const h_regular = '/data/helvetiker_regular.typeface.json';
+
+        const font = await new FontLoader().loadAsync(h_regular);
+
+        const text = new TextGeometry('FIRST SCENE', {
+            font,
+            size: 60,
+            height: 15,
+            curveSegments: 6,
+            bevelEnabled: true,
+            bevelThickness: 2,
+            bevelSize: 1,
+            bevelOffset: 0,
+            bevelSegments: 50
+        });
+
+        text.rotateX(Math.PI);
+
+        const mesh = new Mesh(
+            text,
+            new MeshStandardMaterial({ color: 0x99ffff, })
+        );
+
+        return mesh;
+    }, []);
+
+    const addLigth = useCallback(() =>
+    {
+        const direc_light = new DirectionalLight(0xffaa33);
+        direc_light.position.set(- 10, 10, 10);
+        direc_light.intensity = 1.0;
+        app.scene.add(direc_light);
+
+        const ambient_light = new AmbientLight(0x003973);
+        ambient_light.intensity = 1.0;
+        app.scene.add(ambient_light);
+    }, []);
+
+    const textMoveAloneCurve = useCallback(async () =>
+    {
+        const initialPoints = [
+            new Vector3(200, 0, -200),
+            new Vector3(200, 0, 200),
+            new Vector3(-200, 0, 200),
+            new Vector3(-200, 0, -200),
+        ];
+
+        const curve: CatmullRomCurve3 = new CatmullRomCurve3(initialPoints);
+
+        curve.type = 'centripetal';
+
+        //@ts-ignore
+        curve.closed = true;
+
+        const points = curve.getPoints(50);
+
+        const line = new LineLoop(
+            new BufferGeometry().setFromPoints(points),
+            new LineBasicMaterial({ color: 0x00ff00 })
+        );
+
+        app.scene.add(line);
+
+        const text = await createText();
+
+        flow.current = new Flow(text);
+        flow.current.updateCurve(0, curve);
+
+        app.scene.add(flow.current.object3D);
+    }, [createText]);
 
     useScene(domEl);
 
     useEffect(() =>
     {
         app.addArrowHelper();
+
         app.scene.background = new Color(0xE8E8E8);
 
-        new FontLoader().load('/data/gentilis_regular.typeface.json', (font: Font) =>
+        addLigth();
+
+        textMoveAloneCurve();
+
+        app.injectFunction = (time: number) =>
         {
-            const text = new TextGeometry('FIRST SCENE', {
-                font,
-                size: 60,
-                height: 25,
-                curveSegments: 6,
+            if (flow.current)
+            {
+                flow.current.moveAlongCurve(0.001);
+            }
+        };
 
-            });
-
-            const mesh = new Mesh(
-                text,
-                new MeshBasicMaterial({ color: "red", wireframe: true })
-            );
-
-            mesh.geometry.translate(-300, 0, 100);
-
-            //利用BOX获取大小
-            const box = new Box3().setFromObject(mesh);
-
-            mesh.translateOnAxis(
-                new Vector3(1, 0, 0),
-                -(box.max.x / 2)
-            );
-
-            mesh.rotateOnWorldAxis(
-                new Vector3(0, 1, 0),
-                90 * MathUtils.DEG2RAD
-            );
-
-            console.log(box);
-
-            app.scene.add(mesh);
-
-        });
-
-    }, []);
+    }, [addLigth, textMoveAloneCurve]);
 
     return (
         <div ref={domEl}></div>

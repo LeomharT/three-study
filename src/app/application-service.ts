@@ -16,7 +16,7 @@ export class Application
     {
         app = this;
 
-        window.onresize = this._OnWindowsResize;
+        window.onresize = this._onWindowsResize;
         window.onwheel = this.camera.onWheel;
     }
     /** 场景 -> 场景没必要封装 */
@@ -43,7 +43,7 @@ export class Application
     public injectFunction: Function | null = null;
 
     /** 拖拽窗体时重新定义canvas大小 */
-    private _OnWindowsResize = (e: UIEvent) =>
+    private _onWindowsResize = (e: UIEvent) =>
     {
         const width = document.body.clientWidth;
         const height = document.body.clientHeight;
@@ -55,7 +55,7 @@ export class Application
     };
 
     /** 循环渲染 */
-    public _loopRender = (time?: number): void =>
+    private _loopRender = (time?: number): void =>
     {
         requestAnimationFrame(this._loopRender);
 

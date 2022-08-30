@@ -1,4 +1,4 @@
-const { override, overrideDevServer, addBabelPreset, addDecoratorsLegacy } = require('customize-cra');
+const { override, overrideDevServer, addBabelPreset, addDecoratorsLegacy, addWebpackPlugin } = require('customize-cra');
 
 
 module.exports = {
@@ -7,12 +7,12 @@ module.exports = {
         {
             return config;
         },
+        addDecoratorsLegacy(),
         addBabelPreset([
             '@babel/preset-typescript',
             /** Allow declare keyword */
             { allowDeclareFields: true }
         ]),
-        addDecoratorsLegacy(),
     ),
     devServer: overrideDevServer(config =>
     {
