@@ -10,6 +10,11 @@ export default class _Renderer
         preserveDrawingBuffer: true, //->允许根据当前canvas生成快照
     });
 
+    get webGLRenderer()
+    {
+        return this._webGLRenderer;
+    }
+
     /** 设置渲染器 */
     public setUpWebGLRenderer = (): void =>
     {

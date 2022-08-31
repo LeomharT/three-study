@@ -1,6 +1,6 @@
 import { update } from "@tweenjs/tween.js";
 import { RefObject } from "react";
-import { ArrowHelper, Object3D, Scene, Vector3 } from "three";
+import { ArrowHelper, CubeCamera, HalfFloatType, LinearMipMapLinearFilter, Object3D, RGBAFormat, Scene, Vector3, WebGLCubeRenderTarget } from "three";
 import _Camera from "./core/camera";
 import _Controler from "./core/controler";
 import _Renderer from "./core/renderer";
@@ -40,7 +40,19 @@ export class Application
     /** 轨道控制器 */
     public controler: _Controler = new _Controler({ camera: this.camera, domElement: this.renderer.getCanvasElement() });
 
+    /** 注入loop的函数 */
     public injectFunction: Function | null = null;
+
+    /** 全景六面渲染器 */
+    public webGLRenderTarget = new WebGLCubeRenderTarget(128, {
+        format: RGBAFormat,
+        generateMipmaps: true,
+        minFilter: LinearMipMapLinearFilter,
+        type: HalfFloatType
+    });
+
+    /** 全景六面相机 */
+    public cubeCamera = new CubeCamera(1, 1000, this.webGLRenderTarget);
 
     /** 拖拽窗体时重新定义canvas大小 */
     private _onWindowsResize = (e: UIEvent) =>
@@ -63,6 +75,9 @@ export class Application
 
         this.renderer.renderScene(this.camera, this.scene);
 
+        //更新全景相机
+        this.cubeCamera.update(this.renderer.webGLRenderer, this.scene);
+
         //这里调用才会触发onUpdate
         update(time);
 
@@ -79,6 +94,9 @@ export class Application
         this.renderer.setUpWebGLRenderer();
 
         this.camera.setUpCamera(this.scene);
+
+        this.cubeCamera.position.set(0, 0, 0);
+        this.scene.add(this.cubeCamera);
 
         //添加到指定DOM节点
         domEl.current?.appendChild(this.renderer.getCanvasElement());

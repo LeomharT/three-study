@@ -6,7 +6,6 @@ import { Flow } from 'three/examples/jsm/modifiers/CurveModifier';
 import { app } from "../../app/application-service";
 import useScene from "../../hooks/useScene";
 
-
 export default function BaseScene()
 {
     const domEl: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -45,11 +44,11 @@ export default function BaseScene()
     {
         const direc_light = new DirectionalLight(0xffaa33);
         direc_light.position.set(- 10, 10, 10);
-        direc_light.intensity = 1.0;
+        direc_light.intensity = 1.3;
         app.scene.add(direc_light);
 
         const ambient_light = new AmbientLight(0x003973);
-        ambient_light.intensity = 1.0;
+        ambient_light.intensity = 1.3;
         app.scene.add(ambient_light);
     }, []);
 
