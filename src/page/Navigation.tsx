@@ -1,5 +1,7 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, DirectionalLight, Group, MathUtils, Mesh, MeshPhongMaterial, MeshPhysicalMaterial, Vector3 } from "three";
+import { AmbientLight, Color, DirectionalLight, Mesh, MeshStandardMaterial } from "three";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
 import useScene from "../hooks/useScene";
@@ -9,67 +11,74 @@ export default function Navigation()
 
     useScene(domEl);
 
-    const addLigth = useCallback(() =>
+    const addLigth: () => void = useCallback(() =>
     {
+        app.scene.background = new Color(0xE8E8E8);
+
         const direc_light = new DirectionalLight(0xffffff);
         direc_light.position.set(10, 10, -10);
-        direc_light.intensity = 1.3;
+        direc_light.intensity = 1.5;
         app.scene.add(direc_light);
 
         const ambient_light = new AmbientLight(0x003973);
-        ambient_light.intensity = 1.3;
+        ambient_light.intensity = 1.5;
         app.scene.add(ambient_light);
     }, []);
 
-    const addBasicsSceneModule: () => Promise<any> = useCallback(async () =>
+    const createText: (content: string) => Promise<Mesh> = useCallback(async (content: string): Promise<Mesh> =>
     {
-        const loader = new GLTFLoader();
+        const h_regular = '/data/helvetiker_regular.typeface.json';
 
-        const module = await loader.loadAsync('/modules/gltf/basic-scene.gltf');
+        const font = await new FontLoader().loadAsync(h_regular);
 
-        const basic_scene: Group = module.scene;
-
-        basic_scene.rotateOnAxis(
-            new Vector3(0, 1, 0),
-            180 * MathUtils.DEG2RAD
-        );
-        basic_scene.scale.set(50, 50, 50);
-
-        const cubes: Mesh = basic_scene.children[0] as Mesh;
-
-        //不要使用基础材质会报错,使用物理或者标准材质
-        const material = new MeshPhysicalMaterial({
-            envMap: app.webGLRenderTarget.texture,
-            color: 0x665e9f,
-            roughness: 0.6,    //->粗糙度
-            metalness: 1,    //->金属度 1金属 0非金属 通常没有中间值
+        const text = new TextGeometry(content, {
+            font,
+            size: 60,
+            height: 15,
+            curveSegments: 6,
+            bevelEnabled: true,
+            bevelThickness: 2,
+            bevelSize: 1,
+            bevelOffset: 0,
+            bevelSegments: 50
         });
 
-        cubes.material = material;
+        const mesh = new Mesh(
+            text,
+            new MeshStandardMaterial({ color: 0x99ffff, })
+        );
 
-        const axises = {
-            axisY: basic_scene.children[1] as Mesh,
-            axisZ: basic_scene.children[2] as Mesh,
-            axisX: basic_scene.children[3] as Mesh,
-        };
-
-        (axises.axisX.material as MeshPhongMaterial) = new MeshPhongMaterial({ color: 0xec78eb });
-        (axises.axisY.material as MeshPhongMaterial) = new MeshPhongMaterial({ color: 0x2db0b5 });
-        (axises.axisZ.material as MeshPhongMaterial) = new MeshPhongMaterial({ color: 0x8e7de6 });
-
-
-        app.scene.add(basic_scene);
+        return mesh;
     }, []);
+
+    const initScene = useCallback(async () =>
+    {
+        const mesh = await createText('RAYGASTER');
+
+        app.scene.add(mesh);
+
+        const loader = new GLTFLoader();
+
+        const house = await loader.loadAsync('/modules/gltf/level1.gltf');
+
+        house.scene.scale.set(20, 20, 20);
+
+        house.scene.updateMatrixWorld();
+
+        app.scene.add(house.scene);
+    }, [createText]);
 
     useEffect(() =>
     {
         app.addArrowHelper();
 
+        app.showStats(domEl);
+
         addLigth();
 
-        addBasicsSceneModule();
+        initScene();
 
-    }, [addBasicsSceneModule, addLigth]);
+    }, [addLigth, initScene]);
 
     return (
         <div className="navigation" ref={domEl}>

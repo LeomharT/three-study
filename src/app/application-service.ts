@@ -1,6 +1,7 @@
 import { update } from "@tweenjs/tween.js";
 import { RefObject } from "react";
 import { ArrowHelper, CubeCamera, HalfFloatType, LinearMipMapLinearFilter, Object3D, RGBAFormat, Scene, Vector3, WebGLCubeRenderTarget } from "three";
+import Stats from 'three/examples/jsm/libs/stats.module';
 import _Camera from "./core/camera";
 import _Controler from "./core/controler";
 import _Renderer from "./core/renderer";
@@ -54,6 +55,10 @@ export class Application
     /** 全景六面相机 */
     public cubeCamera = new CubeCamera(1, 1000, this.webGLRenderTarget);
 
+    /** 运行帧数状态显示 */
+    //@ts-ignore
+    private stats: Stats = new Stats();
+
     /** 拖拽窗体时重新定义canvas大小 */
     private _onWindowsResize = (e: UIEvent) =>
     {
@@ -78,9 +83,10 @@ export class Application
         //更新全景相机
         this.cubeCamera.update(this.renderer.webGLRenderer, this.scene);
 
+        this.stats.update();
+
         //这里调用才会触发onUpdate
         update(time);
-
 
         if (this.injectFunction)
         {
@@ -96,6 +102,8 @@ export class Application
         this.camera.setUpCamera(this.scene);
 
         this.cubeCamera.position.set(0, 0, 0);
+        this.cubeCamera.lookAt(this.scene.position);
+        this.cubeCamera.updateMatrixWorld();
         this.scene.add(this.cubeCamera);
 
         //添加到指定DOM节点
@@ -122,5 +130,10 @@ export class Application
         ];
 
         this.scene.add(...arrowHelpers);
+    };
+
+    public showStats = (domEl: RefObject<HTMLDivElement>): void =>
+    {
+        domEl.current?.appendChild(this.stats.dom);
     };
 }
