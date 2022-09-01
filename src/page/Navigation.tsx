@@ -1,7 +1,5 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, Color, DirectionalLight, Mesh, MeshStandardMaterial } from "three";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { AmbientLight, Color, DirectionalLight } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
 import useScene from "../hooks/useScene";
@@ -21,55 +19,27 @@ export default function Navigation()
         app.scene.add(direc_light);
 
         const ambient_light = new AmbientLight(0x003973);
-        ambient_light.intensity = 1.5;
+        ambient_light.intensity = 2;
         app.scene.add(ambient_light);
-    }, []);
-
-    const createText: (content: string) => Promise<Mesh> = useCallback(async (content: string): Promise<Mesh> =>
-    {
-        const h_regular = '/data/helvetiker_regular.typeface.json';
-
-        const font = await new FontLoader().loadAsync(h_regular);
-
-        const text = new TextGeometry(content, {
-            font,
-            size: 60,
-            height: 15,
-            curveSegments: 6,
-            bevelEnabled: true,
-            bevelThickness: 2,
-            bevelSize: 1,
-            bevelOffset: 0,
-            bevelSegments: 50
-        });
-
-        const mesh = new Mesh(
-            text,
-            new MeshStandardMaterial({ color: 0x99ffff, })
-        );
-
-        return mesh;
     }, []);
 
     const initScene = useCallback(async () =>
     {
-        const mesh = await createText('RAYGASTER');
-
-        app.scene.add(mesh);
-
         const loader = new GLTFLoader();
 
-        const house = await loader.loadAsync('/modules/gltf/level1.gltf');
+        const house = await loader.loadAsync('/modules/gltf/basic-scene.gltf');
 
-        house.scene.scale.set(20, 20, 20);
+        house.scene.scale.set(50, 50, 50);
 
         house.scene.updateMatrixWorld();
 
         app.scene.add(house.scene);
-    }, [createText]);
+    }, []);
 
     useEffect(() =>
     {
+        app.controler.onlyFront();
+
         app.addArrowHelper();
 
         app.showStats(domEl);

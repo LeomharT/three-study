@@ -29,11 +29,19 @@ export default class _Controler
         //启动阻尼->缓动效果
         this._controler.enableDamping = true;
         //阻尼值
-        this._controler.dampingFactor = .2;
+        this._controler.dampingFactor = 0.05;
 
         //反转操作
         this._controler.rotateSpeed *= -.3;
     }
+
+    /** 只允许控制器在水平方向上查看正轴 */
+    public onlyFront = (): void =>
+    {
+        this._controler.maxAzimuthAngle = Math.PI / 2;
+
+        this._controler.minAzimuthAngle = 0;
+    };
 
     /** 更新控制器 */
     public updateControler = (): boolean => this._controler.update();
