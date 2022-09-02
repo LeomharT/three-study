@@ -8,14 +8,15 @@ export type ControlerProps = {
 
 export default class _Controler
 {
-    constructor(props: ControlerProps,
-
-        /** 轨道控制器 */
-        private _controler: OrbitControls = new OrbitControls(props.camera, props.domElement)
-    )
+    constructor(props: ControlerProps)
     {
+        this._controler = new OrbitControls(props.camera, props.domElement);
+
         this._setUpControler();
     }
+
+    /** 轨道控制器 */
+    private _controler: OrbitControls;
 
     /** 轨道控制器设置 */
     private _setUpControler(): void
