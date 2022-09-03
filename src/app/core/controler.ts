@@ -44,6 +44,12 @@ export default class _Controler
         this._controler.minAzimuthAngle = 0;
     };
 
+    /** 不可以看到底部 */
+    public prveentButtom = (): void =>
+    {
+        this._controler.maxPolarAngle = Math.PI / 2;
+    };
+
     /** 更新控制器 */
     public updateControler = (): boolean => this._controler.update();
 

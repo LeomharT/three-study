@@ -40,6 +40,8 @@ export default function Navigation()
     {
         app.controler.onlyFront();
 
+        app.controler.prveentButtom();
+
         app.addArrowHelper();
 
         app.showStats(domEl);
