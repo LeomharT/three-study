@@ -1,5 +1,5 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, BoxBufferGeometry, Color, Mesh, MeshBasicMaterial, PointLight } from "three";
+import { AmbientLight, Color, PointLight } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
 import useScene from "../hooks/useScene";
@@ -44,40 +44,30 @@ export default function TTT()
 
     const addLigth = () =>
     {
-        app.scene.background = new Color(0xE8E8E8);
+        // app.scene.background = new Color(0xE8E8E8);
+        app.addArrowHelper();
 
         const ambient_light = new AmbientLight();
 
         ambient_light.color = new Color(0xffffff);
         ambient_light.intensity = 1;
 
-        const cube = new Mesh(
-            new BoxBufferGeometry(10, 10, 10),
-            new MeshBasicMaterial({ color: 'red' })
-        );
-
-        cube.position.set(0, 50, 50);
-
         const point_light = new PointLight();
 
         point_light.color = new Color('red');
-        point_light.position.copy(cube.position);
+
+        app.helper.addPointLightHelper(point_light);
+
 
         app.scene.add(ambient_light);
         app.scene.add(point_light);
-        app.scene.add(cube);
     };
 
     const initScene = useCallback(() =>
     {
         app.showStats(domEl);
 
-        // addBnhustoft();
-
         addLigth();
-
-        addApollo();
-
     }, []);
 
     useEffect(() =>

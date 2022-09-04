@@ -4,6 +4,7 @@ import { ArrowHelper, CubeCamera, HalfFloatType, LinearMipMapLinearFilter, Objec
 import Stats from 'three/examples/jsm/libs/stats.module';
 import _Camera from "./core/camera";
 import _Controler from "./core/controler";
+import { Helpers } from "./core/helpers";
 import _Renderer from "./core/renderer";
 
 /**
@@ -60,7 +61,7 @@ export class Application
     private stats: Stats = new Stats();
 
     /** 点光源助手 */
-
+    public helper: Helpers = new Helpers(this.renderer.webGLRenderer, this.scene, this.camera);
 
     /** 拖拽窗体时重新定义canvas大小 */
     private _onWindowsResize = (e: UIEvent) =>
