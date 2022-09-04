@@ -6,7 +6,7 @@ export default class _Camera extends PerspectiveCamera
     public setUpCamera = (scene: Scene) =>
     {
         //设置相机初始视角和位置
-        this.position.set(300, 150, 300);
+        this.position.set(100, 150, 100);
         this.lookAt(scene.position);
         this.updateProjectionMatrix();
 

@@ -59,6 +59,9 @@ export class Application
     //@ts-ignore
     private stats: Stats = new Stats();
 
+    /** 点光源助手 */
+
+
     /** 拖拽窗体时重新定义canvas大小 */
     private _onWindowsResize = (e: UIEvent) =>
     {
