@@ -29,7 +29,7 @@ export default function Navigation()
 
         const house = await loader.loadAsync('/modules/gltf/basic-scene.gltf');
 
-        house.scene.scale.set(50, 50, 50);
+        house.scene.scale.set(20, 20, 20);
 
         house.scene.updateMatrixWorld();
 

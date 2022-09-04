@@ -37,7 +37,7 @@ export class Application
     );
 
     /** WebGLRenderer */
-    public renderer: _Renderer = new _Renderer();
+    public renderer: _Renderer = new _Renderer(this.scene, this.camera);
 
     /** 轨道控制器 */
     public controler: _Controler = new _Controler({ camera: this.camera, domElement: this.renderer.getCanvasElement() });
@@ -82,7 +82,7 @@ export class Application
 
         this.controler.updateControler();
 
-        this.renderer.renderScene(this.camera, this.scene);
+        this.renderer.renderScene();
 
         //更新全景相机
         this.cubeCamera.update(this.renderer.webGLRenderer, this.scene);
