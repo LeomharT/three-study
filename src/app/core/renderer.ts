@@ -140,7 +140,6 @@ export default class _Renderer
 
     private _rendererComposer = (): void =>
     {
-
         this._scene.traverse(obj =>
         {
             let mesh = obj as Mesh;

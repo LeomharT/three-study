@@ -44,16 +44,14 @@ export default function TTT()
 
     const addLigth = () =>
     {
-        // app.scene.background = new Color(0xE8E8E8);
-
         const ambient_light = new AmbientLight();
 
         ambient_light.color = new Color(0xffffff);
         ambient_light.intensity = 1;
 
         const point_light = new PointLight();
-        point_light.color = new Color('red');
-        point_light.position.set(0, 50, 0);
+        point_light.color = new Color().setHSL(.6, .7, .8);
+        point_light.position.set(0, 0, 0);
 
         app.helper.addPointLightHelper(point_light);
 
@@ -65,6 +63,8 @@ export default function TTT()
     const initScene = useCallback(() =>
     {
         app.showStats(domEl);
+
+        addApollo();
 
         addLigth();
     }, []);
