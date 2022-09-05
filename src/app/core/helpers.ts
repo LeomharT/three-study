@@ -1,5 +1,6 @@
-import { Camera, Color, Mesh, MeshBasicMaterial, PointLight, Scene, SphereBufferGeometry, WebGLRenderer } from "three";
+import { Color, Mesh, MeshBasicMaterial, PointLight, SphereBufferGeometry } from "three";
 import { app } from "../application-service";
+import { RendererLayers } from "./renderer";
 export type LightHelperOptions = {
     color?: Color;
     size?: number;
@@ -7,28 +8,19 @@ export type LightHelperOptions = {
 
 export class Helpers
 {
-    private _scene: Scene;
-    private _camera: Camera;
-    private _renderer: WebGLRenderer;
-    constructor(renderer: WebGLRenderer, scene: Scene, camera: Camera)
-    {
-        this._scene = scene;
-        this._camera = camera;
-        this._renderer = renderer;
-    }
-
     addPointLightHelper = (light: PointLight, options?: LightHelperOptions) =>
     {
-        const geometry = new SphereBufferGeometry(20, 32, 32);
+        const size = options?.size ?? 8;
 
-        const color = new Color();
+        const geometry = new SphereBufferGeometry(size, 32, 32);
 
-        color.setHSL(0.7, .8, 0.5);
-        // color.setHSL(Math.random(), 0.7, Math.random() * 0.2 + 0.05);
+        const color = light.color.clone();
 
         const mesh = new Mesh(geometry, new MeshBasicMaterial({ color }));
 
-        // mesh.layers.enable(RendererLayers.BLOOM_SCENE);
+        mesh.position.copy(light.position.clone());
+
+        mesh.layers.enable(RendererLayers.BLOOM_SCENE);
 
         app.scene.add(mesh);
     };

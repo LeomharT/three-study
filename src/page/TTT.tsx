@@ -52,8 +52,8 @@ export default function TTT()
         ambient_light.intensity = 1;
 
         const point_light = new PointLight();
-
         point_light.color = new Color('red');
+        point_light.position.set(0, 50, 0);
 
         app.helper.addPointLightHelper(point_light);
 

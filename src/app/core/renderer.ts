@@ -1,4 +1,4 @@
-import { Camera, Color, Layers, Material, MeshBasicMaterial, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
+import { Camera, Color, Layers, Material, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
@@ -58,7 +58,7 @@ export default class _Renderer
 
         //想设置曝光度的话需要设置色调映射
         // this._webGLRenderer.toneMapping = ReinhardToneMapping;
-        // this._webGLRenderer.toneMappingExposure = Math.pow(1, 4.0);
+        // this._webGLRenderer.toneMappingExposure = Math.pow(2, 4.0);
 
         //画布大小
         this.setRendererSize(document.body.clientWidth, document.body.clientHeight);
@@ -89,9 +89,9 @@ export default class _Renderer
         const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
         bloomPass.threshold = 0;
         //辉光强度
-        bloomPass.strength = 1.5;
+        bloomPass.strength = 2.5;
         //模糊半径
-        bloomPass.radius = 0;
+        bloomPass.radius = 1;
 
         const bloomComposer = new EffectComposer(this._webGLRenderer);
         bloomComposer.renderToScreen = false;
@@ -138,10 +138,41 @@ export default class _Renderer
         return { bloomComposer, finalComposer };
     };
 
+    private _rendererComposer = (): void =>
+    {
+
+        this._scene.traverse(obj =>
+        {
+            let mesh = obj as Mesh;
+
+            if (mesh.isMesh && this._bloomLayer.test(mesh.layers) === false)
+            {
+                this._materialList[mesh.uuid] = mesh.material;
+                mesh.material = this._darkMaterial;
+            }
+        });
+
+        this._bloomComposer.render();
+
+        this._scene.traverse(obj =>
+        {
+            let mesh = obj as Mesh;
+
+            if (this._materialList[mesh.uuid])
+            {
+                mesh.material = this._materialList[mesh.uuid];
+                delete this._materialList[mesh.uuid];
+            }
+        });
+
+        this._finalComposer.render();
+    };
+
     /**
      *  渲染场景
      *  @link https://discourse.threejs.org/t/solved-effectcomposer-layers/3158
-     *  保证能同时渲染多个图层
+     *  - 保证能同时渲染多个图层
+     *  - 现在想要辉光效果最好使用RGB颜色
      */
     public renderScene = (): void =>
     {

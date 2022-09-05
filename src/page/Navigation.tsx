@@ -1,8 +1,7 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, DirectionalLight, Mesh, MeshBasicMaterial, SphereBufferGeometry } from "three";
+import { AmbientLight, DirectionalLight } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
-import { RendererLayers } from "../app/core/renderer";
 import useScene from "../hooks/useScene";
 export default function Navigation()
 {
@@ -33,17 +32,6 @@ export default function Navigation()
         house.scene.updateMatrixWorld();
 
         app.scene.add(house.scene);
-
-        const mesh = new Mesh(
-            new SphereBufferGeometry(2, 32, 32),
-            new MeshBasicMaterial({ color: 0xff00ff })
-        );
-
-        mesh.position.setY(80);
-
-        mesh.layers.enable(RendererLayers.BLOOM_SCENE);
-
-        app.scene.add(mesh);
     }, []);
 
     useEffect(() =>
@@ -52,7 +40,7 @@ export default function Navigation()
 
         app.controler.prveentButtom();
 
-        // app.addArrowHelper();
+        app.addArrowHelper();
 
         app.showStats(domEl);
 
