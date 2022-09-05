@@ -1,8 +1,0 @@
-Model Information:
-* title:	Bønhústoft, Leirvík, Føroyar
-* source:	https://sketchfab.com/3d-models/bnhustoft-leirvik-froyar-ff481a2c9e504d119d541f377b19417b
-* author:	Faroe Islands National Museum (https://sketchfab.com/Savn)
-
-Model License:
-* license type:	CC0-1.0 (http://creativecommons.org/publicdomain/zero/1.0/)
-* requirements:	Credit is not mandatory. Commercial use is allowed.
