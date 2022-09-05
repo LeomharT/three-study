@@ -1,18 +1,38 @@
-import { Camera, Color, Layers, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
+import { Camera, Color, Layers, Material, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
+export enum RendererLayers
+{
+    ENTIRE_SCENE = 0,
+    BLOOM_SCENE = 1,
+}
+
 export default class _Renderer
 {
     private _scene: Scene;
+
     private _camera: Camera;
+
+    private _bloomComposer: EffectComposer;
+
+    private _finalComposer: EffectComposer;
+
     constructor(scene: Scene, camera: Camera)
     {
         this._scene = scene;
         this._camera = camera;
+
+        const { bloomComposer, finalComposer } = this._initComposers();
+
+        this._bloomComposer = bloomComposer;
+        this._finalComposer = finalComposer;
+
+        this._bloomLayer.set(RendererLayers.BLOOM_SCENE);
     }
+
     /** WebGLRenderer 渲染器 */
     private _webGLRenderer: WebGLRenderer = new WebGLRenderer({
         antialias: true,             //->抗锯齿
@@ -24,11 +44,21 @@ export default class _Renderer
         return this._webGLRenderer;
     }
 
+    private _darkMaterial = new MeshBasicMaterial({ color: 'black' });
+
+    private _bloomLayer = new Layers();
+
+    private _materialList: { [index: string]: Material | Material[]; } = {};
+
     /** 设置渲染器 */
     public setUpWebGLRenderer = (): void =>
     {
         //分辨率
         this._webGLRenderer.setPixelRatio(window.devicePixelRatio);
+
+        //想设置曝光度的话需要设置色调映射
+        // this._webGLRenderer.toneMapping = ReinhardToneMapping;
+        // this._webGLRenderer.toneMappingExposure = Math.pow(2, 4.0);
 
         //画布大小
         this.setRendererSize(document.body.clientWidth, document.body.clientHeight);
@@ -42,19 +72,23 @@ export default class _Renderer
     public setRendererSize = (width: number, height: number) =>
     {
         this._webGLRenderer.setSize(width, height);
+
+        //设置通道大小
+        this._bloomComposer.setSize(width, height);
+
+        this._finalComposer.setSize(width, height);
     };
 
-    /** 设置辉光效果通道 */
-    public addUrealEffect = () =>
+    /** 初始化后期通道 */
+    private _initComposers = (): { bloomComposer: EffectComposer; finalComposer: EffectComposer; } =>
     {
-        const bloom_layer = new Layers();
-        bloom_layer.set(1);
-
         const renderScene = new RenderPass(this._scene, this._camera);
 
         const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
         bloomPass.threshold = 0;
-        bloomPass.strength = 5;
+        //辉光强度
+        bloomPass.strength = 4;
+        //模糊半径
         bloomPass.radius = 0;
 
         const bloomComposer = new EffectComposer(this._webGLRenderer);
@@ -98,12 +132,38 @@ export default class _Renderer
         const finalComposer = new EffectComposer(this._webGLRenderer);
         finalComposer.addPass(renderScene);
         finalComposer.addPass(finalPass);
+
+        return { bloomComposer, finalComposer };
     };
 
     /** 渲染场景 */
     public renderScene = (): void =>
     {
-        this._webGLRenderer.render(this._scene, this._camera);
+        this._scene.traverse(obj =>
+        {
+            let mesh = obj as Mesh;
+
+            if (mesh.isMesh && this._bloomLayer.test(mesh.layers) === false)
+            {
+                this._materialList[mesh.uuid] = mesh.material;
+                mesh.material = this._darkMaterial;
+            }
+        });
+
+        this._bloomComposer.render();
+
+        this._scene.traverse(obj =>
+        {
+            let mesh = obj as Mesh;
+
+            if (this._materialList[mesh.uuid])
+            {
+                mesh.material = this._materialList[mesh.uuid];
+                delete this._materialList[mesh.uuid];
+            }
+        });
+
+        this._finalComposer.render();
     };
 
     /** 获取canvas元素 */

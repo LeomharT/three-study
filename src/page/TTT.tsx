@@ -45,7 +45,6 @@ export default function TTT()
     const addLigth = () =>
     {
         // app.scene.background = new Color(0xE8E8E8);
-        app.addArrowHelper();
 
         const ambient_light = new AmbientLight();
 
@@ -73,7 +72,6 @@ export default function TTT()
     useEffect(() =>
     {
         initScene();
-
     }, []);
 
 
