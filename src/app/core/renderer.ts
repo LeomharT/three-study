@@ -1,4 +1,4 @@
-import { Camera, Color, Layers, Material, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
+import { Camera, Color, Layers, Material, MeshBasicMaterial, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
@@ -58,7 +58,7 @@ export default class _Renderer
 
         //想设置曝光度的话需要设置色调映射
         // this._webGLRenderer.toneMapping = ReinhardToneMapping;
-        // this._webGLRenderer.toneMappingExposure = Math.pow(2, 4.0);
+        // this._webGLRenderer.toneMappingExposure = Math.pow(1, 4.0);
 
         //画布大小
         this.setRendererSize(document.body.clientWidth, document.body.clientHeight);
@@ -66,6 +66,8 @@ export default class _Renderer
         this._webGLRenderer.setClearColor(new Color(0, 0, 0));
         //分辨率
         this._webGLRenderer.setPixelRatio(window.devicePixelRatio);
+        //取消自动清除缓存
+        this._webGLRenderer.autoClear = false;
     };
 
     /** 设置画布大小 */
@@ -87,7 +89,7 @@ export default class _Renderer
         const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
         bloomPass.threshold = 0;
         //辉光强度
-        bloomPass.strength = 4;
+        bloomPass.strength = 1.5;
         //模糊半径
         bloomPass.radius = 0;
 
@@ -136,34 +138,27 @@ export default class _Renderer
         return { bloomComposer, finalComposer };
     };
 
-    /** 渲染场景 */
+    /**
+     *  渲染场景
+     *  @link https://discourse.threejs.org/t/solved-effectcomposer-layers/3158
+     *  保证能同时渲染多个图层
+     */
     public renderScene = (): void =>
     {
-        this._scene.traverse(obj =>
-        {
-            let mesh = obj as Mesh;
+        //手动清除缓存可以同时渲染发光模型和普通模型
+        this._webGLRenderer.clear();
 
-            if (mesh.isMesh && this._bloomLayer.test(mesh.layers) === false)
-            {
-                this._materialList[mesh.uuid] = mesh.material;
-                mesh.material = this._darkMaterial;
-            }
-        });
+        this._camera.layers.set(RendererLayers.BLOOM_SCENE);
 
+        this._webGLRenderer.setClearColor(0x000000);
         this._bloomComposer.render();
-
-        this._scene.traverse(obj =>
-        {
-            let mesh = obj as Mesh;
-
-            if (this._materialList[mesh.uuid])
-            {
-                mesh.material = this._materialList[mesh.uuid];
-                delete this._materialList[mesh.uuid];
-            }
-        });
-
+        this._webGLRenderer.setClearColor(0x111418);
         this._finalComposer.render();
+
+        this._webGLRenderer.clearDepth();
+        this._camera.layers.set(RendererLayers.ENTIRE_SCENE);
+
+        this._webGLRenderer.render(this._scene, this._camera);
     };
 
     /** 获取canvas元素 */

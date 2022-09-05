@@ -1,7 +1,8 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, Color, DirectionalLight } from "three";
+import { AmbientLight, DirectionalLight, Mesh, MeshBasicMaterial, SphereBufferGeometry } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
+import { RendererLayers } from "../app/core/renderer";
 import useScene from "../hooks/useScene";
 export default function Navigation()
 {
@@ -11,8 +12,6 @@ export default function Navigation()
 
     const addLigth: () => void = useCallback(() =>
     {
-        app.scene.background = new Color(0xE8E8E8);
-
         const direc_light = new DirectionalLight(0xffffff);
         direc_light.position.set(10, 10, -10);
         direc_light.intensity = 1.5;
@@ -34,6 +33,17 @@ export default function Navigation()
         house.scene.updateMatrixWorld();
 
         app.scene.add(house.scene);
+
+        const mesh = new Mesh(
+            new SphereBufferGeometry(2, 32, 32),
+            new MeshBasicMaterial({ color: 0xff00ff })
+        );
+
+        mesh.position.setY(80);
+
+        mesh.layers.enable(RendererLayers.BLOOM_SCENE);
+
+        app.scene.add(mesh);
     }, []);
 
     useEffect(() =>
@@ -42,7 +52,7 @@ export default function Navigation()
 
         app.controler.prveentButtom();
 
-        app.addArrowHelper();
+        // app.addArrowHelper();
 
         app.showStats(domEl);
 
