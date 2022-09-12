@@ -21,6 +21,8 @@ module.exports = {
         };
         config.historyApiFallback = { disableDotRule: true };
 
+        config.client.logging = 'verbose';
+
         return config;
     })
 };
