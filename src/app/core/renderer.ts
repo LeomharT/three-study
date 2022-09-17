@@ -1,8 +1,12 @@
-import { Camera, Color, Layers, Material, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
+import { Camera, Color, Layers, Material, Mesh, MeshBasicMaterial, RepeatWrapping, Scene, ShaderMaterial, TextureLoader, Vector2, WebGLRenderer } from "three";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
+import tri_pattern from '../../assets/image/tri_pattern.jpg';
+
 
 export enum RendererLayers
 {
@@ -20,6 +24,10 @@ export default class _Renderer
 
     private _finalComposer: EffectComposer;
 
+    private _outlineComposer: EffectComposer;
+
+    public outlinePass: OutlinePass;
+
     constructor(scene: Scene, camera: Camera)
     {
         this._scene = scene;
@@ -31,6 +39,11 @@ export default class _Renderer
         this._finalComposer = finalComposer;
 
         this._bloomLayer.set(RendererLayers.BLOOM_SCENE);
+
+        const { outline_composer, outline_pass } = this._initOutlineComposer();
+
+        this._outlineComposer = outline_composer;
+        this.outlinePass = outline_pass;
     }
 
     /** WebGLRenderer 渲染器 */
@@ -79,6 +92,8 @@ export default class _Renderer
         this._bloomComposer.setSize(width, height);
 
         this._finalComposer.setSize(width, height);
+
+        this._outlineComposer.setSize(width, height);
     };
 
     /** 初始化后期通道 */
@@ -138,6 +153,37 @@ export default class _Renderer
         return { bloomComposer, finalComposer };
     };
 
+    private _initOutlineComposer = (): { outline_composer: EffectComposer, outline_pass: OutlinePass; } =>
+    {
+        const outline_composer = new EffectComposer(this.webGLRenderer);
+
+        const render_pass = new RenderPass(this._scene, this._camera);
+
+        const outline_pass = new OutlinePass(
+            new Vector2(window.innerWidth, window.innerHeight),
+            this._scene, this._camera
+        );
+
+        let effectFXAA = new ShaderPass(FXAAShader);
+        effectFXAA.uniforms['resolution'].value.set(   //设置分辨率
+            1 / window.innerWidth, 1 / window.innerHeight
+        );
+
+        new TextureLoader().load(tri_pattern, texture =>
+        {
+            outline_pass.patternTexture = texture;
+
+            texture.wrapS = RepeatWrapping;
+            texture.wrapT = RepeatWrapping;
+        });
+
+        outline_composer.addPass(render_pass);
+        outline_composer.addPass(outline_pass);
+        outline_composer.addPass(effectFXAA);
+
+        return { outline_composer, outline_pass };
+    };
+
     private _rendererComposer = (): void =>
     {
         this._scene.traverse(obj =>
@@ -170,6 +216,7 @@ export default class _Renderer
     /**
      *  渲染场景
      *  @link https://discourse.threejs.org/t/solved-effectcomposer-layers/3158
+     *  - 不使用composer渲染还是使用webGL
      *  - 保证能同时渲染多个图层
      *  - 现在想要辉光效果最好使用RGB颜色
      */
