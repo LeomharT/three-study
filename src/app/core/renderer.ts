@@ -12,6 +12,7 @@ export enum RendererLayers
 {
     ENTIRE_SCENE = 0,
     BLOOM_SCENE = 1,
+    OUTLINE_SCENE = 2,
 }
 
 export default class _Renderer
@@ -39,6 +40,7 @@ export default class _Renderer
         this._finalComposer = finalComposer;
 
         this._bloomLayer.set(RendererLayers.BLOOM_SCENE);
+        this._outLineLayer.set(RendererLayers.OUTLINE_SCENE);
 
         const { outline_composer, outline_pass } = this._initOutlineComposer();
 
@@ -60,6 +62,8 @@ export default class _Renderer
     private _darkMaterial = new MeshBasicMaterial({ color: 'black' });
 
     private _bloomLayer = new Layers();
+
+    private _outLineLayer = new Layers();
 
     private _materialList: { [index: string]: Material | Material[]; } = {};
 
@@ -164,6 +168,9 @@ export default class _Renderer
             this._scene, this._camera
         );
 
+        outline_pass.visibleEdgeColor = new Color(0xffffff);
+        outline_pass.hiddenEdgeColor = new Color(0xffffff);
+
         let effectFXAA = new ShaderPass(FXAAShader);
         effectFXAA.uniforms['resolution'].value.set(   //设置分辨率
             1 / window.innerWidth, 1 / window.innerHeight
@@ -225,8 +232,10 @@ export default class _Renderer
         //手动清除缓存可以同时渲染发光模型和普通模型
         this._webGLRenderer.clear();
 
-        this._camera.layers.set(RendererLayers.BLOOM_SCENE);
+        this._camera.layers.set(RendererLayers.OUTLINE_SCENE);
+        this._outlineComposer.render();
 
+        this._camera.layers.set(RendererLayers.BLOOM_SCENE);
         this._webGLRenderer.setClearColor(0x000000);
         this._bloomComposer.render();
         this._webGLRenderer.setClearColor(0x111418);
