@@ -49,6 +49,7 @@
         ]
     },
     "devDependencies": {
-        "@types/customize-cra": "^1.0.3"
+        "@types/customize-cra": "^1.0.3",
+        "progress-bar-webpack-plugin": "^2.1.0"
     }
 }

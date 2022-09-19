@@ -1,5 +1,6 @@
 const { override, overrideDevServer, addBabelPreset, addDecoratorsLegacy, addWebpackPlugin } = require('customize-cra');
 
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
     webpack: override(
@@ -13,6 +14,7 @@ module.exports = {
             /** Allow declare keyword */
             { allowDeclareFields: true }
         ]),
+        addWebpackPlugin(new ProgressBarPlugin())
     ),
     devServer: overrideDevServer(config =>
     {
