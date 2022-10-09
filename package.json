@@ -1,0 +1,34 @@
+{
+    "name": "threejs-journey",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node ./esbuild.config.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/preset-env": "^7.19.0",
+        "@babel/preset-typescript": "^7.18.6",
+        "@types/react": "^18.0.21",
+        "@types/react-dom": "^18.0.6",
+        "@types/uuid": "^8.3.4",
+        "@typescript-eslint/eslint-plugin": "^5.37.0",
+        "esbuild": "^0.15.7",
+        "esbuild-plugin-eslint": "^0.1.1",
+        "esbuild-sass-plugin": "^2.3.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "node-sass": "^7.0.3"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router": "^6.4.2",
+        "react-router-dom": "^6.4.2",
+        "three": "^0.145.0"
+    }
+}
