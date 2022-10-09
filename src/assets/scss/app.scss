@@ -1,0 +1,21 @@
+#app
+{
+    width    : 100vw;
+    height   : 100vh;
+    display  : flex;
+    flex-flow: row nowrap;
+    overflow : hidden;
+    >aside
+    {
+        width           : 330px;
+        height          : 100%;
+        flex-shrink     : 0;
+        background-color: bisque;
+    }
+    >div
+    {
+        width           : 100%;
+        height          : 100%;
+        background-color: brown;
+    }
+}
