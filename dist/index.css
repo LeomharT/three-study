@@ -26356,11 +26356,10 @@ div.ant-typography-edit-content.ant-typography-rtl {
   flex-flow: row nowrap;
   overflow: hidden;
 }
-#app > aside {
+#app > .ant-menu {
   width: 330px;
   height: 100%;
   flex-shrink: 0;
-  background-color: bisque;
 }
 #app > div {
   width: 100%;

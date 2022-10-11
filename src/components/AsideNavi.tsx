@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom";
+import { Menu } from "antd";
+import { useLocation, useNavigate } from "react-router";
+import { ROUTES } from "../routes/route";
 
 export default function AsideNavi()
 {
+    const location = useLocation();
+
+    const navigate = useNavigate();
+
     return (
-        <aside>
-            <Link to={'/one'} children={'one'} />
-            <Link to={'/tow'} children={'tow'} />
-        </aside>
+        <Menu items={ROUTES}
+            defaultOpenKeys={['Chapter01 Basics']}
+            activeKey={location.pathname}
+            mode='inline'
+            onSelect={e =>
+            {
+                navigate(e.key);
+            }}>
+
+        </Menu>
     );
 }

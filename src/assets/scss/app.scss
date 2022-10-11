@@ -5,12 +5,11 @@
     display  : flex;
     flex-flow: row nowrap;
     overflow : hidden;
-    >aside
+    >.ant-menu
     {
-        width           : 330px;
-        height          : 100%;
-        flex-shrink     : 0;
-        background-color: bisque;
+        width      : 330px;
+        height     : 100%;
+        flex-shrink: 0;
     }
     >div
     {
