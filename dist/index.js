@@ -227,7 +227,7 @@
           pureComponentPrototype.constructor = PureComponent;
           assign(pureComponentPrototype, Component15.prototype);
           pureComponentPrototype.isPureReactComponent = true;
-          function createRef3() {
+          function createRef2() {
             var refObject = {
               current: null
             };
@@ -1021,7 +1021,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useInsertionEffect(create, deps);
           }
-          function useLayoutEffect7(create, deps) {
+          function useLayoutEffect8(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
@@ -1782,7 +1782,7 @@
           exports.createContext = createContext21;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
-          exports.createRef = createRef3;
+          exports.createRef = createRef2;
           exports.forwardRef = forwardRef34;
           exports.isValidElement = isValidElement9;
           exports.lazy = lazy;
@@ -1797,7 +1797,7 @@
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle7;
           exports.useInsertionEffect = useInsertionEffect;
-          exports.useLayoutEffect = useLayoutEffect7;
+          exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo23;
           exports.useReducer = useReducer;
           exports.useRef = useRef39;
@@ -2297,9 +2297,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React104 = require_react();
+          var React103 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React104.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React103.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -3820,7 +3820,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React104.Children.forEach(props.children, function(child) {
+                  React103.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -5731,7 +5731,7 @@
           var cancelCallback = Scheduler.unstable_cancelCallback;
           var shouldYield = Scheduler.unstable_shouldYield;
           var requestPaint = Scheduler.unstable_requestPaint;
-          var now2 = Scheduler.unstable_now;
+          var now3 = Scheduler.unstable_now;
           var getCurrentPriorityLevel = Scheduler.unstable_getCurrentPriorityLevel;
           var ImmediatePriority = Scheduler.unstable_ImmediatePriority;
           var UserBlockingPriority = Scheduler.unstable_UserBlockingPriority;
@@ -11409,8 +11409,8 @@
                   if (dependency.context === context) {
                     if (fiber.tag === ClassComponent) {
                       var lane = pickArbitraryLane(renderLanes2);
-                      var update = createUpdate(NoTimestamp, lane);
-                      update.tag = ForceUpdate;
+                      var update2 = createUpdate(NoTimestamp, lane);
+                      update2.tag = ForceUpdate;
                       var updateQueue = fiber.updateQueue;
                       if (updateQueue === null)
                         ;
@@ -11418,12 +11418,12 @@
                         var sharedQueue = updateQueue.shared;
                         var pending = sharedQueue.pending;
                         if (pending === null) {
-                          update.next = update;
+                          update2.next = update2;
                         } else {
-                          update.next = pending.next;
-                          pending.next = update;
+                          update2.next = pending.next;
+                          pending.next = update2;
                         }
-                        sharedQueue.pending = update;
+                        sharedQueue.pending = update2;
                       }
                     }
                     fiber.lanes = mergeLanes(fiber.lanes, renderLanes2);
@@ -11550,39 +11550,39 @@
               concurrentQueues = null;
             }
           }
-          function enqueueConcurrentHookUpdate(fiber, queue, update, lane) {
+          function enqueueConcurrentHookUpdate(fiber, queue, update2, lane) {
             var interleaved = queue.interleaved;
             if (interleaved === null) {
-              update.next = update;
+              update2.next = update2;
               pushConcurrentUpdateQueue(queue);
             } else {
-              update.next = interleaved.next;
-              interleaved.next = update;
+              update2.next = interleaved.next;
+              interleaved.next = update2;
             }
-            queue.interleaved = update;
+            queue.interleaved = update2;
             return markUpdateLaneFromFiberToRoot(fiber, lane);
           }
-          function enqueueConcurrentHookUpdateAndEagerlyBailout(fiber, queue, update, lane) {
+          function enqueueConcurrentHookUpdateAndEagerlyBailout(fiber, queue, update2, lane) {
             var interleaved = queue.interleaved;
             if (interleaved === null) {
-              update.next = update;
+              update2.next = update2;
               pushConcurrentUpdateQueue(queue);
             } else {
-              update.next = interleaved.next;
-              interleaved.next = update;
+              update2.next = interleaved.next;
+              interleaved.next = update2;
             }
-            queue.interleaved = update;
+            queue.interleaved = update2;
           }
-          function enqueueConcurrentClassUpdate(fiber, queue, update, lane) {
+          function enqueueConcurrentClassUpdate(fiber, queue, update2, lane) {
             var interleaved = queue.interleaved;
             if (interleaved === null) {
-              update.next = update;
+              update2.next = update2;
               pushConcurrentUpdateQueue(queue);
             } else {
-              update.next = interleaved.next;
-              interleaved.next = update;
+              update2.next = interleaved.next;
+              interleaved.next = update2;
             }
-            queue.interleaved = update;
+            queue.interleaved = update2;
             return markUpdateLaneFromFiberToRoot(fiber, lane);
           }
           function enqueueConcurrentRenderForLane(fiber, lane) {
@@ -11664,7 +11664,7 @@
             }
           }
           function createUpdate(eventTime, lane) {
-            var update = {
+            var update2 = {
               eventTime,
               lane,
               tag: UpdateState,
@@ -11672,9 +11672,9 @@
               callback: null,
               next: null
             };
-            return update;
+            return update2;
           }
-          function enqueueUpdate(fiber, update, lane) {
+          function enqueueUpdate(fiber, update2, lane) {
             var updateQueue = fiber.updateQueue;
             if (updateQueue === null) {
               return null;
@@ -11689,15 +11689,15 @@
             if (isUnsafeClassRenderPhaseUpdate()) {
               var pending = sharedQueue.pending;
               if (pending === null) {
-                update.next = update;
+                update2.next = update2;
               } else {
-                update.next = pending.next;
-                pending.next = update;
+                update2.next = pending.next;
+                pending.next = update2;
               }
-              sharedQueue.pending = update;
+              sharedQueue.pending = update2;
               return unsafe_markUpdateLaneFromFiberToRoot(fiber, lane);
             } else {
-              return enqueueConcurrentClassUpdate(fiber, sharedQueue, update, lane);
+              return enqueueConcurrentClassUpdate(fiber, sharedQueue, update2, lane);
             }
           }
           function entangleTransitions(root3, fiber, lane) {
@@ -11724,14 +11724,14 @@
                 var newLast = null;
                 var firstBaseUpdate = queue.firstBaseUpdate;
                 if (firstBaseUpdate !== null) {
-                  var update = firstBaseUpdate;
+                  var update2 = firstBaseUpdate;
                   do {
                     var clone2 = {
-                      eventTime: update.eventTime,
-                      lane: update.lane,
-                      tag: update.tag,
-                      payload: update.payload,
-                      callback: update.callback,
+                      eventTime: update2.eventTime,
+                      lane: update2.lane,
+                      tag: update2.tag,
+                      payload: update2.payload,
+                      callback: update2.callback,
                       next: null
                     };
                     if (newLast === null) {
@@ -11740,8 +11740,8 @@
                       newLast.next = clone2;
                       newLast = clone2;
                     }
-                    update = update.next;
-                  } while (update !== null);
+                    update2 = update2.next;
+                  } while (update2 !== null);
                   if (newLast === null) {
                     newFirst = newLast = capturedUpdate;
                   } else {
@@ -11770,10 +11770,10 @@
             }
             queue.lastBaseUpdate = capturedUpdate;
           }
-          function getStateFromUpdate(workInProgress2, queue, update, prevState, nextProps, instance) {
-            switch (update.tag) {
+          function getStateFromUpdate(workInProgress2, queue, update2, prevState, nextProps, instance) {
+            switch (update2.tag) {
               case ReplaceState: {
-                var payload = update.payload;
+                var payload = update2.payload;
                 if (typeof payload === "function") {
                   {
                     enterDisallowedContextReadInDEV();
@@ -11798,7 +11798,7 @@
                 workInProgress2.flags = workInProgress2.flags & ~ShouldCapture | DidCapture;
               }
               case UpdateState: {
-                var _payload = update.payload;
+                var _payload = update2.payload;
                 var partialState;
                 if (typeof _payload === "function") {
                   {
@@ -11871,17 +11871,17 @@
               var newBaseState = null;
               var newFirstBaseUpdate = null;
               var newLastBaseUpdate = null;
-              var update = firstBaseUpdate;
+              var update2 = firstBaseUpdate;
               do {
-                var updateLane = update.lane;
-                var updateEventTime = update.eventTime;
+                var updateLane = update2.lane;
+                var updateEventTime = update2.eventTime;
                 if (!isSubsetOfLanes(renderLanes2, updateLane)) {
                   var clone2 = {
                     eventTime: updateEventTime,
                     lane: updateLane,
-                    tag: update.tag,
-                    payload: update.payload,
-                    callback: update.callback,
+                    tag: update2.tag,
+                    payload: update2.payload,
+                    callback: update2.callback,
                     next: null
                   };
                   if (newLastBaseUpdate === null) {
@@ -11896,27 +11896,27 @@
                     var _clone = {
                       eventTime: updateEventTime,
                       lane: NoLane,
-                      tag: update.tag,
-                      payload: update.payload,
-                      callback: update.callback,
+                      tag: update2.tag,
+                      payload: update2.payload,
+                      callback: update2.callback,
                       next: null
                     };
                     newLastBaseUpdate = newLastBaseUpdate.next = _clone;
                   }
-                  newState = getStateFromUpdate(workInProgress2, queue, update, newState, props, instance);
-                  var callback = update.callback;
-                  if (callback !== null && update.lane !== NoLane) {
+                  newState = getStateFromUpdate(workInProgress2, queue, update2, newState, props, instance);
+                  var callback = update2.callback;
+                  if (callback !== null && update2.lane !== NoLane) {
                     workInProgress2.flags |= Callback;
                     var effects = queue.effects;
                     if (effects === null) {
-                      queue.effects = [update];
+                      queue.effects = [update2];
                     } else {
-                      effects.push(update);
+                      effects.push(update2);
                     }
                   }
                 }
-                update = update.next;
-                if (update === null) {
+                update2 = update2.next;
+                if (update2 === null) {
                   pendingQueue = queue.shared.pending;
                   if (pendingQueue === null) {
                     break;
@@ -11924,7 +11924,7 @@
                     var _lastPendingUpdate = pendingQueue;
                     var _firstPendingUpdate = _lastPendingUpdate.next;
                     _lastPendingUpdate.next = null;
-                    update = _firstPendingUpdate;
+                    update2 = _firstPendingUpdate;
                     queue.lastBaseUpdate = _lastPendingUpdate;
                     queue.shared.pending = null;
                   }
@@ -11981,7 +11981,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React104.Component().refs;
+          var emptyRefsObject = new React103.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -12056,15 +12056,15 @@
               var fiber = get2(inst);
               var eventTime = requestEventTime();
               var lane = requestUpdateLane(fiber);
-              var update = createUpdate(eventTime, lane);
-              update.payload = payload;
+              var update2 = createUpdate(eventTime, lane);
+              update2.payload = payload;
               if (callback !== void 0 && callback !== null) {
                 {
                   warnOnInvalidCallback(callback, "setState");
                 }
-                update.callback = callback;
+                update2.callback = callback;
               }
-              var root3 = enqueueUpdate(fiber, update, lane);
+              var root3 = enqueueUpdate(fiber, update2, lane);
               if (root3 !== null) {
                 scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
                 entangleTransitions(root3, fiber, lane);
@@ -12077,16 +12077,16 @@
               var fiber = get2(inst);
               var eventTime = requestEventTime();
               var lane = requestUpdateLane(fiber);
-              var update = createUpdate(eventTime, lane);
-              update.tag = ReplaceState;
-              update.payload = payload;
+              var update2 = createUpdate(eventTime, lane);
+              update2.tag = ReplaceState;
+              update2.payload = payload;
               if (callback !== void 0 && callback !== null) {
                 {
                   warnOnInvalidCallback(callback, "replaceState");
                 }
-                update.callback = callback;
+                update2.callback = callback;
               }
-              var root3 = enqueueUpdate(fiber, update, lane);
+              var root3 = enqueueUpdate(fiber, update2, lane);
               if (root3 !== null) {
                 scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
                 entangleTransitions(root3, fiber, lane);
@@ -12099,15 +12099,15 @@
               var fiber = get2(inst);
               var eventTime = requestEventTime();
               var lane = requestUpdateLane(fiber);
-              var update = createUpdate(eventTime, lane);
-              update.tag = ForceUpdate;
+              var update2 = createUpdate(eventTime, lane);
+              update2.tag = ForceUpdate;
               if (callback !== void 0 && callback !== null) {
                 {
                   warnOnInvalidCallback(callback, "forceUpdate");
                 }
-                update.callback = callback;
+                update2.callback = callback;
               }
-              var root3 = enqueueUpdate(fiber, update, lane);
+              var root3 = enqueueUpdate(fiber, update2, lane);
               if (root3 !== null) {
                 scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
                 entangleTransitions(root3, fiber, lane);
@@ -13784,15 +13784,15 @@
               var newBaseState = null;
               var newBaseQueueFirst = null;
               var newBaseQueueLast = null;
-              var update = first;
+              var update2 = first;
               do {
-                var updateLane = update.lane;
+                var updateLane = update2.lane;
                 if (!isSubsetOfLanes(renderLanes, updateLane)) {
                   var clone2 = {
                     lane: updateLane,
-                    action: update.action,
-                    hasEagerState: update.hasEagerState,
-                    eagerState: update.eagerState,
+                    action: update2.action,
+                    hasEagerState: update2.hasEagerState,
+                    eagerState: update2.eagerState,
                     next: null
                   };
                   if (newBaseQueueLast === null) {
@@ -13807,22 +13807,22 @@
                   if (newBaseQueueLast !== null) {
                     var _clone = {
                       lane: NoLane,
-                      action: update.action,
-                      hasEagerState: update.hasEagerState,
-                      eagerState: update.eagerState,
+                      action: update2.action,
+                      hasEagerState: update2.hasEagerState,
+                      eagerState: update2.eagerState,
                       next: null
                     };
                     newBaseQueueLast = newBaseQueueLast.next = _clone;
                   }
-                  if (update.hasEagerState) {
-                    newState = update.eagerState;
+                  if (update2.hasEagerState) {
+                    newState = update2.eagerState;
                   } else {
-                    var action = update.action;
+                    var action = update2.action;
                     newState = reducer(newState, action);
                   }
                 }
-                update = update.next;
-              } while (update !== null && update !== first);
+                update2 = update2.next;
+              } while (update2 !== null && update2 !== first);
               if (newBaseQueueLast === null) {
                 newBaseState = newState;
               } else {
@@ -13864,12 +13864,12 @@
             if (lastRenderPhaseUpdate !== null) {
               queue.pending = null;
               var firstRenderPhaseUpdate = lastRenderPhaseUpdate.next;
-              var update = firstRenderPhaseUpdate;
+              var update2 = firstRenderPhaseUpdate;
               do {
-                var action = update.action;
+                var action = update2.action;
                 newState = reducer(newState, action);
-                update = update.next;
-              } while (update !== firstRenderPhaseUpdate);
+                update2 = update2.next;
+              } while (update2 !== firstRenderPhaseUpdate);
               if (!objectIs(newState, hook.memoizedState)) {
                 markWorkInProgressReceivedUpdate();
               }
@@ -14359,7 +14359,7 @@
               }
             }
             var lane = requestUpdateLane(fiber);
-            var update = {
+            var update2 = {
               lane,
               action,
               hasEagerState: false,
@@ -14367,9 +14367,9 @@
               next: null
             };
             if (isRenderPhaseUpdate(fiber)) {
-              enqueueRenderPhaseUpdate(queue, update);
+              enqueueRenderPhaseUpdate(queue, update2);
             } else {
-              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
+              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update2, lane);
               if (root3 !== null) {
                 var eventTime = requestEventTime();
                 scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
@@ -14385,7 +14385,7 @@
               }
             }
             var lane = requestUpdateLane(fiber);
-            var update = {
+            var update2 = {
               lane,
               action,
               hasEagerState: false,
@@ -14393,7 +14393,7 @@
               next: null
             };
             if (isRenderPhaseUpdate(fiber)) {
-              enqueueRenderPhaseUpdate(queue, update);
+              enqueueRenderPhaseUpdate(queue, update2);
             } else {
               var alternate = fiber.alternate;
               if (fiber.lanes === NoLanes && (alternate === null || alternate.lanes === NoLanes)) {
@@ -14407,10 +14407,10 @@
                   try {
                     var currentState = queue.lastRenderedState;
                     var eagerState = lastRenderedReducer(currentState, action);
-                    update.hasEagerState = true;
-                    update.eagerState = eagerState;
+                    update2.hasEagerState = true;
+                    update2.eagerState = eagerState;
                     if (objectIs(eagerState, currentState)) {
-                      enqueueConcurrentHookUpdateAndEagerlyBailout(fiber, queue, update, lane);
+                      enqueueConcurrentHookUpdateAndEagerlyBailout(fiber, queue, update2, lane);
                       return;
                     }
                   } catch (error2) {
@@ -14421,7 +14421,7 @@
                   }
                 }
               }
-              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
+              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update2, lane);
               if (root3 !== null) {
                 var eventTime = requestEventTime();
                 scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
@@ -14434,16 +14434,16 @@
             var alternate = fiber.alternate;
             return fiber === currentlyRenderingFiber$1 || alternate !== null && alternate === currentlyRenderingFiber$1;
           }
-          function enqueueRenderPhaseUpdate(queue, update) {
+          function enqueueRenderPhaseUpdate(queue, update2) {
             didScheduleRenderPhaseUpdateDuringThisPass = didScheduleRenderPhaseUpdate = true;
             var pending = queue.pending;
             if (pending === null) {
-              update.next = update;
+              update2.next = update2;
             } else {
-              update.next = pending.next;
-              pending.next = update;
+              update2.next = pending.next;
+              pending.next = update2;
             }
-            queue.pending = update;
+            queue.pending = update2;
           }
           function entangleTransitionUpdate(root3, queue, lane) {
             if (isTransitionLane(lane)) {
@@ -15279,7 +15279,7 @@
               unstable_isNewReconciler: enableNewReconciler
             };
           }
-          var now$1 = Scheduler.unstable_now;
+          var now$12 = Scheduler.unstable_now;
           var commitTime = 0;
           var layoutEffectStartTime = -1;
           var profilerStartTime = -1;
@@ -15310,12 +15310,12 @@
             return commitTime;
           }
           function recordCommitTime() {
-            commitTime = now$1();
+            commitTime = now$12();
           }
           function startProfilerTimer(fiber) {
-            profilerStartTime = now$1();
+            profilerStartTime = now$12();
             if (fiber.actualStartTime < 0) {
-              fiber.actualStartTime = now$1();
+              fiber.actualStartTime = now$12();
             }
           }
           function stopProfilerTimerIfRunning(fiber) {
@@ -15323,7 +15323,7 @@
           }
           function stopProfilerTimerIfRunningAndRecordDelta(fiber, overrideBaseTime) {
             if (profilerStartTime >= 0) {
-              var elapsedTime = now$1() - profilerStartTime;
+              var elapsedTime = now$12() - profilerStartTime;
               fiber.actualDuration += elapsedTime;
               if (overrideBaseTime) {
                 fiber.selfBaseDuration = elapsedTime;
@@ -15333,7 +15333,7 @@
           }
           function recordLayoutEffectDuration(fiber) {
             if (layoutEffectStartTime >= 0) {
-              var elapsedTime = now$1() - layoutEffectStartTime;
+              var elapsedTime = now$12() - layoutEffectStartTime;
               layoutEffectStartTime = -1;
               var parentFiber = fiber.return;
               while (parentFiber !== null) {
@@ -15353,7 +15353,7 @@
           }
           function recordPassiveEffectDuration(fiber) {
             if (passiveEffectStartTime >= 0) {
-              var elapsedTime = now$1() - passiveEffectStartTime;
+              var elapsedTime = now$12() - passiveEffectStartTime;
               passiveEffectStartTime = -1;
               var parentFiber = fiber.return;
               while (parentFiber !== null) {
@@ -15376,10 +15376,10 @@
             }
           }
           function startLayoutEffectTimer() {
-            layoutEffectStartTime = now$1();
+            layoutEffectStartTime = now$12();
           }
           function startPassiveEffectTimer() {
-            passiveEffectStartTime = now$1();
+            passiveEffectStartTime = now$12();
           }
           function transferActualDuration(fiber) {
             var child = fiber.child;
@@ -15446,28 +15446,28 @@
           }
           var PossiblyWeakMap$1 = typeof WeakMap === "function" ? WeakMap : Map;
           function createRootErrorUpdate(fiber, errorInfo, lane) {
-            var update = createUpdate(NoTimestamp, lane);
-            update.tag = CaptureUpdate;
-            update.payload = {
+            var update2 = createUpdate(NoTimestamp, lane);
+            update2.tag = CaptureUpdate;
+            update2.payload = {
               element: null
             };
             var error2 = errorInfo.value;
-            update.callback = function() {
+            update2.callback = function() {
               onUncaughtError(error2);
               logCapturedError(fiber, errorInfo);
             };
-            return update;
+            return update2;
           }
           function createClassErrorUpdate(fiber, errorInfo, lane) {
-            var update = createUpdate(NoTimestamp, lane);
-            update.tag = CaptureUpdate;
+            var update2 = createUpdate(NoTimestamp, lane);
+            update2.tag = CaptureUpdate;
             var getDerivedStateFromError = fiber.type.getDerivedStateFromError;
             if (typeof getDerivedStateFromError === "function") {
               var error$1 = errorInfo.value;
-              update.payload = function() {
+              update2.payload = function() {
                 return getDerivedStateFromError(error$1);
               };
-              update.callback = function() {
+              update2.callback = function() {
                 {
                   markFailedErrorBoundaryForHotReloading(fiber);
                 }
@@ -15476,7 +15476,7 @@
             }
             var inst = fiber.stateNode;
             if (inst !== null && typeof inst.componentDidCatch === "function") {
-              update.callback = function callback() {
+              update2.callback = function callback() {
                 {
                   markFailedErrorBoundaryForHotReloading(fiber);
                 }
@@ -15498,7 +15498,7 @@
                 }
               };
             }
-            return update;
+            return update2;
           }
           function attachPingListener(root3, wakeable, lanes) {
             var pingCache = root3.pingCache;
@@ -15572,9 +15572,9 @@
                   if (currentSourceFiber === null) {
                     sourceFiber.tag = IncompleteClassComponent;
                   } else {
-                    var update = createUpdate(NoTimestamp, SyncLane);
-                    update.tag = ForceUpdate;
-                    enqueueUpdate(sourceFiber, update, SyncLane);
+                    var update2 = createUpdate(NoTimestamp, SyncLane);
+                    update2.tag = ForceUpdate;
+                    enqueueUpdate(sourceFiber, update2, SyncLane);
                   }
                 }
                 sourceFiber.lanes = mergeLanes(sourceFiber.lanes, SyncLane);
@@ -15642,8 +15642,8 @@
                   workInProgress2.flags |= ShouldCapture;
                   var lane = pickArbitraryLane(rootRenderLanes);
                   workInProgress2.lanes = mergeLanes(workInProgress2.lanes, lane);
-                  var update = createRootErrorUpdate(workInProgress2, _errorInfo, lane);
-                  enqueueCapturedUpdate(workInProgress2, update);
+                  var update2 = createRootErrorUpdate(workInProgress2, _errorInfo, lane);
+                  enqueueCapturedUpdate(workInProgress2, update2);
                   return;
                 }
                 case ClassComponent:
@@ -16012,8 +16012,8 @@
                   var error$1 = new Error("Simulated error coming from DevTools");
                   var lane = pickArbitraryLane(renderLanes2);
                   workInProgress2.lanes = mergeLanes(workInProgress2.lanes, lane);
-                  var update = createClassErrorUpdate(workInProgress2, createCapturedValueAtFiber(error$1, workInProgress2), lane);
-                  enqueueCapturedUpdate(workInProgress2, update);
+                  var update2 = createClassErrorUpdate(workInProgress2, createCapturedValueAtFiber(error$1, workInProgress2), lane);
+                  enqueueCapturedUpdate(workInProgress2, update2);
                   break;
                 }
               }
@@ -17782,7 +17782,7 @@
                         row = row.sibling;
                       }
                     }
-                    if (renderState.tail !== null && now2() > getRenderTargetTime()) {
+                    if (renderState.tail !== null && now3() > getRenderTargetTime()) {
                       workInProgress2.flags |= DidCapture;
                       didSuspendAlready = true;
                       cutOffTailIfNeeded(renderState, false);
@@ -17807,7 +17807,7 @@
                         bubbleProperties(workInProgress2);
                         return null;
                       }
-                    } else if (now2() * 2 - renderState.renderingStartTime > getRenderTargetTime() && renderLanes2 !== OffscreenLane) {
+                    } else if (now3() * 2 - renderState.renderingStartTime > getRenderTargetTime() && renderLanes2 !== OffscreenLane) {
                       workInProgress2.flags |= DidCapture;
                       didSuspendAlready = true;
                       cutOffTailIfNeeded(renderState, false);
@@ -17831,7 +17831,7 @@
                   var next = renderState.tail;
                   renderState.rendering = next;
                   renderState.tail = next.sibling;
-                  renderState.renderingStartTime = now2();
+                  renderState.renderingStartTime = now3();
                   next.sibling = null;
                   var suspenseContext = suspenseStackCursor.current;
                   if (didSuspendAlready) {
@@ -19782,7 +19782,7 @@
           var RENDER_TIMEOUT_MS = 500;
           var workInProgressTransitions = null;
           function resetRenderTimer() {
-            workInProgressRootRenderTargetTime = now2() + RENDER_TIMEOUT_MS;
+            workInProgressRootRenderTargetTime = now3() + RENDER_TIMEOUT_MS;
           }
           function getRenderTargetTime() {
             return workInProgressRootRenderTargetTime;
@@ -19811,12 +19811,12 @@
           }
           function requestEventTime() {
             if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
-              return now2();
+              return now3();
             }
             if (currentEventTime !== NoTimestamp) {
               return currentEventTime;
             }
-            currentEventTime = now2();
+            currentEventTime = now3();
             return currentEventTime;
           }
           function requestUpdateLane(fiber) {
@@ -20005,7 +20005,7 @@
                 var fatalError = workInProgressRootFatalError;
                 prepareFreshStack(root3, NoLanes);
                 markRootSuspended$1(root3, lanes);
-                ensureRootIsScheduled(root3, now2());
+                ensureRootIsScheduled(root3, now3());
                 throw fatalError;
               }
               if (exitStatus === RootDidNotComplete) {
@@ -20026,7 +20026,7 @@
                     var _fatalError = workInProgressRootFatalError;
                     prepareFreshStack(root3, NoLanes);
                     markRootSuspended$1(root3, lanes);
-                    ensureRootIsScheduled(root3, now2());
+                    ensureRootIsScheduled(root3, now3());
                     throw _fatalError;
                   }
                 }
@@ -20035,7 +20035,7 @@
                 finishConcurrentRender(root3, exitStatus, lanes);
               }
             }
-            ensureRootIsScheduled(root3, now2());
+            ensureRootIsScheduled(root3, now3());
             if (root3.callbackNode === originalCallbackNode) {
               return performConcurrentWorkOnRoot.bind(null, root3);
             }
@@ -20080,7 +20080,7 @@
               case RootSuspended: {
                 markRootSuspended$1(root3, lanes);
                 if (includesOnlyRetries(lanes) && !shouldForceFlushFallbacksInDEV()) {
-                  var msUntilTimeout = globalMostRecentFallbackTime + FALLBACK_THROTTLE_MS - now2();
+                  var msUntilTimeout = globalMostRecentFallbackTime + FALLBACK_THROTTLE_MS - now3();
                   if (msUntilTimeout > 10) {
                     var nextLanes = getNextLanes(root3, NoLanes);
                     if (nextLanes !== NoLanes) {
@@ -20107,7 +20107,7 @@
                 if (!shouldForceFlushFallbacksInDEV()) {
                   var mostRecentEventTime = getMostRecentEventTime(root3, lanes);
                   var eventTimeMs = mostRecentEventTime;
-                  var timeElapsedMs = now2() - eventTimeMs;
+                  var timeElapsedMs = now3() - eventTimeMs;
                   var _msUntilTimeout = jnd(timeElapsedMs) - timeElapsedMs;
                   if (_msUntilTimeout > 10) {
                     root3.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root3, workInProgressRootRecoverableErrors, workInProgressTransitions), _msUntilTimeout);
@@ -20184,7 +20184,7 @@
             flushPassiveEffects();
             var lanes = getNextLanes(root3, NoLanes);
             if (!includesSomeLane(lanes, SyncLane)) {
-              ensureRootIsScheduled(root3, now2());
+              ensureRootIsScheduled(root3, now3());
               return null;
             }
             var exitStatus = renderRootSync(root3, lanes);
@@ -20199,7 +20199,7 @@
               var fatalError = workInProgressRootFatalError;
               prepareFreshStack(root3, NoLanes);
               markRootSuspended$1(root3, lanes);
-              ensureRootIsScheduled(root3, now2());
+              ensureRootIsScheduled(root3, now3());
               throw fatalError;
             }
             if (exitStatus === RootDidNotComplete) {
@@ -20209,13 +20209,13 @@
             root3.finishedWork = finishedWork;
             root3.finishedLanes = lanes;
             commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
-            ensureRootIsScheduled(root3, now2());
+            ensureRootIsScheduled(root3, now3());
             return null;
           }
           function flushRoot(root3, lanes) {
             if (lanes !== NoLanes) {
               markRootEntangled(root3, mergeLanes(lanes, SyncLane));
-              ensureRootIsScheduled(root3, now2());
+              ensureRootIsScheduled(root3, now3());
               if ((executionContext & (RenderContext | CommitContext)) === NoContext) {
                 resetRenderTimer();
                 flushSyncCallbacks();
@@ -20374,7 +20374,7 @@
             ReactCurrentDispatcher$2.current = prevDispatcher;
           }
           function markCommitTimeOfFallback() {
-            globalMostRecentFallbackTime = now2();
+            globalMostRecentFallbackTime = now3();
           }
           function markSkippedUpdateLanes(lane) {
             workInProgressRootSkippedLanes = mergeLanes(lane, workInProgressRootSkippedLanes);
@@ -20708,7 +20708,7 @@
             {
               onCommitRoot$1();
             }
-            ensureRootIsScheduled(root3, now2());
+            ensureRootIsScheduled(root3, now3());
             if (recoverableErrors !== null) {
               var onRecoverableError = root3.onRecoverableError;
               for (var i = 0; i < recoverableErrors.length; i++) {
@@ -20860,8 +20860,8 @@
           var onUncaughtError = prepareToThrowUncaughtError;
           function captureCommitPhaseErrorOnRoot(rootFiber, sourceFiber, error2) {
             var errorInfo = createCapturedValueAtFiber(error2, sourceFiber);
-            var update = createRootErrorUpdate(rootFiber, errorInfo, SyncLane);
-            var root3 = enqueueUpdate(rootFiber, update, SyncLane);
+            var update2 = createRootErrorUpdate(rootFiber, errorInfo, SyncLane);
+            var root3 = enqueueUpdate(rootFiber, update2, SyncLane);
             var eventTime = requestEventTime();
             if (root3 !== null) {
               markRootUpdated(root3, SyncLane, eventTime);
@@ -20890,8 +20890,8 @@
                 var instance = fiber.stateNode;
                 if (typeof ctor.getDerivedStateFromError === "function" || typeof instance.componentDidCatch === "function" && !isAlreadyFailedLegacyErrorBoundary(instance)) {
                   var errorInfo = createCapturedValueAtFiber(error$1, sourceFiber);
-                  var update = createClassErrorUpdate(fiber, errorInfo, SyncLane);
-                  var root3 = enqueueUpdate(fiber, update, SyncLane);
+                  var update2 = createClassErrorUpdate(fiber, errorInfo, SyncLane);
+                  var root3 = enqueueUpdate(fiber, update2, SyncLane);
                   var eventTime = requestEventTime();
                   if (root3 !== null) {
                     markRootUpdated(root3, SyncLane, eventTime);
@@ -20915,7 +20915,7 @@
             markRootPinged(root3, pingedLanes);
             warnIfSuspenseResolutionNotWrappedWithActDEV(root3);
             if (workInProgressRoot === root3 && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes)) {
-              if (workInProgressRootExitStatus === RootSuspendedWithDelay || workInProgressRootExitStatus === RootSuspended && includesOnlyRetries(workInProgressRootRenderLanes) && now2() - globalMostRecentFallbackTime < FALLBACK_THROTTLE_MS) {
+              if (workInProgressRootExitStatus === RootSuspendedWithDelay || workInProgressRootExitStatus === RootSuspended && includesOnlyRetries(workInProgressRootRenderLanes) && now3() - globalMostRecentFallbackTime < FALLBACK_THROTTLE_MS) {
                 prepareFreshStack(root3, NoLanes);
               } else {
                 workInProgressRootPingedLanes = mergeLanes(workInProgressRootPingedLanes, pingedLanes);
@@ -21309,12 +21309,12 @@
               failedBoundaries.add(fiber);
             }
           }
-          var scheduleRefresh = function(root3, update) {
+          var scheduleRefresh = function(root3, update2) {
             {
               if (resolveFamily === null) {
                 return;
               }
-              var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
+              var staleFamilies = update2.staleFamilies, updatedFamilies = update2.updatedFamilies;
               flushPassiveEffects();
               flushSync(function() {
                 scheduleFibersWithFamiliesRecursively(root3.current, updatedFamilies, staleFamilies);
@@ -22043,9 +22043,9 @@
             var current2 = root3.current;
             var eventTime = requestEventTime();
             var lane = requestUpdateLane(current2);
-            var update = createUpdate(eventTime, lane);
-            update.callback = callback !== void 0 && callback !== null ? callback : null;
-            enqueueUpdate(current2, update, lane);
+            var update2 = createUpdate(eventTime, lane);
+            update2.callback = callback !== void 0 && callback !== null ? callback : null;
+            enqueueUpdate(current2, update2, lane);
             scheduleInitialHydrationOnRoot(root3, lane, eventTime);
             return root3;
           }
@@ -22071,8 +22071,8 @@
                 error("Render methods should be a pure function of props and state; triggering nested component updates from render is not allowed. If necessary, trigger nested updates in componentDidUpdate.\n\nCheck the render method of %s.", getComponentNameFromFiber(current) || "Unknown");
               }
             }
-            var update = createUpdate(eventTime, lane);
-            update.payload = {
+            var update2 = createUpdate(eventTime, lane);
+            update2.payload = {
               element
             };
             callback = callback === void 0 ? null : callback;
@@ -22082,9 +22082,9 @@
                   error("render(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", callback);
                 }
               }
-              update.callback = callback;
+              update2.callback = callback;
             }
-            var root3 = enqueueUpdate(current$1, update, lane);
+            var root3 = enqueueUpdate(current$1, update2, lane);
             if (root3 !== null) {
               scheduleUpdateOnFiber(root3, current$1, lane, eventTime);
               entangleTransitions(root3, current$1, lane);
@@ -24667,7 +24667,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React104 = require_react();
+          var React103 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -24693,7 +24693,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React104.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React103.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format2) {
             {
               {
@@ -25542,8 +25542,10 @@
   });
 
   // src/index.tsx
-  var import_react27 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
+
+  // src/app/App.tsx
+  var import_react27 = __toESM(require_react(), 1);
 
   // node_modules/react-router-dom/dist/index.js
   var React2 = __toESM(require_react());
@@ -29381,7 +29383,7 @@
       function complete(results) {
         var errors = [];
         var fields = {};
-        function add(e) {
+        function add2(e) {
           if (Array.isArray(e)) {
             var _errors;
             errors = (_errors = errors).concat.apply(_errors, e);
@@ -29390,7 +29392,7 @@
           }
         }
         for (var i = 0; i < results.length; i++) {
-          add(results[i]);
+          add2(results[i]);
         }
         if (!errors.length) {
           callback(null, source);
@@ -30559,7 +30561,7 @@
         return values || [];
       };
       var operations = {
-        add: function add(defaultValue, index2) {
+        add: function add2(defaultValue, index2) {
           var newValue = getNewValue();
           if (index2 >= 0 && index2 <= newValue.length) {
             keyManager.keys = [].concat(_toConsumableArray(keyManager.keys.slice(0, index2)), [keyManager.id], _toConsumableArray(keyManager.keys.slice(index2)));
@@ -30573,7 +30575,7 @@
           }
           keyManager.id += 1;
         },
-        remove: function remove(index2) {
+        remove: function remove2(index2) {
           var newValue = getNewValue();
           var indexSet = new Set(Array.isArray(index2) ? index2 : [index2]);
           if (indexSet.size <= 0) {
@@ -30712,7 +30714,7 @@
       }
     }, {
       key: "update",
-      value: function update(key2, updater) {
+      value: function update2(key2, updater) {
         var origin = this.get(key2);
         var next = updater(origin);
         if (!next) {
@@ -34669,7 +34671,7 @@
       var getPopupContainer;
       var innerInstance = null;
       var proxy = {
-        add: function add(noticeProps, holderCallback) {
+        add: function add2(noticeProps, holderCallback) {
           innerInstance === null || innerInstance === void 0 ? void 0 : innerInstance.component.add(noticeProps, holderCallback);
         }
       };
@@ -35010,7 +35012,7 @@
       var getPrefixCls;
       var innerInstance = null;
       var proxy = {
-        add: function add(noticeProps, holderCallback) {
+        add: function add2(noticeProps, holderCallback) {
           innerInstance === null || innerInstance === void 0 ? void 0 : innerInstance.component.add(noticeProps, holderCallback);
         }
       };
@@ -35535,7 +35537,7 @@
       target.addEventListener(eventType, callback, option);
     }
     return {
-      remove: function remove() {
+      remove: function remove2() {
         if (target.removeEventListener) {
           target.removeEventListener(eventType, callback, option);
         }
@@ -40989,6 +40991,689 @@
 
   // src/page/Index.tsx
   var import_react26 = __toESM(require_react(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var Index = class extends import_react26.Component {
+    render() {
+      return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+        id: "container",
+        children: "Index"
+      });
+    }
+  };
+
+  // node_modules/@tweenjs/tween.js/dist/tween.esm.js
+  var Easing = {
+    Linear: {
+      None: function(amount) {
+        return amount;
+      }
+    },
+    Quadratic: {
+      In: function(amount) {
+        return amount * amount;
+      },
+      Out: function(amount) {
+        return amount * (2 - amount);
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount;
+        }
+        return -0.5 * (--amount * (amount - 2) - 1);
+      }
+    },
+    Cubic: {
+      In: function(amount) {
+        return amount * amount * amount;
+      },
+      Out: function(amount) {
+        return --amount * amount * amount + 1;
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount;
+        }
+        return 0.5 * ((amount -= 2) * amount * amount + 2);
+      }
+    },
+    Quartic: {
+      In: function(amount) {
+        return amount * amount * amount * amount;
+      },
+      Out: function(amount) {
+        return 1 - --amount * amount * amount * amount;
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount * amount;
+        }
+        return -0.5 * ((amount -= 2) * amount * amount * amount - 2);
+      }
+    },
+    Quintic: {
+      In: function(amount) {
+        return amount * amount * amount * amount * amount;
+      },
+      Out: function(amount) {
+        return --amount * amount * amount * amount * amount + 1;
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount * amount * amount;
+        }
+        return 0.5 * ((amount -= 2) * amount * amount * amount * amount + 2);
+      }
+    },
+    Sinusoidal: {
+      In: function(amount) {
+        return 1 - Math.cos(amount * Math.PI / 2);
+      },
+      Out: function(amount) {
+        return Math.sin(amount * Math.PI / 2);
+      },
+      InOut: function(amount) {
+        return 0.5 * (1 - Math.cos(Math.PI * amount));
+      }
+    },
+    Exponential: {
+      In: function(amount) {
+        return amount === 0 ? 0 : Math.pow(1024, amount - 1);
+      },
+      Out: function(amount) {
+        return amount === 1 ? 1 : 1 - Math.pow(2, -10 * amount);
+      },
+      InOut: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        if ((amount *= 2) < 1) {
+          return 0.5 * Math.pow(1024, amount - 1);
+        }
+        return 0.5 * (-Math.pow(2, -10 * (amount - 1)) + 2);
+      }
+    },
+    Circular: {
+      In: function(amount) {
+        return 1 - Math.sqrt(1 - amount * amount);
+      },
+      Out: function(amount) {
+        return Math.sqrt(1 - --amount * amount);
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return -0.5 * (Math.sqrt(1 - amount * amount) - 1);
+        }
+        return 0.5 * (Math.sqrt(1 - (amount -= 2) * amount) + 1);
+      }
+    },
+    Elastic: {
+      In: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        return -Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
+      },
+      Out: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        return Math.pow(2, -10 * amount) * Math.sin((amount - 0.1) * 5 * Math.PI) + 1;
+      },
+      InOut: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        amount *= 2;
+        if (amount < 1) {
+          return -0.5 * Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
+        }
+        return 0.5 * Math.pow(2, -10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI) + 1;
+      }
+    },
+    Back: {
+      In: function(amount) {
+        var s = 1.70158;
+        return amount * amount * ((s + 1) * amount - s);
+      },
+      Out: function(amount) {
+        var s = 1.70158;
+        return --amount * amount * ((s + 1) * amount + s) + 1;
+      },
+      InOut: function(amount) {
+        var s = 1.70158 * 1.525;
+        if ((amount *= 2) < 1) {
+          return 0.5 * (amount * amount * ((s + 1) * amount - s));
+        }
+        return 0.5 * ((amount -= 2) * amount * ((s + 1) * amount + s) + 2);
+      }
+    },
+    Bounce: {
+      In: function(amount) {
+        return 1 - Easing.Bounce.Out(1 - amount);
+      },
+      Out: function(amount) {
+        if (amount < 1 / 2.75) {
+          return 7.5625 * amount * amount;
+        } else if (amount < 2 / 2.75) {
+          return 7.5625 * (amount -= 1.5 / 2.75) * amount + 0.75;
+        } else if (amount < 2.5 / 2.75) {
+          return 7.5625 * (amount -= 2.25 / 2.75) * amount + 0.9375;
+        } else {
+          return 7.5625 * (amount -= 2.625 / 2.75) * amount + 0.984375;
+        }
+      },
+      InOut: function(amount) {
+        if (amount < 0.5) {
+          return Easing.Bounce.In(amount * 2) * 0.5;
+        }
+        return Easing.Bounce.Out(amount * 2 - 1) * 0.5 + 0.5;
+      }
+    }
+  };
+  var now2;
+  if (typeof self === "undefined" && typeof process !== "undefined" && process.hrtime) {
+    now2 = function() {
+      var time = process.hrtime();
+      return time[0] * 1e3 + time[1] / 1e6;
+    };
+  } else if (typeof self !== "undefined" && self.performance !== void 0 && self.performance.now !== void 0) {
+    now2 = self.performance.now.bind(self.performance);
+  } else if (Date.now !== void 0) {
+    now2 = Date.now;
+  } else {
+    now2 = function() {
+      return new Date().getTime();
+    };
+  }
+  var now$1 = now2;
+  var Group = function() {
+    function Group3() {
+      this._tweens = {};
+      this._tweensAddedDuringUpdate = {};
+    }
+    Group3.prototype.getAll = function() {
+      var _this = this;
+      return Object.keys(this._tweens).map(function(tweenId) {
+        return _this._tweens[tweenId];
+      });
+    };
+    Group3.prototype.removeAll = function() {
+      this._tweens = {};
+    };
+    Group3.prototype.add = function(tween) {
+      this._tweens[tween.getId()] = tween;
+      this._tweensAddedDuringUpdate[tween.getId()] = tween;
+    };
+    Group3.prototype.remove = function(tween) {
+      delete this._tweens[tween.getId()];
+      delete this._tweensAddedDuringUpdate[tween.getId()];
+    };
+    Group3.prototype.update = function(time, preserve) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (preserve === void 0) {
+        preserve = false;
+      }
+      var tweenIds = Object.keys(this._tweens);
+      if (tweenIds.length === 0) {
+        return false;
+      }
+      while (tweenIds.length > 0) {
+        this._tweensAddedDuringUpdate = {};
+        for (var i = 0; i < tweenIds.length; i++) {
+          var tween = this._tweens[tweenIds[i]];
+          var autoStart = !preserve;
+          if (tween && tween.update(time, autoStart) === false && !preserve) {
+            delete this._tweens[tweenIds[i]];
+          }
+        }
+        tweenIds = Object.keys(this._tweensAddedDuringUpdate);
+      }
+      return true;
+    };
+    return Group3;
+  }();
+  var Interpolation = {
+    Linear: function(v, k) {
+      var m = v.length - 1;
+      var f = m * k;
+      var i = Math.floor(f);
+      var fn = Interpolation.Utils.Linear;
+      if (k < 0) {
+        return fn(v[0], v[1], f);
+      }
+      if (k > 1) {
+        return fn(v[m], v[m - 1], m - f);
+      }
+      return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
+    },
+    Bezier: function(v, k) {
+      var b = 0;
+      var n = v.length - 1;
+      var pw = Math.pow;
+      var bn = Interpolation.Utils.Bernstein;
+      for (var i = 0; i <= n; i++) {
+        b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
+      }
+      return b;
+    },
+    CatmullRom: function(v, k) {
+      var m = v.length - 1;
+      var f = m * k;
+      var i = Math.floor(f);
+      var fn = Interpolation.Utils.CatmullRom;
+      if (v[0] === v[m]) {
+        if (k < 0) {
+          i = Math.floor(f = m * (1 + k));
+        }
+        return fn(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+      } else {
+        if (k < 0) {
+          return v[0] - (fn(v[0], v[0], v[1], v[1], -f) - v[0]);
+        }
+        if (k > 1) {
+          return v[m] - (fn(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+        }
+        return fn(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+      }
+    },
+    Utils: {
+      Linear: function(p0, p1, t) {
+        return (p1 - p0) * t + p0;
+      },
+      Bernstein: function(n, i) {
+        var fc = Interpolation.Utils.Factorial;
+        return fc(n) / fc(i) / fc(n - i);
+      },
+      Factorial: function() {
+        var a = [1];
+        return function(n) {
+          var s = 1;
+          if (a[n]) {
+            return a[n];
+          }
+          for (var i = n; i > 1; i--) {
+            s *= i;
+          }
+          a[n] = s;
+          return s;
+        };
+      }(),
+      CatmullRom: function(p0, p1, p2, p3, t) {
+        var v0 = (p2 - p0) * 0.5;
+        var v1 = (p3 - p1) * 0.5;
+        var t2 = t * t;
+        var t3 = t * t2;
+        return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+      }
+    }
+  };
+  var Sequence = function() {
+    function Sequence2() {
+    }
+    Sequence2.nextId = function() {
+      return Sequence2._nextId++;
+    };
+    Sequence2._nextId = 0;
+    return Sequence2;
+  }();
+  var mainGroup = new Group();
+  var Tween = function() {
+    function Tween2(_object, _group) {
+      if (_group === void 0) {
+        _group = mainGroup;
+      }
+      this._object = _object;
+      this._group = _group;
+      this._isPaused = false;
+      this._pauseStart = 0;
+      this._valuesStart = {};
+      this._valuesEnd = {};
+      this._valuesStartRepeat = {};
+      this._duration = 1e3;
+      this._initialRepeat = 0;
+      this._repeat = 0;
+      this._yoyo = false;
+      this._isPlaying = false;
+      this._reversed = false;
+      this._delayTime = 0;
+      this._startTime = 0;
+      this._easingFunction = Easing.Linear.None;
+      this._interpolationFunction = Interpolation.Linear;
+      this._chainedTweens = [];
+      this._onStartCallbackFired = false;
+      this._id = Sequence.nextId();
+      this._isChainStopped = false;
+      this._goToEnd = false;
+    }
+    Tween2.prototype.getId = function() {
+      return this._id;
+    };
+    Tween2.prototype.isPlaying = function() {
+      return this._isPlaying;
+    };
+    Tween2.prototype.isPaused = function() {
+      return this._isPaused;
+    };
+    Tween2.prototype.to = function(properties, duration) {
+      this._valuesEnd = Object.create(properties);
+      if (duration !== void 0) {
+        this._duration = duration;
+      }
+      return this;
+    };
+    Tween2.prototype.duration = function(d) {
+      this._duration = d;
+      return this;
+    };
+    Tween2.prototype.start = function(time) {
+      if (this._isPlaying) {
+        return this;
+      }
+      this._group && this._group.add(this);
+      this._repeat = this._initialRepeat;
+      if (this._reversed) {
+        this._reversed = false;
+        for (var property in this._valuesStartRepeat) {
+          this._swapEndStartRepeatValues(property);
+          this._valuesStart[property] = this._valuesStartRepeat[property];
+        }
+      }
+      this._isPlaying = true;
+      this._isPaused = false;
+      this._onStartCallbackFired = false;
+      this._isChainStopped = false;
+      this._startTime = time !== void 0 ? typeof time === "string" ? now$1() + parseFloat(time) : time : now$1();
+      this._startTime += this._delayTime;
+      this._setupProperties(this._object, this._valuesStart, this._valuesEnd, this._valuesStartRepeat);
+      return this;
+    };
+    Tween2.prototype._setupProperties = function(_object, _valuesStart, _valuesEnd, _valuesStartRepeat) {
+      for (var property in _valuesEnd) {
+        var startValue = _object[property];
+        var startValueIsArray = Array.isArray(startValue);
+        var propType = startValueIsArray ? "array" : typeof startValue;
+        var isInterpolationList = !startValueIsArray && Array.isArray(_valuesEnd[property]);
+        if (propType === "undefined" || propType === "function") {
+          continue;
+        }
+        if (isInterpolationList) {
+          var endValues = _valuesEnd[property];
+          if (endValues.length === 0) {
+            continue;
+          }
+          endValues = endValues.map(this._handleRelativeValue.bind(this, startValue));
+          _valuesEnd[property] = [startValue].concat(endValues);
+        }
+        if ((propType === "object" || startValueIsArray) && startValue && !isInterpolationList) {
+          _valuesStart[property] = startValueIsArray ? [] : {};
+          for (var prop in startValue) {
+            _valuesStart[property][prop] = startValue[prop];
+          }
+          _valuesStartRepeat[property] = startValueIsArray ? [] : {};
+          this._setupProperties(startValue, _valuesStart[property], _valuesEnd[property], _valuesStartRepeat[property]);
+        } else {
+          if (typeof _valuesStart[property] === "undefined") {
+            _valuesStart[property] = startValue;
+          }
+          if (!startValueIsArray) {
+            _valuesStart[property] *= 1;
+          }
+          if (isInterpolationList) {
+            _valuesStartRepeat[property] = _valuesEnd[property].slice().reverse();
+          } else {
+            _valuesStartRepeat[property] = _valuesStart[property] || 0;
+          }
+        }
+      }
+    };
+    Tween2.prototype.stop = function() {
+      if (!this._isChainStopped) {
+        this._isChainStopped = true;
+        this.stopChainedTweens();
+      }
+      if (!this._isPlaying) {
+        return this;
+      }
+      this._group && this._group.remove(this);
+      this._isPlaying = false;
+      this._isPaused = false;
+      if (this._onStopCallback) {
+        this._onStopCallback(this._object);
+      }
+      return this;
+    };
+    Tween2.prototype.end = function() {
+      this._goToEnd = true;
+      this.update(Infinity);
+      return this;
+    };
+    Tween2.prototype.pause = function(time) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (this._isPaused || !this._isPlaying) {
+        return this;
+      }
+      this._isPaused = true;
+      this._pauseStart = time;
+      this._group && this._group.remove(this);
+      return this;
+    };
+    Tween2.prototype.resume = function(time) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (!this._isPaused || !this._isPlaying) {
+        return this;
+      }
+      this._isPaused = false;
+      this._startTime += time - this._pauseStart;
+      this._pauseStart = 0;
+      this._group && this._group.add(this);
+      return this;
+    };
+    Tween2.prototype.stopChainedTweens = function() {
+      for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+        this._chainedTweens[i].stop();
+      }
+      return this;
+    };
+    Tween2.prototype.group = function(group) {
+      this._group = group;
+      return this;
+    };
+    Tween2.prototype.delay = function(amount) {
+      this._delayTime = amount;
+      return this;
+    };
+    Tween2.prototype.repeat = function(times) {
+      this._initialRepeat = times;
+      this._repeat = times;
+      return this;
+    };
+    Tween2.prototype.repeatDelay = function(amount) {
+      this._repeatDelayTime = amount;
+      return this;
+    };
+    Tween2.prototype.yoyo = function(yoyo) {
+      this._yoyo = yoyo;
+      return this;
+    };
+    Tween2.prototype.easing = function(easingFunction) {
+      this._easingFunction = easingFunction;
+      return this;
+    };
+    Tween2.prototype.interpolation = function(interpolationFunction) {
+      this._interpolationFunction = interpolationFunction;
+      return this;
+    };
+    Tween2.prototype.chain = function() {
+      var tweens = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        tweens[_i] = arguments[_i];
+      }
+      this._chainedTweens = tweens;
+      return this;
+    };
+    Tween2.prototype.onStart = function(callback) {
+      this._onStartCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onUpdate = function(callback) {
+      this._onUpdateCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onRepeat = function(callback) {
+      this._onRepeatCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onComplete = function(callback) {
+      this._onCompleteCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onStop = function(callback) {
+      this._onStopCallback = callback;
+      return this;
+    };
+    Tween2.prototype.update = function(time, autoStart) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (autoStart === void 0) {
+        autoStart = true;
+      }
+      if (this._isPaused)
+        return true;
+      var property;
+      var elapsed;
+      var endTime = this._startTime + this._duration;
+      if (!this._goToEnd && !this._isPlaying) {
+        if (time > endTime)
+          return false;
+        if (autoStart)
+          this.start(time);
+      }
+      this._goToEnd = false;
+      if (time < this._startTime) {
+        return true;
+      }
+      if (this._onStartCallbackFired === false) {
+        if (this._onStartCallback) {
+          this._onStartCallback(this._object);
+        }
+        this._onStartCallbackFired = true;
+      }
+      elapsed = (time - this._startTime) / this._duration;
+      elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
+      var value = this._easingFunction(elapsed);
+      this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value);
+      if (this._onUpdateCallback) {
+        this._onUpdateCallback(this._object, elapsed);
+      }
+      if (elapsed === 1) {
+        if (this._repeat > 0) {
+          if (isFinite(this._repeat)) {
+            this._repeat--;
+          }
+          for (property in this._valuesStartRepeat) {
+            if (!this._yoyo && typeof this._valuesEnd[property] === "string") {
+              this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property]);
+            }
+            if (this._yoyo) {
+              this._swapEndStartRepeatValues(property);
+            }
+            this._valuesStart[property] = this._valuesStartRepeat[property];
+          }
+          if (this._yoyo) {
+            this._reversed = !this._reversed;
+          }
+          if (this._repeatDelayTime !== void 0) {
+            this._startTime = time + this._repeatDelayTime;
+          } else {
+            this._startTime = time + this._delayTime;
+          }
+          if (this._onRepeatCallback) {
+            this._onRepeatCallback(this._object);
+          }
+          return true;
+        } else {
+          if (this._onCompleteCallback) {
+            this._onCompleteCallback(this._object);
+          }
+          for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+            this._chainedTweens[i].start(this._startTime + this._duration);
+          }
+          this._isPlaying = false;
+          return false;
+        }
+      }
+      return true;
+    };
+    Tween2.prototype._updateProperties = function(_object, _valuesStart, _valuesEnd, value) {
+      for (var property in _valuesEnd) {
+        if (_valuesStart[property] === void 0) {
+          continue;
+        }
+        var start = _valuesStart[property] || 0;
+        var end = _valuesEnd[property];
+        var startIsArray = Array.isArray(_object[property]);
+        var endIsArray = Array.isArray(end);
+        var isInterpolationList = !startIsArray && endIsArray;
+        if (isInterpolationList) {
+          _object[property] = this._interpolationFunction(end, value);
+        } else if (typeof end === "object" && end) {
+          this._updateProperties(_object[property], start, end, value);
+        } else {
+          end = this._handleRelativeValue(start, end);
+          if (typeof end === "number") {
+            _object[property] = start + (end - start) * value;
+          }
+        }
+      }
+    };
+    Tween2.prototype._handleRelativeValue = function(start, end) {
+      if (typeof end !== "string") {
+        return end;
+      }
+      if (end.charAt(0) === "+" || end.charAt(0) === "-") {
+        return start + parseFloat(end);
+      } else {
+        return parseFloat(end);
+      }
+    };
+    Tween2.prototype._swapEndStartRepeatValues = function(property) {
+      var tmp = this._valuesStartRepeat[property];
+      var endValue = this._valuesEnd[property];
+      if (typeof endValue === "string") {
+        this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(endValue);
+      } else {
+        this._valuesStartRepeat[property] = this._valuesEnd[property];
+      }
+      this._valuesEnd[property] = tmp;
+    };
+    return Tween2;
+  }();
+  var nextId = Sequence.nextId;
+  var TWEEN = mainGroup;
+  var getAll = TWEEN.getAll.bind(TWEEN);
+  var removeAll = TWEEN.removeAll.bind(TWEEN);
+  var add = TWEEN.add.bind(TWEEN);
+  var remove = TWEEN.remove.bind(TWEEN);
+  var update = TWEEN.update.bind(TWEEN);
 
   // node_modules/three/build/three.module.js
   var REVISION = "145";
@@ -43131,7 +43816,7 @@
       this._onChangeCallback();
       return this;
     }
-    setFromEuler(euler, update) {
+    setFromEuler(euler, update2) {
       const x = euler._x, y = euler._y, z = euler._z, order = euler._order;
       const cos = Math.cos;
       const sin = Math.sin;
@@ -43181,7 +43866,7 @@
         default:
           console.warn("THREE.Quaternion: .setFromEuler() encountered an unknown order: " + order);
       }
-      if (update !== false)
+      if (update2 !== false)
         this._onChangeCallback();
       return this;
     }
@@ -45314,7 +45999,7 @@
       this._onChangeCallback();
       return this;
     }
-    setFromRotationMatrix(m, order = this._order, update = true) {
+    setFromRotationMatrix(m, order = this._order, update2 = true) {
       const te = m.elements;
       const m11 = te[0], m12 = te[4], m13 = te[8];
       const m21 = te[1], m22 = te[5], m23 = te[9];
@@ -45384,13 +46069,13 @@
           console.warn("THREE.Euler: .setFromRotationMatrix() encountered an unknown order: " + order);
       }
       this._order = order;
-      if (update === true)
+      if (update2 === true)
         this._onChangeCallback();
       return this;
     }
-    setFromQuaternion(q, order, update) {
+    setFromQuaternion(q, order, update2) {
       _matrix$1.makeRotationFromQuaternion(q);
-      return this.setFromRotationMatrix(_matrix$1, order, update);
+      return this.setFromRotationMatrix(_matrix$1, order, update2);
     }
     setFromVector3(v, order = this._order) {
       return this.set(v.x, v.y, v.z, order);
@@ -48436,7 +49121,7 @@
         attribute = attribute.data;
       return buffers.get(attribute);
     }
-    function remove(attribute) {
+    function remove2(attribute) {
       if (attribute.isInterleavedBufferAttribute)
         attribute = attribute.data;
       const data = buffers.get(attribute);
@@ -48445,7 +49130,7 @@
         buffers.delete(attribute);
       }
     }
-    function update(attribute, bufferType) {
+    function update2(attribute, bufferType) {
       if (attribute.isGLBufferAttribute) {
         const cached = buffers.get(attribute);
         if (!cached || cached.version < attribute.version) {
@@ -48470,8 +49155,8 @@
     }
     return {
       get: get2,
-      remove,
-      update
+      remove: remove2,
+      update: update2
     };
   }
   var PlaneGeometry = class extends BufferGeometry {
@@ -50736,7 +51421,7 @@
       info.memory.geometries++;
       return geometry;
     }
-    function update(geometry) {
+    function update2(geometry) {
       const geometryAttributes = geometry.attributes;
       for (const name in geometryAttributes) {
         attributes.update(geometryAttributes[name], 34962);
@@ -50796,7 +51481,7 @@
     }
     return {
       get: get2,
-      update,
+      update: update2,
       getWireframeAttribute
     };
   }
@@ -50850,7 +51535,7 @@
       points: 0,
       lines: 0
     };
-    function update(count, mode, instanceCount) {
+    function update2(count, mode, instanceCount) {
       render3.calls++;
       switch (mode) {
         case 4:
@@ -50886,7 +51571,7 @@
       programs: null,
       autoReset: true,
       reset,
-      update
+      update: update2
     };
   }
   function numericalSort(a, b) {
@@ -50904,7 +51589,7 @@
     for (let i = 0; i < 8; i++) {
       workInfluences[i] = [i, 0];
     }
-    function update(object4, geometry, material, program) {
+    function update2(object4, geometry, material, program) {
       const objectInfluences = object4.morphTargetInfluences;
       if (capabilities.isWebGL2 === true) {
         const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
@@ -51047,12 +51732,12 @@
       }
     }
     return {
-      update
+      update: update2
     };
   }
   function WebGLObjects(gl, geometries, attributes, info) {
     let updateMap = /* @__PURE__ */ new WeakMap();
-    function update(object4) {
+    function update2(object4) {
       const frame = info.render.frame;
       const geometry = object4.geometry;
       const buffergeometry = geometries.get(object4, geometry);
@@ -51082,7 +51767,7 @@
         attributes.remove(instancedMesh.instanceColor);
     }
     return {
-      update,
+      update: update2,
       dispose
     };
   }
@@ -52651,10 +53336,10 @@
       }
       return map;
     }
-    function remove(object4) {
+    function remove2(object4) {
       properties.delete(object4);
     }
-    function update(object4, key2, value) {
+    function update2(object4, key2, value) {
       properties.get(object4)[key2] = value;
     }
     function dispose() {
@@ -52662,8 +53347,8 @@
     }
     return {
       get: get2,
-      remove,
-      update,
+      remove: remove2,
+      update: update2,
       dispose
     };
   }
@@ -55413,7 +56098,7 @@
       this.cameras = array4;
     }
   };
-  var Group = class extends Object3D {
+  var Group2 = class extends Object3D {
     constructor() {
       super();
       this.isGroup = true;
@@ -55429,7 +56114,7 @@
     }
     getHandSpace() {
       if (this._hand === null) {
-        this._hand = new Group();
+        this._hand = new Group2();
         this._hand.matrixAutoUpdate = false;
         this._hand.visible = false;
         this._hand.joints = {};
@@ -55439,7 +56124,7 @@
     }
     getTargetRaySpace() {
       if (this._targetRay === null) {
-        this._targetRay = new Group();
+        this._targetRay = new Group2();
         this._targetRay.matrixAutoUpdate = false;
         this._targetRay.visible = false;
         this._targetRay.hasLinearVelocity = false;
@@ -55451,7 +56136,7 @@
     }
     getGripSpace() {
       if (this._grip === null) {
-        this._grip = new Group();
+        this._grip = new Group2();
         this._grip.matrixAutoUpdate = false;
         this._grip.visible = false;
         this._grip.hasLinearVelocity = false;
@@ -55499,7 +56184,7 @@
           for (const inputjoint of inputSource.hand.values()) {
             const jointPose = frame.getJointPose(inputjoint, referenceSpace);
             if (hand.joints[inputjoint.jointName] === void 0) {
-              const joint2 = new Group();
+              const joint2 = new Group2();
               joint2.matrixAutoUpdate = false;
               joint2.visible = false;
               hand.joints[inputjoint.jointName] = joint2;
@@ -56356,7 +57041,7 @@
       const webglProgram = program.program;
       state.uniformBlockBinding(uniformsGroup, webglProgram);
     }
-    function update(uniformsGroup, program) {
+    function update2(uniformsGroup, program) {
       let buffer = buffers[uniformsGroup.id];
       if (buffer === void 0) {
         prepareUniformsGroup(uniformsGroup);
@@ -56532,7 +57217,7 @@
     }
     return {
       bind,
-      update,
+      update: update2,
       dispose
     };
   }
@@ -57731,47 +58416,6 @@
   var WebGL1Renderer = class extends WebGLRenderer {
   };
   WebGL1Renderer.prototype.isWebGL1Renderer = true;
-  var Scene = class extends Object3D {
-    constructor() {
-      super();
-      this.isScene = true;
-      this.type = "Scene";
-      this.background = null;
-      this.environment = null;
-      this.fog = null;
-      this.overrideMaterial = null;
-      if (typeof __THREE_DEVTOOLS__ !== "undefined") {
-        __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("observe", { detail: this }));
-      }
-    }
-    copy(source, recursive) {
-      super.copy(source, recursive);
-      if (source.background !== null)
-        this.background = source.background.clone();
-      if (source.environment !== null)
-        this.environment = source.environment.clone();
-      if (source.fog !== null)
-        this.fog = source.fog.clone();
-      if (source.overrideMaterial !== null)
-        this.overrideMaterial = source.overrideMaterial.clone();
-      this.matrixAutoUpdate = source.matrixAutoUpdate;
-      return this;
-    }
-    toJSON(meta) {
-      const data = super.toJSON(meta);
-      if (this.fog !== null)
-        data.object.fog = this.fog.toJSON();
-      return data;
-    }
-    get autoUpdate() {
-      console.warn("THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.");
-      return this.matrixWorldAutoUpdate;
-    }
-    set autoUpdate(value) {
-      console.warn("THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.");
-      this.matrixWorldAutoUpdate = value;
-    }
-  };
   function arraySlice(array4, from, to) {
     if (isTypedArray(array4)) {
       return new array4.constructor(array4.subarray(from, to !== void 0 ? to : array4.length));
@@ -58613,31 +59257,77 @@
     }
   }
 
-  // src/page/Index.tsx
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var Index = class extends import_react26.Component {
-    sceneRef = (0, import_react26.createRef)();
-    renderer = new WebGLRenderer({
-      antialias: true
-    });
-    scene = new Scene();
-    camera = new PerspectiveCamera(
-      90,
-      document.body.clientWidth / document.body.clientHeight,
-      0.1,
-      1e3
-    );
-    cube = new Mesh(
-      new BoxGeometry()
-    );
-    animate() {
-      requestAnimationFrame(this.animate);
+  // src/app/core/_camera.ts
+  var _Camera = class {
+    constructor() {
+      const { width, heigh } = getContainerSize();
+      this._perspectiveCamera = new PerspectiveCamera(
+        90,
+        width / heigh,
+        0.1,
+        1e3
+      );
+      this._perspectiveCamera.userData = { fovVolume: 90 };
+      this._orthographicCamera = new OrthographicCamera(
+        width / -2,
+        width / 2,
+        heigh / -2,
+        heigh / -2,
+        0.1,
+        1e3
+      );
     }
-    render() {
-      return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
-        children: "Index"
-      });
+    _perspectiveCamera;
+    _orthographicCamera;
+    cameraType = "Perspective";
+    zoomCameraView = (ev) => {
+      if (this.cameraType === "Orthographic")
+        return;
+      const camera = this.activeCamera;
+      if (ev.deltaY > 0) {
+        if (camera.userData.fovVolume >= 120)
+          return;
+        camera.userData.fovVolume += 5;
+      } else {
+        if (camera.userData.fovVolume <= 60)
+          return;
+        camera.userData.fovVolume -= 5;
+      }
+      const target = { fov: camera.fov };
+      new Tween(target).to({ fov: camera.userData.fovVolume }).easing(Easing.Quadratic.Out).onUpdate(() => {
+        camera.userData.fovVolume = target.fov;
+        camera.updateProjectionMatrix();
+      }).start();
+    };
+    get activeCamera() {
+      if (this.cameraType === "Orthographic")
+        return this._orthographicCamera;
+      return this._perspectiveCamera;
     }
+  };
+
+  // src/app/Application.ts
+  var app;
+  var Application = class {
+    constructor() {
+      app = this;
+    }
+    camera = new _Camera();
+  };
+  var getContainerSize = () => {
+    const container = document.querySelector("#container");
+    if (!container) {
+      message_default.error("\u6CA1\u6709\u52A0\u8F7D\u51FA\u5BB9\u5668,\u8BF7\u5237\u65B0\u91CD\u8BD5");
+      return {
+        width: document.body.clientWidth,
+        heigh: document.body.clientHeight
+      };
+      ;
+    }
+    return {
+      width: container.clientWidth,
+      heigh: container.clientHeight
+    };
   };
 
   // src/app/App.tsx
@@ -58653,6 +59343,9 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
+    (0, import_react27.useLayoutEffect)(() => {
+      new Application();
+    }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BrowserRouter, {
       children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", {
         id: "app",
@@ -58679,9 +59372,7 @@
   var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react27.default.StrictMode, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(App, {})
-    })
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(App, {})
   );
 })();
 /*!

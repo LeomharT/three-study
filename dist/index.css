@@ -26361,6 +26361,9 @@ div.ant-typography-edit-content.ant-typography-rtl {
   height: 100%;
   flex-shrink: 0;
 }
+#app > .ant-menu .ant-menu-title-content {
+  font-size: 20px;
+}
 #app > div {
   width: 100%;
   height: 100%;
