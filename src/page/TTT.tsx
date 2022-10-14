@@ -1,7 +1,8 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, Color, PointLight } from "three";
+import { AmbientLight, BoxBufferGeometry, Color, Mesh, MeshBasicMaterial, PointLight, Raycaster, Vector2 } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
+import { RendererLayers } from "../app/core/renderer";
 import useScene from "../hooks/useScene";
 
 export default function TTT()
@@ -64,14 +65,39 @@ export default function TTT()
     {
         app.showStats(domEl);
 
-        addApollo();
+        const mesh = new Mesh(
+            new BoxBufferGeometry(60, 60, 60),
+            new MeshBasicMaterial({ color: "red" })
+        );
 
-        addLigth();
+        const mesh2 = new Mesh(
+            new BoxBufferGeometry(10, 60, 60),
+            new MeshBasicMaterial({ color: new Color().setHSL(.6, .7, .8) })
+        );
+
+        mesh2.translateX(-30);
+
+        mesh2.layers.toggle(RendererLayers.BLOOM_SCENE);
+
+        app.scene.add(mesh);
+        app.scene.add(mesh2);
+
+        // addLigth();
     }, []);
 
     useEffect(() =>
     {
         initScene();
+
+        const mouse = new Vector2();
+
+        const raycaster = new Raycaster();
+
+        window.onpointerdown = () =>
+        {
+
+        };
+
     }, []);
 
 

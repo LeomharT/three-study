@@ -1,18 +1,14 @@
-import { Camera, Color, Layers, Material, Mesh, MeshBasicMaterial, RepeatWrapping, Scene, ShaderMaterial, TextureLoader, Vector2, WebGLRenderer } from "three";
+import { Camera, Color, Mesh, Object3D, Scene, ShaderMaterial, Vector2, WebGLRenderer } from "three";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
-import tri_pattern from '../../assets/image/tri_pattern.jpg';
-
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 
 export enum RendererLayers
 {
     ENTIRE_SCENE = 0,
     BLOOM_SCENE = 1,
-    OUTLINE_SCENE = 2,
 }
 
 export default class _Renderer
@@ -25,10 +21,6 @@ export default class _Renderer
 
     private _finalComposer: EffectComposer;
 
-    private _outlineComposer: EffectComposer;
-
-    public outlinePass: OutlinePass;
-
     constructor(scene: Scene, camera: Camera)
     {
         this._scene = scene;
@@ -39,13 +31,10 @@ export default class _Renderer
         this._bloomComposer = bloomComposer;
         this._finalComposer = finalComposer;
 
-        this._bloomLayer.set(RendererLayers.BLOOM_SCENE);
-        this._outLineLayer.set(RendererLayers.OUTLINE_SCENE);
-
-        const { outline_composer, outline_pass } = this._initOutlineComposer();
-
-        this._outlineComposer = outline_composer;
-        this.outlinePass = outline_pass;
+        //@ts-ignore
+        this._webGLRenderer.gammaInput = true;
+        //@ts-ignore
+        this._webGLRenderer.gammaOutput = true;
     }
 
     /** WebGLRenderer 渲染器 */
@@ -58,14 +47,6 @@ export default class _Renderer
     {
         return this._webGLRenderer;
     }
-
-    private _darkMaterial = new MeshBasicMaterial({ color: 'black' });
-
-    private _bloomLayer = new Layers();
-
-    private _outLineLayer = new Layers();
-
-    private _materialList: { [index: string]: Material | Material[]; } = {};
 
     /** 设置渲染器 */
     public setUpWebGLRenderer = (): void =>
@@ -96,8 +77,6 @@ export default class _Renderer
         this._bloomComposer.setSize(width, height);
 
         this._finalComposer.setSize(width, height);
-
-        this._outlineComposer.setSize(width, height);
     };
 
     /** 初始化后期通道 */
@@ -105,17 +84,22 @@ export default class _Renderer
     {
         const renderScene = new RenderPass(this._scene, this._camera);
 
+        const effectFXAA = new ShaderPass(FXAAShader);
+        effectFXAA.uniforms.resolution.value.set(1 / window.innerWidth, 1 / window.innerHeight);
+
         const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
         bloomPass.threshold = 0;
         //辉光强度
         bloomPass.strength = 2.5;
         //模糊半径
         bloomPass.radius = 1;
+        bloomPass.renderToScreen = true;
 
         const bloomComposer = new EffectComposer(this._webGLRenderer);
         bloomComposer.renderToScreen = false;
         bloomComposer.addPass(renderScene);
         bloomComposer.addPass(bloomPass);
+        bloomComposer.addPass(effectFXAA);
 
         const material = new ShaderMaterial({
             uniforms: {
@@ -157,68 +141,46 @@ export default class _Renderer
         return { bloomComposer, finalComposer };
     };
 
-    private _initOutlineComposer = (): { outline_composer: EffectComposer, outline_pass: OutlinePass; } =>
+
+    private _renderWebGLRenderer()
     {
-        const outline_composer = new EffectComposer(this.webGLRenderer);
+        //手动清除缓存可以同时渲染发光模型和普通模型
+        this._webGLRenderer.clear();
 
-        const render_pass = new RenderPass(this._scene, this._camera);
+        const scene = this._scene;
 
-        const outline_pass = new OutlinePass(
-            new Vector2(window.innerWidth, window.innerHeight),
-            this._scene, this._camera
-        );
+        const bloomObj: Mesh[] = [];
 
-        outline_pass.visibleEdgeColor = new Color(0xffffff);
-        outline_pass.hiddenEdgeColor = new Color(0xffffff);
 
-        let effectFXAA = new ShaderPass(FXAAShader);
-        effectFXAA.uniforms['resolution'].value.set(   //设置分辨率
-            1 / window.innerWidth, 1 / window.innerHeight
-        );
+        this._camera.layers.set(RendererLayers.BLOOM_SCENE);
 
-        new TextureLoader().load(tri_pattern, texture =>
-        {
-            outline_pass.patternTexture = texture;
-
-            texture.wrapS = RepeatWrapping;
-            texture.wrapT = RepeatWrapping;
-        });
-
-        outline_composer.addPass(render_pass);
-        outline_composer.addPass(outline_pass);
-        outline_composer.addPass(effectFXAA);
-
-        return { outline_composer, outline_pass };
-    };
-
-    private _rendererComposer = (): void =>
-    {
-        this._scene.traverse(obj =>
-        {
-            let mesh = obj as Mesh;
-
-            if (mesh.isMesh && this._bloomLayer.test(mesh.layers) === false)
-            {
-                this._materialList[mesh.uuid] = mesh.material;
-                mesh.material = this._darkMaterial;
-            }
-        });
-
+        this._webGLRenderer.setClearColor(0x000000);
         this._bloomComposer.render();
+        this._webGLRenderer.setClearColor(0x111418);
+        this._finalComposer.render();
 
-        this._scene.traverse(obj =>
+        scene.traverse((object: Object3D) =>
         {
-            let mesh = obj as Mesh;
+            const mesh = object as Mesh;
 
-            if (this._materialList[mesh.uuid])
+            if (!mesh.isMesh) return;
+
+            //bloom layers
+            if (mesh.layers.mask === 3)
             {
-                mesh.material = this._materialList[mesh.uuid];
-                delete this._materialList[mesh.uuid];
+                bloomObj.push(mesh);
             }
         });
 
-        this._finalComposer.render();
-    };
+        scene.remove(...bloomObj);
+
+        this._webGLRenderer.clearDepth();
+        this._camera.layers.set(RendererLayers.ENTIRE_SCENE);
+        this._webGLRenderer.render(scene, this._camera);
+
+        if (bloomObj.length === 0) return;
+        scene.add(...bloomObj);
+    }
 
     /**
      *  渲染场景
@@ -229,22 +191,7 @@ export default class _Renderer
      */
     public renderScene = (): void =>
     {
-        //手动清除缓存可以同时渲染发光模型和普通模型
-        this._webGLRenderer.clear();
-
-        this._camera.layers.set(RendererLayers.OUTLINE_SCENE);
-        this._outlineComposer.render();
-
-        this._camera.layers.set(RendererLayers.BLOOM_SCENE);
-        this._webGLRenderer.setClearColor(0x000000);
-        this._bloomComposer.render();
-        this._webGLRenderer.setClearColor(0x111418);
-        this._finalComposer.render();
-
-        this._webGLRenderer.clearDepth();
-        this._camera.layers.set(RendererLayers.ENTIRE_SCENE);
-
-        this._webGLRenderer.render(this._scene, this._camera);
+        this._renderWebGLRenderer();
     };
 
     /** 获取canvas元素 */

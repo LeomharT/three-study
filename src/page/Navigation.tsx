@@ -1,8 +1,7 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
-import { AmbientLight, DirectionalLight, Mesh, MeshBasicMaterial, SphereBufferGeometry } from "three";
+import { AmbientLight, DirectionalLight } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { app } from "../app/application-service";
-import { RendererLayers } from "../app/core/renderer";
 import useScene from "../hooks/useScene";
 export default function Navigation()
 {
@@ -32,14 +31,6 @@ export default function Navigation()
 
         // house.scene.updateMatrixWorld();
 
-        const cube = new Mesh(
-            new SphereBufferGeometry(50, 50, 50),
-            new MeshBasicMaterial({ color: 'gold' })
-        );
-
-        cube.layers.enable(RendererLayers.OUTLINE_SCENE);
-        app.scene.add(cube);
-        app.renderer.outlinePass.selectedObjects = [cube];
         // app.scene.add(house.scene);
     }, []);
 

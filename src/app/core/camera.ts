@@ -1,5 +1,6 @@
 import { Easing, Tween } from "@tweenjs/tween.js";
 import { PerspectiveCamera, Scene } from "three";
+import { RendererLayers } from "./renderer";
 
 export default class _Camera extends PerspectiveCamera
 {
@@ -9,6 +10,8 @@ export default class _Camera extends PerspectiveCamera
         this.position.set(100, 150, 100);
         this.lookAt(scene.position);
         this.updateProjectionMatrix();
+
+        this.layers.enable(RendererLayers.BLOOM_SCENE);
 
         this.userData = {
             fovVolume: this.fov

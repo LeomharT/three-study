@@ -8,7 +8,7 @@ export type LightHelperOptions = {
 export class Helpers
 {
     private _pointLightHelperMesh = new Mesh(
-        new SphereBufferGeometry(4, 12, 12),
+        new SphereBufferGeometry(20, 12, 12),
         new MeshBasicMaterial()
     );
 
