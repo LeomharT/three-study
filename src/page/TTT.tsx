@@ -67,7 +67,7 @@ export default function TTT()
 
         const mesh = new Mesh(
             new BoxBufferGeometry(60, 60, 60),
-            new MeshBasicMaterial({ color: "red" })
+            new MeshBasicMaterial({ color: "#150505" })
         );
 
         const mesh2 = new Mesh(
@@ -75,14 +75,17 @@ export default function TTT()
             new MeshBasicMaterial({ color: new Color().setHSL(.6, .7, .8) })
         );
 
-        mesh2.translateX(-30);
+        mesh2.translateX(-35);
 
         mesh2.layers.toggle(RendererLayers.BLOOM_SCENE);
+        const clone = mesh2.clone();
+        clone.layers.set(RendererLayers.ENTIRE_SCENE);
+        app.scene.add(clone);
 
         app.scene.add(mesh);
         app.scene.add(mesh2);
 
-        // addLigth();
+        addLigth();
     }, []);
 
     useEffect(() =>
