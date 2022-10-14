@@ -179,20 +179,20 @@
           {
             Object.freeze(emptyObject);
           }
-          function Component15(props, context, updater) {
+          function Component14(props, context, updater) {
             this.props = props;
             this.context = context;
             this.refs = emptyObject;
             this.updater = updater || ReactNoopUpdateQueue;
           }
-          Component15.prototype.isReactComponent = {};
-          Component15.prototype.setState = function(partialState, callback) {
+          Component14.prototype.isReactComponent = {};
+          Component14.prototype.setState = function(partialState, callback) {
             if (typeof partialState !== "object" && typeof partialState !== "function" && partialState != null) {
               throw new Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
             }
             this.updater.enqueueSetState(this, partialState, callback, "setState");
           };
-          Component15.prototype.forceUpdate = function(callback) {
+          Component14.prototype.forceUpdate = function(callback) {
             this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
           };
           {
@@ -201,7 +201,7 @@
               replaceState: ["replaceState", "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."]
             };
             var defineDeprecationWarning = function(methodName, info) {
-              Object.defineProperty(Component15.prototype, methodName, {
+              Object.defineProperty(Component14.prototype, methodName, {
                 get: function() {
                   warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
                   return void 0;
@@ -216,7 +216,7 @@
           }
           function ComponentDummy() {
           }
-          ComponentDummy.prototype = Component15.prototype;
+          ComponentDummy.prototype = Component14.prototype;
           function PureComponent(props, context, updater) {
             this.props = props;
             this.context = context;
@@ -225,7 +225,7 @@
           }
           var pureComponentPrototype = PureComponent.prototype = new ComponentDummy();
           pureComponentPrototype.constructor = PureComponent;
-          assign(pureComponentPrototype, Component15.prototype);
+          assign(pureComponentPrototype, Component14.prototype);
           pureComponentPrototype.isPureReactComponent = true;
           function createRef2() {
             var refObject = {
@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef39(initialValue) {
+          function useRef40(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect30(create, deps) {
+          function useEffect32(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,11 +1025,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback12(callback, deps) {
+          function useCallback13(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
-          function useMemo23(create, deps) {
+          function useMemo24(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useMemo(create, deps);
           }
@@ -1266,8 +1266,8 @@
               return describeNativeComponentFrame(fn, false);
             }
           }
-          function shouldConstruct(Component16) {
-            var prototype = Component16.prototype;
+          function shouldConstruct(Component15) {
+            var prototype = Component15.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function describeUnknownElementTypeFrameInDEV(type4, source, ownerFn) {
@@ -1771,7 +1771,7 @@
             only: onlyChild
           };
           exports.Children = Children5;
-          exports.Component = Component15;
+          exports.Component = Component14;
           exports.Fragment = REACT_FRAGMENT_TYPE;
           exports.Profiler = REACT_PROFILER_TYPE;
           exports.PureComponent = PureComponent;
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback12;
+          exports.useCallback = useCallback13;
           exports.useContext = useContext34;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect30;
+          exports.useEffect = useEffect32;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle7;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
-          exports.useMemo = useMemo23;
+          exports.useMemo = useMemo24;
           exports.useReducer = useReducer;
-          exports.useRef = useRef39;
+          exports.useRef = useRef40;
           exports.useState = useState19;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -3255,8 +3255,8 @@
               return describeNativeComponentFrame(fn, false);
             }
           }
-          function shouldConstruct(Component15) {
-            var prototype = Component15.prototype;
+          function shouldConstruct(Component14) {
+            var prototype = Component14.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function describeUnknownElementTypeFrameInDEV(type4, source, ownerFn) {
@@ -10409,9 +10409,9 @@
           var contextStackCursor = createCursor(emptyContextObject);
           var didPerformWorkStackCursor = createCursor(false);
           var previousContext = emptyContextObject;
-          function getUnmaskedContext(workInProgress2, Component15, didPushOwnContextIfProvider) {
+          function getUnmaskedContext(workInProgress2, Component14, didPushOwnContextIfProvider) {
             {
-              if (didPushOwnContextIfProvider && isContextProvider(Component15)) {
+              if (didPushOwnContextIfProvider && isContextProvider(Component14)) {
                 return previousContext;
               }
               return contextStackCursor.current;
@@ -10548,8 +10548,8 @@
                   case HostRoot:
                     return node.stateNode.context;
                   case ClassComponent: {
-                    var Component15 = node.type;
-                    if (isContextProvider(Component15)) {
+                    var Component14 = node.type;
+                    if (isContextProvider(Component14)) {
                       return node.stateNode.__reactInternalMemoizedMergedChildContext;
                     }
                     break;
@@ -11305,10 +11305,10 @@
               pendingLegacyContextWarning = /* @__PURE__ */ new Map();
             };
           }
-          function resolveDefaultProps(Component15, baseProps) {
-            if (Component15 && Component15.defaultProps) {
+          function resolveDefaultProps(Component14, baseProps) {
+            if (Component14 && Component14.defaultProps) {
               var props = assign({}, baseProps);
-              var defaultProps = Component15.defaultProps;
+              var defaultProps = Component14.defaultProps;
               for (var propName in defaultProps) {
                 if (props[propName] === void 0) {
                   props[propName] = defaultProps[propName];
@@ -13560,7 +13560,7 @@
             }
             return true;
           }
-          function renderWithHooks(current2, workInProgress2, Component15, props, secondArg, nextRenderLanes) {
+          function renderWithHooks(current2, workInProgress2, Component14, props, secondArg, nextRenderLanes) {
             renderLanes = nextRenderLanes;
             currentlyRenderingFiber$1 = workInProgress2;
             {
@@ -13580,7 +13580,7 @@
                 ReactCurrentDispatcher$1.current = HooksDispatcherOnMountInDEV;
               }
             }
-            var children = Component15(props, secondArg);
+            var children = Component14(props, secondArg);
             if (didScheduleRenderPhaseUpdateDuringThisPass) {
               var numberOfReRenders = 0;
               do {
@@ -13600,7 +13600,7 @@
                   hookTypesUpdateIndexDev = -1;
                 }
                 ReactCurrentDispatcher$1.current = HooksDispatcherOnRerenderInDEV;
-                children = Component15(props, secondArg);
+                children = Component14(props, secondArg);
               } while (didScheduleRenderPhaseUpdateDuringThisPass);
             }
             ReactCurrentDispatcher$1.current = ContextOnlyDispatcher;
@@ -15699,21 +15699,21 @@
             workInProgress2.child = reconcileChildFibers(workInProgress2, current2.child, null, renderLanes2);
             workInProgress2.child = reconcileChildFibers(workInProgress2, null, nextChildren, renderLanes2);
           }
-          function updateForwardRef(current2, workInProgress2, Component15, nextProps, renderLanes2) {
+          function updateForwardRef(current2, workInProgress2, Component14, nextProps, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
-                var innerPropTypes = Component15.propTypes;
+                var innerPropTypes = Component14.propTypes;
                 if (innerPropTypes) {
                   checkPropTypes(
                     innerPropTypes,
                     nextProps,
                     "prop",
-                    getComponentNameFromType(Component15)
+                    getComponentNameFromType(Component14)
                   );
                 }
               }
             }
-            var render4 = Component15.render;
+            var render4 = Component14.render;
             var ref = workInProgress2.ref;
             var nextChildren;
             var hasId;
@@ -15751,10 +15751,10 @@
             reconcileChildren(current2, workInProgress2, nextChildren, renderLanes2);
             return workInProgress2.child;
           }
-          function updateMemoComponent(current2, workInProgress2, Component15, nextProps, renderLanes2) {
+          function updateMemoComponent(current2, workInProgress2, Component14, nextProps, renderLanes2) {
             if (current2 === null) {
-              var type4 = Component15.type;
-              if (isSimpleFunctionComponent(type4) && Component15.compare === null && Component15.defaultProps === void 0) {
+              var type4 = Component14.type;
+              if (isSimpleFunctionComponent(type4) && Component14.compare === null && Component14.defaultProps === void 0) {
                 var resolvedType = type4;
                 {
                   resolvedType = resolveFunctionForHotReloading(type4);
@@ -15777,14 +15777,14 @@
                   );
                 }
               }
-              var child = createFiberFromTypeAndProps(Component15.type, null, nextProps, workInProgress2, workInProgress2.mode, renderLanes2);
+              var child = createFiberFromTypeAndProps(Component14.type, null, nextProps, workInProgress2, workInProgress2.mode, renderLanes2);
               child.ref = workInProgress2.ref;
               child.return = workInProgress2;
               workInProgress2.child = child;
               return child;
             }
             {
-              var _type = Component15.type;
+              var _type = Component14.type;
               var _innerPropTypes = _type.propTypes;
               if (_innerPropTypes) {
                 checkPropTypes(
@@ -15799,7 +15799,7 @@
             var hasScheduledUpdateOrContext = checkScheduledUpdateOrContext(current2, renderLanes2);
             if (!hasScheduledUpdateOrContext) {
               var prevProps = currentChild.memoizedProps;
-              var compare = Component15.compare;
+              var compare = Component14.compare;
               compare = compare !== null ? compare : shallowEqual3;
               if (compare(prevProps, nextProps) && current2.ref === workInProgress2.ref) {
                 return bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
@@ -15812,7 +15812,7 @@
             workInProgress2.child = newChild;
             return newChild;
           }
-          function updateSimpleMemoComponent(current2, workInProgress2, Component15, nextProps, renderLanes2) {
+          function updateSimpleMemoComponent(current2, workInProgress2, Component14, nextProps, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
                 var outerMemoType = workInProgress2.elementType;
@@ -15850,7 +15850,7 @@
                 }
               }
             }
-            return updateFunctionComponent(current2, workInProgress2, Component15, nextProps, renderLanes2);
+            return updateFunctionComponent(current2, workInProgress2, Component14, nextProps, renderLanes2);
           }
           function updateOffscreenComponent(current2, workInProgress2, renderLanes2) {
             var nextProps = workInProgress2.pendingProps;
@@ -15940,23 +15940,23 @@
               }
             }
           }
-          function updateFunctionComponent(current2, workInProgress2, Component15, nextProps, renderLanes2) {
+          function updateFunctionComponent(current2, workInProgress2, Component14, nextProps, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
-                var innerPropTypes = Component15.propTypes;
+                var innerPropTypes = Component14.propTypes;
                 if (innerPropTypes) {
                   checkPropTypes(
                     innerPropTypes,
                     nextProps,
                     "prop",
-                    getComponentNameFromType(Component15)
+                    getComponentNameFromType(Component14)
                   );
                 }
               }
             }
             var context;
             {
-              var unmaskedContext = getUnmaskedContext(workInProgress2, Component15, true);
+              var unmaskedContext = getUnmaskedContext(workInProgress2, Component14, true);
               context = getMaskedContext(workInProgress2, unmaskedContext);
             }
             var nextChildren;
@@ -15968,12 +15968,12 @@
             {
               ReactCurrentOwner$1.current = workInProgress2;
               setIsRendering(true);
-              nextChildren = renderWithHooks(current2, workInProgress2, Component15, nextProps, context, renderLanes2);
+              nextChildren = renderWithHooks(current2, workInProgress2, Component14, nextProps, context, renderLanes2);
               hasId = checkDidRenderIdHook();
               if (workInProgress2.mode & StrictLegacyMode) {
                 setIsStrictModeForDevtools(true);
                 try {
-                  nextChildren = renderWithHooks(current2, workInProgress2, Component15, nextProps, context, renderLanes2);
+                  nextChildren = renderWithHooks(current2, workInProgress2, Component14, nextProps, context, renderLanes2);
                   hasId = checkDidRenderIdHook();
                 } finally {
                   setIsStrictModeForDevtools(false);
@@ -15995,7 +15995,7 @@
             reconcileChildren(current2, workInProgress2, nextChildren, renderLanes2);
             return workInProgress2.child;
           }
-          function updateClassComponent(current2, workInProgress2, Component15, nextProps, renderLanes2) {
+          function updateClassComponent(current2, workInProgress2, Component14, nextProps, renderLanes2) {
             {
               switch (shouldError(workInProgress2)) {
                 case false: {
@@ -16018,19 +16018,19 @@
                 }
               }
               if (workInProgress2.type !== workInProgress2.elementType) {
-                var innerPropTypes = Component15.propTypes;
+                var innerPropTypes = Component14.propTypes;
                 if (innerPropTypes) {
                   checkPropTypes(
                     innerPropTypes,
                     nextProps,
                     "prop",
-                    getComponentNameFromType(Component15)
+                    getComponentNameFromType(Component14)
                   );
                 }
               }
             }
             var hasContext;
-            if (isContextProvider(Component15)) {
+            if (isContextProvider(Component14)) {
               hasContext = true;
               pushContextProvider(workInProgress2);
             } else {
@@ -16041,15 +16041,15 @@
             var shouldUpdate;
             if (instance === null) {
               resetSuspendedCurrentOnMountInLegacyMode(current2, workInProgress2);
-              constructClassInstance(workInProgress2, Component15, nextProps);
-              mountClassInstance(workInProgress2, Component15, nextProps, renderLanes2);
+              constructClassInstance(workInProgress2, Component14, nextProps);
+              mountClassInstance(workInProgress2, Component14, nextProps, renderLanes2);
               shouldUpdate = true;
             } else if (current2 === null) {
-              shouldUpdate = resumeMountClassInstance(workInProgress2, Component15, nextProps, renderLanes2);
+              shouldUpdate = resumeMountClassInstance(workInProgress2, Component14, nextProps, renderLanes2);
             } else {
-              shouldUpdate = updateClassInstance(current2, workInProgress2, Component15, nextProps, renderLanes2);
+              shouldUpdate = updateClassInstance(current2, workInProgress2, Component14, nextProps, renderLanes2);
             }
-            var nextUnitOfWork = finishClassComponent(current2, workInProgress2, Component15, shouldUpdate, hasContext, renderLanes2);
+            var nextUnitOfWork = finishClassComponent(current2, workInProgress2, Component14, shouldUpdate, hasContext, renderLanes2);
             {
               var inst = workInProgress2.stateNode;
               if (shouldUpdate && inst.props !== nextProps) {
@@ -16061,19 +16061,19 @@
             }
             return nextUnitOfWork;
           }
-          function finishClassComponent(current2, workInProgress2, Component15, shouldUpdate, hasContext, renderLanes2) {
+          function finishClassComponent(current2, workInProgress2, Component14, shouldUpdate, hasContext, renderLanes2) {
             markRef(current2, workInProgress2);
             var didCaptureError = (workInProgress2.flags & DidCapture) !== NoFlags;
             if (!shouldUpdate && !didCaptureError) {
               if (hasContext) {
-                invalidateContextProvider(workInProgress2, Component15, false);
+                invalidateContextProvider(workInProgress2, Component14, false);
               }
               return bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
             }
             var instance = workInProgress2.stateNode;
             ReactCurrentOwner$1.current = workInProgress2;
             var nextChildren;
-            if (didCaptureError && typeof Component15.getDerivedStateFromError !== "function") {
+            if (didCaptureError && typeof Component14.getDerivedStateFromError !== "function") {
               nextChildren = null;
               {
                 stopProfilerTimerIfRunning();
@@ -16107,7 +16107,7 @@
             }
             workInProgress2.memoizedState = instance.state;
             if (hasContext) {
-              invalidateContextProvider(workInProgress2, Component15, true);
+              invalidateContextProvider(workInProgress2, Component14, true);
             }
             return workInProgress2.child;
           }
@@ -16207,44 +16207,44 @@
             var lazyComponent = elementType;
             var payload = lazyComponent._payload;
             var init = lazyComponent._init;
-            var Component15 = init(payload);
-            workInProgress2.type = Component15;
-            var resolvedTag = workInProgress2.tag = resolveLazyComponentTag(Component15);
-            var resolvedProps = resolveDefaultProps(Component15, props);
+            var Component14 = init(payload);
+            workInProgress2.type = Component14;
+            var resolvedTag = workInProgress2.tag = resolveLazyComponentTag(Component14);
+            var resolvedProps = resolveDefaultProps(Component14, props);
             var child;
             switch (resolvedTag) {
               case FunctionComponent: {
                 {
-                  validateFunctionComponentInDev(workInProgress2, Component15);
-                  workInProgress2.type = Component15 = resolveFunctionForHotReloading(Component15);
+                  validateFunctionComponentInDev(workInProgress2, Component14);
+                  workInProgress2.type = Component14 = resolveFunctionForHotReloading(Component14);
                 }
-                child = updateFunctionComponent(null, workInProgress2, Component15, resolvedProps, renderLanes2);
+                child = updateFunctionComponent(null, workInProgress2, Component14, resolvedProps, renderLanes2);
                 return child;
               }
               case ClassComponent: {
                 {
-                  workInProgress2.type = Component15 = resolveClassForHotReloading(Component15);
+                  workInProgress2.type = Component14 = resolveClassForHotReloading(Component14);
                 }
-                child = updateClassComponent(null, workInProgress2, Component15, resolvedProps, renderLanes2);
+                child = updateClassComponent(null, workInProgress2, Component14, resolvedProps, renderLanes2);
                 return child;
               }
               case ForwardRef: {
                 {
-                  workInProgress2.type = Component15 = resolveForwardRefForHotReloading(Component15);
+                  workInProgress2.type = Component14 = resolveForwardRefForHotReloading(Component14);
                 }
-                child = updateForwardRef(null, workInProgress2, Component15, resolvedProps, renderLanes2);
+                child = updateForwardRef(null, workInProgress2, Component14, resolvedProps, renderLanes2);
                 return child;
               }
               case MemoComponent: {
                 {
                   if (workInProgress2.type !== workInProgress2.elementType) {
-                    var outerPropTypes = Component15.propTypes;
+                    var outerPropTypes = Component14.propTypes;
                     if (outerPropTypes) {
                       checkPropTypes(
                         outerPropTypes,
                         resolvedProps,
                         "prop",
-                        getComponentNameFromType(Component15)
+                        getComponentNameFromType(Component14)
                       );
                     }
                   }
@@ -16252,8 +16252,8 @@
                 child = updateMemoComponent(
                   null,
                   workInProgress2,
-                  Component15,
-                  resolveDefaultProps(Component15.type, resolvedProps),
+                  Component14,
+                  resolveDefaultProps(Component14.type, resolvedProps),
                   renderLanes2
                 );
                 return child;
@@ -16261,33 +16261,33 @@
             }
             var hint = "";
             {
-              if (Component15 !== null && typeof Component15 === "object" && Component15.$$typeof === REACT_LAZY_TYPE) {
+              if (Component14 !== null && typeof Component14 === "object" && Component14.$$typeof === REACT_LAZY_TYPE) {
                 hint = " Did you wrap a component in React.lazy() more than once?";
               }
             }
-            throw new Error("Element type is invalid. Received a promise that resolves to: " + Component15 + ". " + ("Lazy element type must resolve to a class or function." + hint));
+            throw new Error("Element type is invalid. Received a promise that resolves to: " + Component14 + ". " + ("Lazy element type must resolve to a class or function." + hint));
           }
-          function mountIncompleteClassComponent(_current, workInProgress2, Component15, nextProps, renderLanes2) {
+          function mountIncompleteClassComponent(_current, workInProgress2, Component14, nextProps, renderLanes2) {
             resetSuspendedCurrentOnMountInLegacyMode(_current, workInProgress2);
             workInProgress2.tag = ClassComponent;
             var hasContext;
-            if (isContextProvider(Component15)) {
+            if (isContextProvider(Component14)) {
               hasContext = true;
               pushContextProvider(workInProgress2);
             } else {
               hasContext = false;
             }
             prepareToReadContext(workInProgress2, renderLanes2);
-            constructClassInstance(workInProgress2, Component15, nextProps);
-            mountClassInstance(workInProgress2, Component15, nextProps, renderLanes2);
-            return finishClassComponent(null, workInProgress2, Component15, true, hasContext, renderLanes2);
+            constructClassInstance(workInProgress2, Component14, nextProps);
+            mountClassInstance(workInProgress2, Component14, nextProps, renderLanes2);
+            return finishClassComponent(null, workInProgress2, Component14, true, hasContext, renderLanes2);
           }
-          function mountIndeterminateComponent(_current, workInProgress2, Component15, renderLanes2) {
+          function mountIndeterminateComponent(_current, workInProgress2, Component14, renderLanes2) {
             resetSuspendedCurrentOnMountInLegacyMode(_current, workInProgress2);
             var props = workInProgress2.pendingProps;
             var context;
             {
-              var unmaskedContext = getUnmaskedContext(workInProgress2, Component15, false);
+              var unmaskedContext = getUnmaskedContext(workInProgress2, Component14, false);
               context = getMaskedContext(workInProgress2, unmaskedContext);
             }
             prepareToReadContext(workInProgress2, renderLanes2);
@@ -16297,8 +16297,8 @@
               markComponentRenderStarted(workInProgress2);
             }
             {
-              if (Component15.prototype && typeof Component15.prototype.render === "function") {
-                var componentName = getComponentNameFromType(Component15) || "Unknown";
+              if (Component14.prototype && typeof Component14.prototype.render === "function") {
+                var componentName = getComponentNameFromType(Component14) || "Unknown";
                 if (!didWarnAboutBadClass[componentName]) {
                   error("The <%s /> component appears to have a render method, but doesn't extend React.Component. This is likely to cause errors. Change %s to extend React.Component instead.", componentName, componentName);
                   didWarnAboutBadClass[componentName] = true;
@@ -16309,7 +16309,7 @@
               }
               setIsRendering(true);
               ReactCurrentOwner$1.current = workInProgress2;
-              value = renderWithHooks(null, workInProgress2, Component15, props, context, renderLanes2);
+              value = renderWithHooks(null, workInProgress2, Component14, props, context, renderLanes2);
               hasId = checkDidRenderIdHook();
               setIsRendering(false);
             }
@@ -16319,7 +16319,7 @@
             workInProgress2.flags |= PerformedWork;
             {
               if (typeof value === "object" && value !== null && typeof value.render === "function" && value.$$typeof === void 0) {
-                var _componentName = getComponentNameFromType(Component15) || "Unknown";
+                var _componentName = getComponentNameFromType(Component14) || "Unknown";
                 if (!didWarnAboutModulePatternComponent[_componentName]) {
                   error("The <%s /> component appears to be a function component that returns a class instance. Change %s to a class that extends React.Component instead. If you can't use a class try assigning the prototype on the function as a workaround. `%s.prototype = React.Component.prototype`. Don't use an arrow function since it cannot be called with `new` by React.", _componentName, _componentName, _componentName);
                   didWarnAboutModulePatternComponent[_componentName] = true;
@@ -16328,7 +16328,7 @@
             }
             if (typeof value === "object" && value !== null && typeof value.render === "function" && value.$$typeof === void 0) {
               {
-                var _componentName2 = getComponentNameFromType(Component15) || "Unknown";
+                var _componentName2 = getComponentNameFromType(Component14) || "Unknown";
                 if (!didWarnAboutModulePatternComponent[_componentName2]) {
                   error("The <%s /> component appears to be a function component that returns a class instance. Change %s to a class that extends React.Component instead. If you can't use a class try assigning the prototype on the function as a workaround. `%s.prototype = React.Component.prototype`. Don't use an arrow function since it cannot be called with `new` by React.", _componentName2, _componentName2, _componentName2);
                   didWarnAboutModulePatternComponent[_componentName2] = true;
@@ -16338,7 +16338,7 @@
               workInProgress2.memoizedState = null;
               workInProgress2.updateQueue = null;
               var hasContext = false;
-              if (isContextProvider(Component15)) {
+              if (isContextProvider(Component14)) {
                 hasContext = true;
                 pushContextProvider(workInProgress2);
               } else {
@@ -16347,15 +16347,15 @@
               workInProgress2.memoizedState = value.state !== null && value.state !== void 0 ? value.state : null;
               initializeUpdateQueue(workInProgress2);
               adoptClassInstance(workInProgress2, value);
-              mountClassInstance(workInProgress2, Component15, props, renderLanes2);
-              return finishClassComponent(null, workInProgress2, Component15, true, hasContext, renderLanes2);
+              mountClassInstance(workInProgress2, Component14, props, renderLanes2);
+              return finishClassComponent(null, workInProgress2, Component14, true, hasContext, renderLanes2);
             } else {
               workInProgress2.tag = FunctionComponent;
               {
                 if (workInProgress2.mode & StrictLegacyMode) {
                   setIsStrictModeForDevtools(true);
                   try {
-                    value = renderWithHooks(null, workInProgress2, Component15, props, context, renderLanes2);
+                    value = renderWithHooks(null, workInProgress2, Component14, props, context, renderLanes2);
                     hasId = checkDidRenderIdHook();
                   } finally {
                     setIsStrictModeForDevtools(false);
@@ -16367,16 +16367,16 @@
               }
               reconcileChildren(null, workInProgress2, value, renderLanes2);
               {
-                validateFunctionComponentInDev(workInProgress2, Component15);
+                validateFunctionComponentInDev(workInProgress2, Component14);
               }
               return workInProgress2.child;
             }
           }
-          function validateFunctionComponentInDev(workInProgress2, Component15) {
+          function validateFunctionComponentInDev(workInProgress2, Component14) {
             {
-              if (Component15) {
-                if (Component15.childContextTypes) {
-                  error("%s(...): childContextTypes cannot be defined on a function component.", Component15.displayName || Component15.name || "Component");
+              if (Component14) {
+                if (Component14.childContextTypes) {
+                  error("%s(...): childContextTypes cannot be defined on a function component.", Component14.displayName || Component14.name || "Component");
                 }
               }
               if (workInProgress2.ref !== null) {
@@ -16395,15 +16395,15 @@
                   error("Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?%s", info);
                 }
               }
-              if (typeof Component15.getDerivedStateFromProps === "function") {
-                var _componentName3 = getComponentNameFromType(Component15) || "Unknown";
+              if (typeof Component14.getDerivedStateFromProps === "function") {
+                var _componentName3 = getComponentNameFromType(Component14) || "Unknown";
                 if (!didWarnAboutGetDerivedStateOnFunctionComponent[_componentName3]) {
                   error("%s: Function components do not support getDerivedStateFromProps.", _componentName3);
                   didWarnAboutGetDerivedStateOnFunctionComponent[_componentName3] = true;
                 }
               }
-              if (typeof Component15.contextType === "object" && Component15.contextType !== null) {
-                var _componentName4 = getComponentNameFromType(Component15) || "Unknown";
+              if (typeof Component14.contextType === "object" && Component14.contextType !== null) {
+                var _componentName4 = getComponentNameFromType(Component14) || "Unknown";
                 if (!didWarnAboutContextTypeOnFunctionComponent[_componentName4]) {
                   error("%s: Function components do not support contextType.", _componentName4);
                   didWarnAboutContextTypeOnFunctionComponent[_componentName4] = true;
@@ -17146,8 +17146,8 @@
                 pushHostContext(workInProgress2);
                 break;
               case ClassComponent: {
-                var Component15 = workInProgress2.type;
-                if (isContextProvider(Component15)) {
+                var Component14 = workInProgress2.type;
+                if (isContextProvider(Component14)) {
                   pushContextProvider(workInProgress2);
                 }
                 break;
@@ -17271,10 +17271,10 @@
                 return mountLazyComponent(current2, workInProgress2, elementType, renderLanes2);
               }
               case FunctionComponent: {
-                var Component15 = workInProgress2.type;
+                var Component14 = workInProgress2.type;
                 var unresolvedProps = workInProgress2.pendingProps;
-                var resolvedProps = workInProgress2.elementType === Component15 ? unresolvedProps : resolveDefaultProps(Component15, unresolvedProps);
-                return updateFunctionComponent(current2, workInProgress2, Component15, resolvedProps, renderLanes2);
+                var resolvedProps = workInProgress2.elementType === Component14 ? unresolvedProps : resolveDefaultProps(Component14, unresolvedProps);
+                return updateFunctionComponent(current2, workInProgress2, Component14, resolvedProps, renderLanes2);
               }
               case ClassComponent: {
                 var _Component = workInProgress2.type;
@@ -17578,8 +17578,8 @@
                 bubbleProperties(workInProgress2);
                 return null;
               case ClassComponent: {
-                var Component15 = workInProgress2.type;
-                if (isContextProvider(Component15)) {
+                var Component14 = workInProgress2.type;
+                if (isContextProvider(Component14)) {
                   popContext(workInProgress2);
                 }
                 bubbleProperties(workInProgress2);
@@ -17887,8 +17887,8 @@
             popTreeContext(workInProgress2);
             switch (workInProgress2.tag) {
               case ClassComponent: {
-                var Component15 = workInProgress2.type;
-                if (isContextProvider(Component15)) {
+                var Component14 = workInProgress2.type;
+                if (isContextProvider(Component14)) {
                   popContext(workInProgress2);
                 }
                 var flags = workInProgress2.flags;
@@ -21540,18 +21540,18 @@
           var createFiber = function(tag, pendingProps, key2, mode) {
             return new FiberNode(tag, pendingProps, key2, mode);
           };
-          function shouldConstruct$1(Component15) {
-            var prototype = Component15.prototype;
+          function shouldConstruct$1(Component14) {
+            var prototype = Component14.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function isSimpleFunctionComponent(type4) {
             return typeof type4 === "function" && !shouldConstruct$1(type4) && type4.defaultProps === void 0;
           }
-          function resolveLazyComponentTag(Component15) {
-            if (typeof Component15 === "function") {
-              return shouldConstruct$1(Component15) ? ClassComponent : FunctionComponent;
-            } else if (Component15 !== void 0 && Component15 !== null) {
-              var $$typeof = Component15.$$typeof;
+          function resolveLazyComponentTag(Component14) {
+            if (typeof Component14 === "function") {
+              return shouldConstruct$1(Component14) ? ClassComponent : FunctionComponent;
+            } else if (Component14 !== void 0 && Component14 !== null) {
+              var $$typeof = Component14.$$typeof;
               if ($$typeof === REACT_FORWARD_REF_TYPE) {
                 return ForwardRef;
               }
@@ -21985,9 +21985,9 @@
             var fiber = get2(parentComponent);
             var parentContext = findCurrentUnmaskedContext(fiber);
             if (fiber.tag === ClassComponent) {
-              var Component15 = fiber.type;
-              if (isContextProvider(Component15)) {
-                return processChildContext(fiber, Component15, parentContext);
+              var Component14 = fiber.type;
+              if (isContextProvider(Component14)) {
+                return processChildContext(fiber, Component14, parentContext);
               }
             }
             return parentContext;
@@ -25020,8 +25020,8 @@
               return describeNativeComponentFrame(fn, false);
             }
           }
-          function shouldConstruct(Component15) {
-            var prototype = Component15.prototype;
+          function shouldConstruct(Component14) {
+            var prototype = Component14.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function describeUnknownElementTypeFrameInDEV(type4, source, ownerFn) {
@@ -25545,7 +25545,7 @@
   var import_client = __toESM(require_client(), 1);
 
   // src/app/App.tsx
-  var import_react27 = __toESM(require_react(), 1);
+  var import_react28 = __toESM(require_react(), 1);
 
   // node_modules/react-router-dom/dist/index.js
   var React2 = __toESM(require_react());
@@ -31537,7 +31537,7 @@
   // node_modules/rc-field-form/es/Form.js
   var _excluded6 = ["name", "initialValues", "fields", "form", "preserve", "children", "component", "validateMessages", "validateTrigger", "onValuesChange", "onFieldsChange", "onFinish", "onFinishFailed"];
   var Form2 = function Form3(_ref, ref) {
-    var name = _ref.name, initialValues = _ref.initialValues, fields = _ref.fields, form = _ref.form, preserve = _ref.preserve, children = _ref.children, _ref$component = _ref.component, Component15 = _ref$component === void 0 ? "form" : _ref$component, validateMessages = _ref.validateMessages, _ref$validateTrigger = _ref.validateTrigger, validateTrigger = _ref$validateTrigger === void 0 ? "onChange" : _ref$validateTrigger, onValuesChange = _ref.onValuesChange, _onFieldsChange = _ref.onFieldsChange, _onFinish = _ref.onFinish, onFinishFailed = _ref.onFinishFailed, restProps = _objectWithoutProperties(_ref, _excluded6);
+    var name = _ref.name, initialValues = _ref.initialValues, fields = _ref.fields, form = _ref.form, preserve = _ref.preserve, children = _ref.children, _ref$component = _ref.component, Component14 = _ref$component === void 0 ? "form" : _ref$component, validateMessages = _ref.validateMessages, _ref$validateTrigger = _ref.validateTrigger, validateTrigger = _ref$validateTrigger === void 0 ? "onChange" : _ref$validateTrigger, onValuesChange = _ref.onValuesChange, _onFieldsChange = _ref.onFieldsChange, _onFinish = _ref.onFinish, onFinishFailed = _ref.onFinishFailed, restProps = _objectWithoutProperties(_ref, _excluded6);
     var formContext = React16.useContext(FormContext_default);
     var _useForm = useForm_default(form), _useForm2 = _slicedToArray(_useForm, 1), formInstance = _useForm2[0];
     var _formInstance$getInte = formInstance.getInternalHooks(HOOK_MARK), useSubscribe = _formInstance$getInte.useSubscribe, setInitialValues = _formInstance$getInte.setInitialValues, setCallbacks = _formInstance$getInte.setCallbacks, setValidateMessages = _formInstance$getInte.setValidateMessages, setPreserve = _formInstance$getInte.setPreserve, destroyForm = _formInstance$getInte.destroyForm;
@@ -31606,10 +31606,10 @@
     var wrapperNode = /* @__PURE__ */ React16.createElement(FieldContext_default.Provider, {
       value: formContextValue
     }, childrenNode);
-    if (Component15 === false) {
+    if (Component14 === false) {
       return wrapperNode;
     }
-    return /* @__PURE__ */ React16.createElement(Component15, _extends4({}, restProps, {
+    return /* @__PURE__ */ React16.createElement(Component14, _extends4({}, restProps, {
       onSubmit: function onSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -34247,14 +34247,14 @@
           var _this2 = this;
           var keyEntities = this.state.keyEntities;
           var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, onAllRemoved = _this$props.onAllRemoved, restProps = _objectWithoutProperties(_this$props, _excluded9);
-          var Component15 = component || React34.Fragment;
+          var Component14 = component || React34.Fragment;
           var motionProps = {};
           MOTION_PROP_NAMES.forEach(function(prop) {
             motionProps[prop] = restProps[prop];
             delete restProps[prop];
           });
           delete restProps.keys;
-          return /* @__PURE__ */ React34.createElement(Component15, restProps, keyEntities.map(function(_ref2) {
+          return /* @__PURE__ */ React34.createElement(Component14, restProps, keyEntities.map(function(_ref2) {
             var status = _ref2.status, eventProps = _objectWithoutProperties(_ref2, _excluded22);
             var visible = status === STATUS_ADD || status === STATUS_KEEP;
             return /* @__PURE__ */ React34.createElement(CSSMotion, _extends4({}, motionProps, {
@@ -38072,7 +38072,7 @@
   var _excluded12 = ["prefixCls", "invalidate", "item", "renderItem", "responsive", "responsiveDisabled", "registerSize", "itemKey", "className", "style", "children", "display", "order", "component"];
   var UNDEFINED = void 0;
   function InternalItem(props, ref) {
-    var prefixCls = props.prefixCls, invalidate = props.invalidate, item = props.item, renderItem = props.renderItem, responsive = props.responsive, responsiveDisabled = props.responsiveDisabled, registerSize = props.registerSize, itemKey = props.itemKey, className = props.className, style2 = props.style, children = props.children, display = props.display, order = props.order, _props$component = props.component, Component15 = _props$component === void 0 ? "div" : _props$component, restProps = _objectWithoutProperties(props, _excluded12);
+    var prefixCls = props.prefixCls, invalidate = props.invalidate, item = props.item, renderItem = props.renderItem, responsive = props.responsive, responsiveDisabled = props.responsiveDisabled, registerSize = props.registerSize, itemKey = props.itemKey, className = props.className, style2 = props.style, children = props.children, display = props.display, order = props.order, _props$component = props.component, Component14 = _props$component === void 0 ? "div" : _props$component, restProps = _objectWithoutProperties(props, _excluded12);
     var mergedHidden = responsive && !display;
     function internalRegisterSize(width) {
       registerSize(itemKey, width);
@@ -38098,7 +38098,7 @@
     if (mergedHidden) {
       overflowProps["aria-hidden"] = true;
     }
-    var itemNode = /* @__PURE__ */ React64.createElement(Component15, _extends4({
+    var itemNode = /* @__PURE__ */ React64.createElement(Component14, _extends4({
       className: (0, import_classnames11.default)(!invalidate && prefixCls, className),
       style: _objectSpread2(_objectSpread2({}, overflowStyle), style2)
     }, overflowProps, restProps, {
@@ -38154,8 +38154,8 @@
   var InternalRawItem = function InternalRawItem2(props, ref) {
     var context = React65.useContext(OverflowContext);
     if (!context) {
-      var _props$component = props.component, Component15 = _props$component === void 0 ? "div" : _props$component, _restProps = _objectWithoutProperties(props, _excluded13);
-      return /* @__PURE__ */ React65.createElement(Component15, _extends4({}, _restProps, {
+      var _props$component = props.component, Component14 = _props$component === void 0 ? "div" : _props$component, _restProps = _objectWithoutProperties(props, _excluded13);
+      return /* @__PURE__ */ React65.createElement(Component14, _extends4({}, _restProps, {
         ref
       }));
     }
@@ -38181,7 +38181,7 @@
     return "+ ".concat(omittedItems.length, " ...");
   }
   function Overflow(props, ref) {
-    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-overflow" : _props$prefixCls, _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, renderItem = props.renderItem, renderRawItem = props.renderRawItem, itemKey = props.itemKey, _props$itemWidth = props.itemWidth, itemWidth = _props$itemWidth === void 0 ? 10 : _props$itemWidth, ssr = props.ssr, style2 = props.style, className = props.className, maxCount3 = props.maxCount, renderRest = props.renderRest, renderRawRest = props.renderRawRest, suffix = props.suffix, _props$component = props.component, Component15 = _props$component === void 0 ? "div" : _props$component, itemComponent = props.itemComponent, onVisibleChange = props.onVisibleChange, restProps = _objectWithoutProperties(props, _excluded14);
+    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-overflow" : _props$prefixCls, _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, renderItem = props.renderItem, renderRawItem = props.renderRawItem, itemKey = props.itemKey, _props$itemWidth = props.itemWidth, itemWidth = _props$itemWidth === void 0 ? 10 : _props$itemWidth, ssr = props.ssr, style2 = props.style, className = props.className, maxCount3 = props.maxCount, renderRest = props.renderRest, renderRawRest = props.renderRawRest, suffix = props.suffix, _props$component = props.component, Component14 = _props$component === void 0 ? "div" : _props$component, itemComponent = props.itemComponent, onVisibleChange = props.onVisibleChange, restProps = _objectWithoutProperties(props, _excluded14);
     var createUseState = useBatchFrameState();
     var fullySSR = ssr === "full";
     var _createUseState = createUseState(null), _createUseState2 = _slicedToArray(_createUseState, 2), containerWidth = _createUseState2[0], setContainerWidth = _createUseState2[1];
@@ -38357,7 +38357,7 @@
         value: _objectSpread2(_objectSpread2({}, itemSharedProps), restContextProps)
       }, renderRawRest(omittedItems));
     }
-    var overflowNode = /* @__PURE__ */ React66.createElement(Component15, _extends4({
+    var overflowNode = /* @__PURE__ */ React66.createElement(Component14, _extends4({
       className: (0, import_classnames13.default)(!invalidate && prefixCls, className),
       style: style2,
       ref
@@ -40990,693 +40990,12 @@
   }
 
   // src/page/Index.tsx
-  var import_react26 = __toESM(require_react(), 1);
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var Index = class extends import_react26.Component {
-    render() {
-      return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
-        id: "container",
-        children: "Index"
-      });
-    }
-  };
-
-  // node_modules/@tweenjs/tween.js/dist/tween.esm.js
-  var Easing = {
-    Linear: {
-      None: function(amount) {
-        return amount;
-      }
-    },
-    Quadratic: {
-      In: function(amount) {
-        return amount * amount;
-      },
-      Out: function(amount) {
-        return amount * (2 - amount);
-      },
-      InOut: function(amount) {
-        if ((amount *= 2) < 1) {
-          return 0.5 * amount * amount;
-        }
-        return -0.5 * (--amount * (amount - 2) - 1);
-      }
-    },
-    Cubic: {
-      In: function(amount) {
-        return amount * amount * amount;
-      },
-      Out: function(amount) {
-        return --amount * amount * amount + 1;
-      },
-      InOut: function(amount) {
-        if ((amount *= 2) < 1) {
-          return 0.5 * amount * amount * amount;
-        }
-        return 0.5 * ((amount -= 2) * amount * amount + 2);
-      }
-    },
-    Quartic: {
-      In: function(amount) {
-        return amount * amount * amount * amount;
-      },
-      Out: function(amount) {
-        return 1 - --amount * amount * amount * amount;
-      },
-      InOut: function(amount) {
-        if ((amount *= 2) < 1) {
-          return 0.5 * amount * amount * amount * amount;
-        }
-        return -0.5 * ((amount -= 2) * amount * amount * amount - 2);
-      }
-    },
-    Quintic: {
-      In: function(amount) {
-        return amount * amount * amount * amount * amount;
-      },
-      Out: function(amount) {
-        return --amount * amount * amount * amount * amount + 1;
-      },
-      InOut: function(amount) {
-        if ((amount *= 2) < 1) {
-          return 0.5 * amount * amount * amount * amount * amount;
-        }
-        return 0.5 * ((amount -= 2) * amount * amount * amount * amount + 2);
-      }
-    },
-    Sinusoidal: {
-      In: function(amount) {
-        return 1 - Math.cos(amount * Math.PI / 2);
-      },
-      Out: function(amount) {
-        return Math.sin(amount * Math.PI / 2);
-      },
-      InOut: function(amount) {
-        return 0.5 * (1 - Math.cos(Math.PI * amount));
-      }
-    },
-    Exponential: {
-      In: function(amount) {
-        return amount === 0 ? 0 : Math.pow(1024, amount - 1);
-      },
-      Out: function(amount) {
-        return amount === 1 ? 1 : 1 - Math.pow(2, -10 * amount);
-      },
-      InOut: function(amount) {
-        if (amount === 0) {
-          return 0;
-        }
-        if (amount === 1) {
-          return 1;
-        }
-        if ((amount *= 2) < 1) {
-          return 0.5 * Math.pow(1024, amount - 1);
-        }
-        return 0.5 * (-Math.pow(2, -10 * (amount - 1)) + 2);
-      }
-    },
-    Circular: {
-      In: function(amount) {
-        return 1 - Math.sqrt(1 - amount * amount);
-      },
-      Out: function(amount) {
-        return Math.sqrt(1 - --amount * amount);
-      },
-      InOut: function(amount) {
-        if ((amount *= 2) < 1) {
-          return -0.5 * (Math.sqrt(1 - amount * amount) - 1);
-        }
-        return 0.5 * (Math.sqrt(1 - (amount -= 2) * amount) + 1);
-      }
-    },
-    Elastic: {
-      In: function(amount) {
-        if (amount === 0) {
-          return 0;
-        }
-        if (amount === 1) {
-          return 1;
-        }
-        return -Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
-      },
-      Out: function(amount) {
-        if (amount === 0) {
-          return 0;
-        }
-        if (amount === 1) {
-          return 1;
-        }
-        return Math.pow(2, -10 * amount) * Math.sin((amount - 0.1) * 5 * Math.PI) + 1;
-      },
-      InOut: function(amount) {
-        if (amount === 0) {
-          return 0;
-        }
-        if (amount === 1) {
-          return 1;
-        }
-        amount *= 2;
-        if (amount < 1) {
-          return -0.5 * Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
-        }
-        return 0.5 * Math.pow(2, -10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI) + 1;
-      }
-    },
-    Back: {
-      In: function(amount) {
-        var s = 1.70158;
-        return amount * amount * ((s + 1) * amount - s);
-      },
-      Out: function(amount) {
-        var s = 1.70158;
-        return --amount * amount * ((s + 1) * amount + s) + 1;
-      },
-      InOut: function(amount) {
-        var s = 1.70158 * 1.525;
-        if ((amount *= 2) < 1) {
-          return 0.5 * (amount * amount * ((s + 1) * amount - s));
-        }
-        return 0.5 * ((amount -= 2) * amount * ((s + 1) * amount + s) + 2);
-      }
-    },
-    Bounce: {
-      In: function(amount) {
-        return 1 - Easing.Bounce.Out(1 - amount);
-      },
-      Out: function(amount) {
-        if (amount < 1 / 2.75) {
-          return 7.5625 * amount * amount;
-        } else if (amount < 2 / 2.75) {
-          return 7.5625 * (amount -= 1.5 / 2.75) * amount + 0.75;
-        } else if (amount < 2.5 / 2.75) {
-          return 7.5625 * (amount -= 2.25 / 2.75) * amount + 0.9375;
-        } else {
-          return 7.5625 * (amount -= 2.625 / 2.75) * amount + 0.984375;
-        }
-      },
-      InOut: function(amount) {
-        if (amount < 0.5) {
-          return Easing.Bounce.In(amount * 2) * 0.5;
-        }
-        return Easing.Bounce.Out(amount * 2 - 1) * 0.5 + 0.5;
-      }
-    }
-  };
-  var now2;
-  if (typeof self === "undefined" && typeof process !== "undefined" && process.hrtime) {
-    now2 = function() {
-      var time = process.hrtime();
-      return time[0] * 1e3 + time[1] / 1e6;
-    };
-  } else if (typeof self !== "undefined" && self.performance !== void 0 && self.performance.now !== void 0) {
-    now2 = self.performance.now.bind(self.performance);
-  } else if (Date.now !== void 0) {
-    now2 = Date.now;
-  } else {
-    now2 = function() {
-      return new Date().getTime();
-    };
-  }
-  var now$1 = now2;
-  var Group = function() {
-    function Group3() {
-      this._tweens = {};
-      this._tweensAddedDuringUpdate = {};
-    }
-    Group3.prototype.getAll = function() {
-      var _this = this;
-      return Object.keys(this._tweens).map(function(tweenId) {
-        return _this._tweens[tweenId];
-      });
-    };
-    Group3.prototype.removeAll = function() {
-      this._tweens = {};
-    };
-    Group3.prototype.add = function(tween) {
-      this._tweens[tween.getId()] = tween;
-      this._tweensAddedDuringUpdate[tween.getId()] = tween;
-    };
-    Group3.prototype.remove = function(tween) {
-      delete this._tweens[tween.getId()];
-      delete this._tweensAddedDuringUpdate[tween.getId()];
-    };
-    Group3.prototype.update = function(time, preserve) {
-      if (time === void 0) {
-        time = now$1();
-      }
-      if (preserve === void 0) {
-        preserve = false;
-      }
-      var tweenIds = Object.keys(this._tweens);
-      if (tweenIds.length === 0) {
-        return false;
-      }
-      while (tweenIds.length > 0) {
-        this._tweensAddedDuringUpdate = {};
-        for (var i = 0; i < tweenIds.length; i++) {
-          var tween = this._tweens[tweenIds[i]];
-          var autoStart = !preserve;
-          if (tween && tween.update(time, autoStart) === false && !preserve) {
-            delete this._tweens[tweenIds[i]];
-          }
-        }
-        tweenIds = Object.keys(this._tweensAddedDuringUpdate);
-      }
-      return true;
-    };
-    return Group3;
-  }();
-  var Interpolation = {
-    Linear: function(v, k) {
-      var m = v.length - 1;
-      var f = m * k;
-      var i = Math.floor(f);
-      var fn = Interpolation.Utils.Linear;
-      if (k < 0) {
-        return fn(v[0], v[1], f);
-      }
-      if (k > 1) {
-        return fn(v[m], v[m - 1], m - f);
-      }
-      return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
-    },
-    Bezier: function(v, k) {
-      var b = 0;
-      var n = v.length - 1;
-      var pw = Math.pow;
-      var bn = Interpolation.Utils.Bernstein;
-      for (var i = 0; i <= n; i++) {
-        b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
-      }
-      return b;
-    },
-    CatmullRom: function(v, k) {
-      var m = v.length - 1;
-      var f = m * k;
-      var i = Math.floor(f);
-      var fn = Interpolation.Utils.CatmullRom;
-      if (v[0] === v[m]) {
-        if (k < 0) {
-          i = Math.floor(f = m * (1 + k));
-        }
-        return fn(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
-      } else {
-        if (k < 0) {
-          return v[0] - (fn(v[0], v[0], v[1], v[1], -f) - v[0]);
-        }
-        if (k > 1) {
-          return v[m] - (fn(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
-        }
-        return fn(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
-      }
-    },
-    Utils: {
-      Linear: function(p0, p1, t) {
-        return (p1 - p0) * t + p0;
-      },
-      Bernstein: function(n, i) {
-        var fc = Interpolation.Utils.Factorial;
-        return fc(n) / fc(i) / fc(n - i);
-      },
-      Factorial: function() {
-        var a = [1];
-        return function(n) {
-          var s = 1;
-          if (a[n]) {
-            return a[n];
-          }
-          for (var i = n; i > 1; i--) {
-            s *= i;
-          }
-          a[n] = s;
-          return s;
-        };
-      }(),
-      CatmullRom: function(p0, p1, p2, p3, t) {
-        var v0 = (p2 - p0) * 0.5;
-        var v1 = (p3 - p1) * 0.5;
-        var t2 = t * t;
-        var t3 = t * t2;
-        return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
-      }
-    }
-  };
-  var Sequence = function() {
-    function Sequence2() {
-    }
-    Sequence2.nextId = function() {
-      return Sequence2._nextId++;
-    };
-    Sequence2._nextId = 0;
-    return Sequence2;
-  }();
-  var mainGroup = new Group();
-  var Tween = function() {
-    function Tween2(_object, _group) {
-      if (_group === void 0) {
-        _group = mainGroup;
-      }
-      this._object = _object;
-      this._group = _group;
-      this._isPaused = false;
-      this._pauseStart = 0;
-      this._valuesStart = {};
-      this._valuesEnd = {};
-      this._valuesStartRepeat = {};
-      this._duration = 1e3;
-      this._initialRepeat = 0;
-      this._repeat = 0;
-      this._yoyo = false;
-      this._isPlaying = false;
-      this._reversed = false;
-      this._delayTime = 0;
-      this._startTime = 0;
-      this._easingFunction = Easing.Linear.None;
-      this._interpolationFunction = Interpolation.Linear;
-      this._chainedTweens = [];
-      this._onStartCallbackFired = false;
-      this._id = Sequence.nextId();
-      this._isChainStopped = false;
-      this._goToEnd = false;
-    }
-    Tween2.prototype.getId = function() {
-      return this._id;
-    };
-    Tween2.prototype.isPlaying = function() {
-      return this._isPlaying;
-    };
-    Tween2.prototype.isPaused = function() {
-      return this._isPaused;
-    };
-    Tween2.prototype.to = function(properties, duration) {
-      this._valuesEnd = Object.create(properties);
-      if (duration !== void 0) {
-        this._duration = duration;
-      }
-      return this;
-    };
-    Tween2.prototype.duration = function(d) {
-      this._duration = d;
-      return this;
-    };
-    Tween2.prototype.start = function(time) {
-      if (this._isPlaying) {
-        return this;
-      }
-      this._group && this._group.add(this);
-      this._repeat = this._initialRepeat;
-      if (this._reversed) {
-        this._reversed = false;
-        for (var property in this._valuesStartRepeat) {
-          this._swapEndStartRepeatValues(property);
-          this._valuesStart[property] = this._valuesStartRepeat[property];
-        }
-      }
-      this._isPlaying = true;
-      this._isPaused = false;
-      this._onStartCallbackFired = false;
-      this._isChainStopped = false;
-      this._startTime = time !== void 0 ? typeof time === "string" ? now$1() + parseFloat(time) : time : now$1();
-      this._startTime += this._delayTime;
-      this._setupProperties(this._object, this._valuesStart, this._valuesEnd, this._valuesStartRepeat);
-      return this;
-    };
-    Tween2.prototype._setupProperties = function(_object, _valuesStart, _valuesEnd, _valuesStartRepeat) {
-      for (var property in _valuesEnd) {
-        var startValue = _object[property];
-        var startValueIsArray = Array.isArray(startValue);
-        var propType = startValueIsArray ? "array" : typeof startValue;
-        var isInterpolationList = !startValueIsArray && Array.isArray(_valuesEnd[property]);
-        if (propType === "undefined" || propType === "function") {
-          continue;
-        }
-        if (isInterpolationList) {
-          var endValues = _valuesEnd[property];
-          if (endValues.length === 0) {
-            continue;
-          }
-          endValues = endValues.map(this._handleRelativeValue.bind(this, startValue));
-          _valuesEnd[property] = [startValue].concat(endValues);
-        }
-        if ((propType === "object" || startValueIsArray) && startValue && !isInterpolationList) {
-          _valuesStart[property] = startValueIsArray ? [] : {};
-          for (var prop in startValue) {
-            _valuesStart[property][prop] = startValue[prop];
-          }
-          _valuesStartRepeat[property] = startValueIsArray ? [] : {};
-          this._setupProperties(startValue, _valuesStart[property], _valuesEnd[property], _valuesStartRepeat[property]);
-        } else {
-          if (typeof _valuesStart[property] === "undefined") {
-            _valuesStart[property] = startValue;
-          }
-          if (!startValueIsArray) {
-            _valuesStart[property] *= 1;
-          }
-          if (isInterpolationList) {
-            _valuesStartRepeat[property] = _valuesEnd[property].slice().reverse();
-          } else {
-            _valuesStartRepeat[property] = _valuesStart[property] || 0;
-          }
-        }
-      }
-    };
-    Tween2.prototype.stop = function() {
-      if (!this._isChainStopped) {
-        this._isChainStopped = true;
-        this.stopChainedTweens();
-      }
-      if (!this._isPlaying) {
-        return this;
-      }
-      this._group && this._group.remove(this);
-      this._isPlaying = false;
-      this._isPaused = false;
-      if (this._onStopCallback) {
-        this._onStopCallback(this._object);
-      }
-      return this;
-    };
-    Tween2.prototype.end = function() {
-      this._goToEnd = true;
-      this.update(Infinity);
-      return this;
-    };
-    Tween2.prototype.pause = function(time) {
-      if (time === void 0) {
-        time = now$1();
-      }
-      if (this._isPaused || !this._isPlaying) {
-        return this;
-      }
-      this._isPaused = true;
-      this._pauseStart = time;
-      this._group && this._group.remove(this);
-      return this;
-    };
-    Tween2.prototype.resume = function(time) {
-      if (time === void 0) {
-        time = now$1();
-      }
-      if (!this._isPaused || !this._isPlaying) {
-        return this;
-      }
-      this._isPaused = false;
-      this._startTime += time - this._pauseStart;
-      this._pauseStart = 0;
-      this._group && this._group.add(this);
-      return this;
-    };
-    Tween2.prototype.stopChainedTweens = function() {
-      for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
-        this._chainedTweens[i].stop();
-      }
-      return this;
-    };
-    Tween2.prototype.group = function(group) {
-      this._group = group;
-      return this;
-    };
-    Tween2.prototype.delay = function(amount) {
-      this._delayTime = amount;
-      return this;
-    };
-    Tween2.prototype.repeat = function(times) {
-      this._initialRepeat = times;
-      this._repeat = times;
-      return this;
-    };
-    Tween2.prototype.repeatDelay = function(amount) {
-      this._repeatDelayTime = amount;
-      return this;
-    };
-    Tween2.prototype.yoyo = function(yoyo) {
-      this._yoyo = yoyo;
-      return this;
-    };
-    Tween2.prototype.easing = function(easingFunction) {
-      this._easingFunction = easingFunction;
-      return this;
-    };
-    Tween2.prototype.interpolation = function(interpolationFunction) {
-      this._interpolationFunction = interpolationFunction;
-      return this;
-    };
-    Tween2.prototype.chain = function() {
-      var tweens = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        tweens[_i] = arguments[_i];
-      }
-      this._chainedTweens = tweens;
-      return this;
-    };
-    Tween2.prototype.onStart = function(callback) {
-      this._onStartCallback = callback;
-      return this;
-    };
-    Tween2.prototype.onUpdate = function(callback) {
-      this._onUpdateCallback = callback;
-      return this;
-    };
-    Tween2.prototype.onRepeat = function(callback) {
-      this._onRepeatCallback = callback;
-      return this;
-    };
-    Tween2.prototype.onComplete = function(callback) {
-      this._onCompleteCallback = callback;
-      return this;
-    };
-    Tween2.prototype.onStop = function(callback) {
-      this._onStopCallback = callback;
-      return this;
-    };
-    Tween2.prototype.update = function(time, autoStart) {
-      if (time === void 0) {
-        time = now$1();
-      }
-      if (autoStart === void 0) {
-        autoStart = true;
-      }
-      if (this._isPaused)
-        return true;
-      var property;
-      var elapsed;
-      var endTime = this._startTime + this._duration;
-      if (!this._goToEnd && !this._isPlaying) {
-        if (time > endTime)
-          return false;
-        if (autoStart)
-          this.start(time);
-      }
-      this._goToEnd = false;
-      if (time < this._startTime) {
-        return true;
-      }
-      if (this._onStartCallbackFired === false) {
-        if (this._onStartCallback) {
-          this._onStartCallback(this._object);
-        }
-        this._onStartCallbackFired = true;
-      }
-      elapsed = (time - this._startTime) / this._duration;
-      elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
-      var value = this._easingFunction(elapsed);
-      this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value);
-      if (this._onUpdateCallback) {
-        this._onUpdateCallback(this._object, elapsed);
-      }
-      if (elapsed === 1) {
-        if (this._repeat > 0) {
-          if (isFinite(this._repeat)) {
-            this._repeat--;
-          }
-          for (property in this._valuesStartRepeat) {
-            if (!this._yoyo && typeof this._valuesEnd[property] === "string") {
-              this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property]);
-            }
-            if (this._yoyo) {
-              this._swapEndStartRepeatValues(property);
-            }
-            this._valuesStart[property] = this._valuesStartRepeat[property];
-          }
-          if (this._yoyo) {
-            this._reversed = !this._reversed;
-          }
-          if (this._repeatDelayTime !== void 0) {
-            this._startTime = time + this._repeatDelayTime;
-          } else {
-            this._startTime = time + this._delayTime;
-          }
-          if (this._onRepeatCallback) {
-            this._onRepeatCallback(this._object);
-          }
-          return true;
-        } else {
-          if (this._onCompleteCallback) {
-            this._onCompleteCallback(this._object);
-          }
-          for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
-            this._chainedTweens[i].start(this._startTime + this._duration);
-          }
-          this._isPlaying = false;
-          return false;
-        }
-      }
-      return true;
-    };
-    Tween2.prototype._updateProperties = function(_object, _valuesStart, _valuesEnd, value) {
-      for (var property in _valuesEnd) {
-        if (_valuesStart[property] === void 0) {
-          continue;
-        }
-        var start = _valuesStart[property] || 0;
-        var end = _valuesEnd[property];
-        var startIsArray = Array.isArray(_object[property]);
-        var endIsArray = Array.isArray(end);
-        var isInterpolationList = !startIsArray && endIsArray;
-        if (isInterpolationList) {
-          _object[property] = this._interpolationFunction(end, value);
-        } else if (typeof end === "object" && end) {
-          this._updateProperties(_object[property], start, end, value);
-        } else {
-          end = this._handleRelativeValue(start, end);
-          if (typeof end === "number") {
-            _object[property] = start + (end - start) * value;
-          }
-        }
-      }
-    };
-    Tween2.prototype._handleRelativeValue = function(start, end) {
-      if (typeof end !== "string") {
-        return end;
-      }
-      if (end.charAt(0) === "+" || end.charAt(0) === "-") {
-        return start + parseFloat(end);
-      } else {
-        return parseFloat(end);
-      }
-    };
-    Tween2.prototype._swapEndStartRepeatValues = function(property) {
-      var tmp = this._valuesStartRepeat[property];
-      var endValue = this._valuesEnd[property];
-      if (typeof endValue === "string") {
-        this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(endValue);
-      } else {
-        this._valuesStartRepeat[property] = this._valuesEnd[property];
-      }
-      this._valuesEnd[property] = tmp;
-    };
-    return Tween2;
-  }();
-  var nextId = Sequence.nextId;
-  var TWEEN = mainGroup;
-  var getAll = TWEEN.getAll.bind(TWEEN);
-  var removeAll = TWEEN.removeAll.bind(TWEEN);
-  var add = TWEEN.add.bind(TWEEN);
-  var remove = TWEEN.remove.bind(TWEEN);
-  var update = TWEEN.update.bind(TWEEN);
+  var import_react27 = __toESM(require_react(), 1);
 
   // node_modules/three/build/three.module.js
   var REVISION = "145";
+  var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
+  var TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
   var CullFaceNone = 0;
   var CullFaceBack = 1;
   var CullFaceFront = 2;
@@ -56098,7 +55417,7 @@
       this.cameras = array4;
     }
   };
-  var Group2 = class extends Object3D {
+  var Group = class extends Object3D {
     constructor() {
       super();
       this.isGroup = true;
@@ -56114,7 +55433,7 @@
     }
     getHandSpace() {
       if (this._hand === null) {
-        this._hand = new Group2();
+        this._hand = new Group();
         this._hand.matrixAutoUpdate = false;
         this._hand.visible = false;
         this._hand.joints = {};
@@ -56124,7 +55443,7 @@
     }
     getTargetRaySpace() {
       if (this._targetRay === null) {
-        this._targetRay = new Group2();
+        this._targetRay = new Group();
         this._targetRay.matrixAutoUpdate = false;
         this._targetRay.visible = false;
         this._targetRay.hasLinearVelocity = false;
@@ -56136,7 +55455,7 @@
     }
     getGripSpace() {
       if (this._grip === null) {
-        this._grip = new Group2();
+        this._grip = new Group();
         this._grip.matrixAutoUpdate = false;
         this._grip.visible = false;
         this._grip.hasLinearVelocity = false;
@@ -56184,7 +55503,7 @@
           for (const inputjoint of inputSource.hand.values()) {
             const jointPose = frame.getJointPose(inputjoint, referenceSpace);
             if (hand.joints[inputjoint.jointName] === void 0) {
-              const joint2 = new Group2();
+              const joint2 = new Group();
               joint2.matrixAutoUpdate = false;
               joint2.visible = false;
               hand.joints[inputjoint.jointName] = joint2;
@@ -58416,6 +57735,303 @@
   var WebGL1Renderer = class extends WebGLRenderer {
   };
   WebGL1Renderer.prototype.isWebGL1Renderer = true;
+  var Scene = class extends Object3D {
+    constructor() {
+      super();
+      this.isScene = true;
+      this.type = "Scene";
+      this.background = null;
+      this.environment = null;
+      this.fog = null;
+      this.overrideMaterial = null;
+      if (typeof __THREE_DEVTOOLS__ !== "undefined") {
+        __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("observe", { detail: this }));
+      }
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      if (source.background !== null)
+        this.background = source.background.clone();
+      if (source.environment !== null)
+        this.environment = source.environment.clone();
+      if (source.fog !== null)
+        this.fog = source.fog.clone();
+      if (source.overrideMaterial !== null)
+        this.overrideMaterial = source.overrideMaterial.clone();
+      this.matrixAutoUpdate = source.matrixAutoUpdate;
+      return this;
+    }
+    toJSON(meta) {
+      const data = super.toJSON(meta);
+      if (this.fog !== null)
+        data.object.fog = this.fog.toJSON();
+      return data;
+    }
+    get autoUpdate() {
+      console.warn("THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.");
+      return this.matrixWorldAutoUpdate;
+    }
+    set autoUpdate(value) {
+      console.warn("THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.");
+      this.matrixWorldAutoUpdate = value;
+    }
+  };
+  var LineBasicMaterial = class extends Material {
+    constructor(parameters) {
+      super();
+      this.isLineBasicMaterial = true;
+      this.type = "LineBasicMaterial";
+      this.color = new Color(16777215);
+      this.linewidth = 1;
+      this.linecap = "round";
+      this.linejoin = "round";
+      this.fog = true;
+      this.setValues(parameters);
+    }
+    copy(source) {
+      super.copy(source);
+      this.color.copy(source.color);
+      this.linewidth = source.linewidth;
+      this.linecap = source.linecap;
+      this.linejoin = source.linejoin;
+      this.fog = source.fog;
+      return this;
+    }
+  };
+  var _start$1 = /* @__PURE__ */ new Vector3();
+  var _end$1 = /* @__PURE__ */ new Vector3();
+  var _inverseMatrix$1 = /* @__PURE__ */ new Matrix4();
+  var _ray$1 = /* @__PURE__ */ new Ray();
+  var _sphere$1 = /* @__PURE__ */ new Sphere();
+  var Line = class extends Object3D {
+    constructor(geometry = new BufferGeometry(), material = new LineBasicMaterial()) {
+      super();
+      this.isLine = true;
+      this.type = "Line";
+      this.geometry = geometry;
+      this.material = material;
+      this.updateMorphTargets();
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.material = source.material;
+      this.geometry = source.geometry;
+      return this;
+    }
+    computeLineDistances() {
+      const geometry = this.geometry;
+      if (geometry.index === null) {
+        const positionAttribute = geometry.attributes.position;
+        const lineDistances = [0];
+        for (let i = 1, l = positionAttribute.count; i < l; i++) {
+          _start$1.fromBufferAttribute(positionAttribute, i - 1);
+          _end$1.fromBufferAttribute(positionAttribute, i);
+          lineDistances[i] = lineDistances[i - 1];
+          lineDistances[i] += _start$1.distanceTo(_end$1);
+        }
+        geometry.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
+      } else {
+        console.warn("THREE.Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.");
+      }
+      return this;
+    }
+    raycast(raycaster, intersects) {
+      const geometry = this.geometry;
+      const matrixWorld = this.matrixWorld;
+      const threshold = raycaster.params.Line.threshold;
+      const drawRange = geometry.drawRange;
+      if (geometry.boundingSphere === null)
+        geometry.computeBoundingSphere();
+      _sphere$1.copy(geometry.boundingSphere);
+      _sphere$1.applyMatrix4(matrixWorld);
+      _sphere$1.radius += threshold;
+      if (raycaster.ray.intersectsSphere(_sphere$1) === false)
+        return;
+      _inverseMatrix$1.copy(matrixWorld).invert();
+      _ray$1.copy(raycaster.ray).applyMatrix4(_inverseMatrix$1);
+      const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
+      const localThresholdSq = localThreshold * localThreshold;
+      const vStart = new Vector3();
+      const vEnd = new Vector3();
+      const interSegment = new Vector3();
+      const interRay = new Vector3();
+      const step = this.isLineSegments ? 2 : 1;
+      const index2 = geometry.index;
+      const attributes = geometry.attributes;
+      const positionAttribute = attributes.position;
+      if (index2 !== null) {
+        const start = Math.max(0, drawRange.start);
+        const end = Math.min(index2.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end - 1; i < l; i += step) {
+          const a = index2.getX(i);
+          const b = index2.getX(i + 1);
+          vStart.fromBufferAttribute(positionAttribute, a);
+          vEnd.fromBufferAttribute(positionAttribute, b);
+          const distSq = _ray$1.distanceSqToSegment(vStart, vEnd, interRay, interSegment);
+          if (distSq > localThresholdSq)
+            continue;
+          interRay.applyMatrix4(this.matrixWorld);
+          const distance = raycaster.ray.origin.distanceTo(interRay);
+          if (distance < raycaster.near || distance > raycaster.far)
+            continue;
+          intersects.push({
+            distance,
+            point: interSegment.clone().applyMatrix4(this.matrixWorld),
+            index: i,
+            face: null,
+            faceIndex: null,
+            object: this
+          });
+        }
+      } else {
+        const start = Math.max(0, drawRange.start);
+        const end = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end - 1; i < l; i += step) {
+          vStart.fromBufferAttribute(positionAttribute, i);
+          vEnd.fromBufferAttribute(positionAttribute, i + 1);
+          const distSq = _ray$1.distanceSqToSegment(vStart, vEnd, interRay, interSegment);
+          if (distSq > localThresholdSq)
+            continue;
+          interRay.applyMatrix4(this.matrixWorld);
+          const distance = raycaster.ray.origin.distanceTo(interRay);
+          if (distance < raycaster.near || distance > raycaster.far)
+            continue;
+          intersects.push({
+            distance,
+            point: interSegment.clone().applyMatrix4(this.matrixWorld),
+            index: i,
+            face: null,
+            faceIndex: null,
+            object: this
+          });
+        }
+      }
+    }
+    updateMorphTargets() {
+      const geometry = this.geometry;
+      const morphAttributes = geometry.morphAttributes;
+      const keys = Object.keys(morphAttributes);
+      if (keys.length > 0) {
+        const morphAttribute = morphAttributes[keys[0]];
+        if (morphAttribute !== void 0) {
+          this.morphTargetInfluences = [];
+          this.morphTargetDictionary = {};
+          for (let m = 0, ml = morphAttribute.length; m < ml; m++) {
+            const name = morphAttribute[m].name || String(m);
+            this.morphTargetInfluences.push(0);
+            this.morphTargetDictionary[name] = m;
+          }
+        }
+      }
+    }
+  };
+  var _start = /* @__PURE__ */ new Vector3();
+  var _end = /* @__PURE__ */ new Vector3();
+  var LineSegments = class extends Line {
+    constructor(geometry, material) {
+      super(geometry, material);
+      this.isLineSegments = true;
+      this.type = "LineSegments";
+    }
+    computeLineDistances() {
+      const geometry = this.geometry;
+      if (geometry.index === null) {
+        const positionAttribute = geometry.attributes.position;
+        const lineDistances = [];
+        for (let i = 0, l = positionAttribute.count; i < l; i += 2) {
+          _start.fromBufferAttribute(positionAttribute, i);
+          _end.fromBufferAttribute(positionAttribute, i + 1);
+          lineDistances[i] = i === 0 ? 0 : lineDistances[i - 1];
+          lineDistances[i + 1] = lineDistances[i] + _start.distanceTo(_end);
+        }
+        geometry.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
+      } else {
+        console.warn("THREE.LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.");
+      }
+      return this;
+    }
+  };
+  var _v0 = /* @__PURE__ */ new Vector3();
+  var _v1$1 = /* @__PURE__ */ new Vector3();
+  var _normal = /* @__PURE__ */ new Vector3();
+  var _triangle = /* @__PURE__ */ new Triangle();
+  var EdgesGeometry = class extends BufferGeometry {
+    constructor(geometry = null, thresholdAngle = 1) {
+      super();
+      this.type = "EdgesGeometry";
+      this.parameters = {
+        geometry,
+        thresholdAngle
+      };
+      if (geometry !== null) {
+        const precisionPoints = 4;
+        const precision = Math.pow(10, precisionPoints);
+        const thresholdDot = Math.cos(DEG2RAD * thresholdAngle);
+        const indexAttr = geometry.getIndex();
+        const positionAttr = geometry.getAttribute("position");
+        const indexCount = indexAttr ? indexAttr.count : positionAttr.count;
+        const indexArr = [0, 0, 0];
+        const vertKeys = ["a", "b", "c"];
+        const hashes = new Array(3);
+        const edgeData = {};
+        const vertices = [];
+        for (let i = 0; i < indexCount; i += 3) {
+          if (indexAttr) {
+            indexArr[0] = indexAttr.getX(i);
+            indexArr[1] = indexAttr.getX(i + 1);
+            indexArr[2] = indexAttr.getX(i + 2);
+          } else {
+            indexArr[0] = i;
+            indexArr[1] = i + 1;
+            indexArr[2] = i + 2;
+          }
+          const { a, b, c } = _triangle;
+          a.fromBufferAttribute(positionAttr, indexArr[0]);
+          b.fromBufferAttribute(positionAttr, indexArr[1]);
+          c.fromBufferAttribute(positionAttr, indexArr[2]);
+          _triangle.getNormal(_normal);
+          hashes[0] = `${Math.round(a.x * precision)},${Math.round(a.y * precision)},${Math.round(a.z * precision)}`;
+          hashes[1] = `${Math.round(b.x * precision)},${Math.round(b.y * precision)},${Math.round(b.z * precision)}`;
+          hashes[2] = `${Math.round(c.x * precision)},${Math.round(c.y * precision)},${Math.round(c.z * precision)}`;
+          if (hashes[0] === hashes[1] || hashes[1] === hashes[2] || hashes[2] === hashes[0]) {
+            continue;
+          }
+          for (let j = 0; j < 3; j++) {
+            const jNext = (j + 1) % 3;
+            const vecHash0 = hashes[j];
+            const vecHash1 = hashes[jNext];
+            const v0 = _triangle[vertKeys[j]];
+            const v1 = _triangle[vertKeys[jNext]];
+            const hash = `${vecHash0}_${vecHash1}`;
+            const reverseHash = `${vecHash1}_${vecHash0}`;
+            if (reverseHash in edgeData && edgeData[reverseHash]) {
+              if (_normal.dot(edgeData[reverseHash].normal) <= thresholdDot) {
+                vertices.push(v0.x, v0.y, v0.z);
+                vertices.push(v1.x, v1.y, v1.z);
+              }
+              edgeData[reverseHash] = null;
+            } else if (!(hash in edgeData)) {
+              edgeData[hash] = {
+                index0: indexArr[j],
+                index1: indexArr[jNext],
+                normal: _normal.clone()
+              };
+            }
+          }
+        }
+        for (const key2 in edgeData) {
+          if (edgeData[key2]) {
+            const { index0, index1 } = edgeData[key2];
+            _v0.fromBufferAttribute(positionAttr, index0);
+            _v1$1.fromBufferAttribute(positionAttr, index1);
+            vertices.push(_v0.x, _v0.y, _v0.z);
+            vertices.push(_v1$1.x, _v1$1.y, _v1$1.z);
+          }
+        }
+        this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+      }
+    }
+  };
   function arraySlice(array4, from, to) {
     if (isTypedArray(array4)) {
       return new array4.constructor(array4.subarray(from, to !== void 0 ? to : array4.length));
@@ -59244,6 +58860,48 @@
     ]
   ];
   var _controlInterpolantsResultBuffer = new Float32Array(1);
+  var Spherical = class {
+    constructor(radius = 1, phi = 0, theta = 0) {
+      this.radius = radius;
+      this.phi = phi;
+      this.theta = theta;
+      return this;
+    }
+    set(radius, phi, theta) {
+      this.radius = radius;
+      this.phi = phi;
+      this.theta = theta;
+      return this;
+    }
+    copy(other) {
+      this.radius = other.radius;
+      this.phi = other.phi;
+      this.theta = other.theta;
+      return this;
+    }
+    makeSafe() {
+      const EPS = 1e-6;
+      this.phi = Math.max(EPS, Math.min(Math.PI - EPS, this.phi));
+      return this;
+    }
+    setFromVector3(v) {
+      return this.setFromCartesianCoords(v.x, v.y, v.z);
+    }
+    setFromCartesianCoords(x, y, z) {
+      this.radius = Math.sqrt(x * x + y * y + z * z);
+      if (this.radius === 0) {
+        this.theta = 0;
+        this.phi = 0;
+      } else {
+        this.theta = Math.atan2(x, z);
+        this.phi = Math.acos(clamp(y / this.radius, -1, 1));
+      }
+      return this;
+    }
+    clone() {
+      return new this.constructor().copy(this);
+    }
+  };
   if (typeof __THREE_DEVTOOLS__ !== "undefined") {
     __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("register", { detail: {
       revision: REVISION
@@ -59257,13 +58915,687 @@
     }
   }
 
-  // src/app/core/_camera.ts
+  // node_modules/@tweenjs/tween.js/dist/tween.esm.js
+  var Easing = {
+    Linear: {
+      None: function(amount) {
+        return amount;
+      }
+    },
+    Quadratic: {
+      In: function(amount) {
+        return amount * amount;
+      },
+      Out: function(amount) {
+        return amount * (2 - amount);
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount;
+        }
+        return -0.5 * (--amount * (amount - 2) - 1);
+      }
+    },
+    Cubic: {
+      In: function(amount) {
+        return amount * amount * amount;
+      },
+      Out: function(amount) {
+        return --amount * amount * amount + 1;
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount;
+        }
+        return 0.5 * ((amount -= 2) * amount * amount + 2);
+      }
+    },
+    Quartic: {
+      In: function(amount) {
+        return amount * amount * amount * amount;
+      },
+      Out: function(amount) {
+        return 1 - --amount * amount * amount * amount;
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount * amount;
+        }
+        return -0.5 * ((amount -= 2) * amount * amount * amount - 2);
+      }
+    },
+    Quintic: {
+      In: function(amount) {
+        return amount * amount * amount * amount * amount;
+      },
+      Out: function(amount) {
+        return --amount * amount * amount * amount * amount + 1;
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount * amount * amount;
+        }
+        return 0.5 * ((amount -= 2) * amount * amount * amount * amount + 2);
+      }
+    },
+    Sinusoidal: {
+      In: function(amount) {
+        return 1 - Math.cos(amount * Math.PI / 2);
+      },
+      Out: function(amount) {
+        return Math.sin(amount * Math.PI / 2);
+      },
+      InOut: function(amount) {
+        return 0.5 * (1 - Math.cos(Math.PI * amount));
+      }
+    },
+    Exponential: {
+      In: function(amount) {
+        return amount === 0 ? 0 : Math.pow(1024, amount - 1);
+      },
+      Out: function(amount) {
+        return amount === 1 ? 1 : 1 - Math.pow(2, -10 * amount);
+      },
+      InOut: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        if ((amount *= 2) < 1) {
+          return 0.5 * Math.pow(1024, amount - 1);
+        }
+        return 0.5 * (-Math.pow(2, -10 * (amount - 1)) + 2);
+      }
+    },
+    Circular: {
+      In: function(amount) {
+        return 1 - Math.sqrt(1 - amount * amount);
+      },
+      Out: function(amount) {
+        return Math.sqrt(1 - --amount * amount);
+      },
+      InOut: function(amount) {
+        if ((amount *= 2) < 1) {
+          return -0.5 * (Math.sqrt(1 - amount * amount) - 1);
+        }
+        return 0.5 * (Math.sqrt(1 - (amount -= 2) * amount) + 1);
+      }
+    },
+    Elastic: {
+      In: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        return -Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
+      },
+      Out: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        return Math.pow(2, -10 * amount) * Math.sin((amount - 0.1) * 5 * Math.PI) + 1;
+      },
+      InOut: function(amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        amount *= 2;
+        if (amount < 1) {
+          return -0.5 * Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
+        }
+        return 0.5 * Math.pow(2, -10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI) + 1;
+      }
+    },
+    Back: {
+      In: function(amount) {
+        var s = 1.70158;
+        return amount * amount * ((s + 1) * amount - s);
+      },
+      Out: function(amount) {
+        var s = 1.70158;
+        return --amount * amount * ((s + 1) * amount + s) + 1;
+      },
+      InOut: function(amount) {
+        var s = 1.70158 * 1.525;
+        if ((amount *= 2) < 1) {
+          return 0.5 * (amount * amount * ((s + 1) * amount - s));
+        }
+        return 0.5 * ((amount -= 2) * amount * ((s + 1) * amount + s) + 2);
+      }
+    },
+    Bounce: {
+      In: function(amount) {
+        return 1 - Easing.Bounce.Out(1 - amount);
+      },
+      Out: function(amount) {
+        if (amount < 1 / 2.75) {
+          return 7.5625 * amount * amount;
+        } else if (amount < 2 / 2.75) {
+          return 7.5625 * (amount -= 1.5 / 2.75) * amount + 0.75;
+        } else if (amount < 2.5 / 2.75) {
+          return 7.5625 * (amount -= 2.25 / 2.75) * amount + 0.9375;
+        } else {
+          return 7.5625 * (amount -= 2.625 / 2.75) * amount + 0.984375;
+        }
+      },
+      InOut: function(amount) {
+        if (amount < 0.5) {
+          return Easing.Bounce.In(amount * 2) * 0.5;
+        }
+        return Easing.Bounce.Out(amount * 2 - 1) * 0.5 + 0.5;
+      }
+    }
+  };
+  var now2;
+  if (typeof self === "undefined" && typeof process !== "undefined" && process.hrtime) {
+    now2 = function() {
+      var time = process.hrtime();
+      return time[0] * 1e3 + time[1] / 1e6;
+    };
+  } else if (typeof self !== "undefined" && self.performance !== void 0 && self.performance.now !== void 0) {
+    now2 = self.performance.now.bind(self.performance);
+  } else if (Date.now !== void 0) {
+    now2 = Date.now;
+  } else {
+    now2 = function() {
+      return new Date().getTime();
+    };
+  }
+  var now$1 = now2;
+  var Group2 = function() {
+    function Group3() {
+      this._tweens = {};
+      this._tweensAddedDuringUpdate = {};
+    }
+    Group3.prototype.getAll = function() {
+      var _this = this;
+      return Object.keys(this._tweens).map(function(tweenId) {
+        return _this._tweens[tweenId];
+      });
+    };
+    Group3.prototype.removeAll = function() {
+      this._tweens = {};
+    };
+    Group3.prototype.add = function(tween) {
+      this._tweens[tween.getId()] = tween;
+      this._tweensAddedDuringUpdate[tween.getId()] = tween;
+    };
+    Group3.prototype.remove = function(tween) {
+      delete this._tweens[tween.getId()];
+      delete this._tweensAddedDuringUpdate[tween.getId()];
+    };
+    Group3.prototype.update = function(time, preserve) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (preserve === void 0) {
+        preserve = false;
+      }
+      var tweenIds = Object.keys(this._tweens);
+      if (tweenIds.length === 0) {
+        return false;
+      }
+      while (tweenIds.length > 0) {
+        this._tweensAddedDuringUpdate = {};
+        for (var i = 0; i < tweenIds.length; i++) {
+          var tween = this._tweens[tweenIds[i]];
+          var autoStart = !preserve;
+          if (tween && tween.update(time, autoStart) === false && !preserve) {
+            delete this._tweens[tweenIds[i]];
+          }
+        }
+        tweenIds = Object.keys(this._tweensAddedDuringUpdate);
+      }
+      return true;
+    };
+    return Group3;
+  }();
+  var Interpolation = {
+    Linear: function(v, k) {
+      var m = v.length - 1;
+      var f = m * k;
+      var i = Math.floor(f);
+      var fn = Interpolation.Utils.Linear;
+      if (k < 0) {
+        return fn(v[0], v[1], f);
+      }
+      if (k > 1) {
+        return fn(v[m], v[m - 1], m - f);
+      }
+      return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
+    },
+    Bezier: function(v, k) {
+      var b = 0;
+      var n = v.length - 1;
+      var pw = Math.pow;
+      var bn = Interpolation.Utils.Bernstein;
+      for (var i = 0; i <= n; i++) {
+        b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
+      }
+      return b;
+    },
+    CatmullRom: function(v, k) {
+      var m = v.length - 1;
+      var f = m * k;
+      var i = Math.floor(f);
+      var fn = Interpolation.Utils.CatmullRom;
+      if (v[0] === v[m]) {
+        if (k < 0) {
+          i = Math.floor(f = m * (1 + k));
+        }
+        return fn(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+      } else {
+        if (k < 0) {
+          return v[0] - (fn(v[0], v[0], v[1], v[1], -f) - v[0]);
+        }
+        if (k > 1) {
+          return v[m] - (fn(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+        }
+        return fn(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+      }
+    },
+    Utils: {
+      Linear: function(p0, p1, t) {
+        return (p1 - p0) * t + p0;
+      },
+      Bernstein: function(n, i) {
+        var fc = Interpolation.Utils.Factorial;
+        return fc(n) / fc(i) / fc(n - i);
+      },
+      Factorial: function() {
+        var a = [1];
+        return function(n) {
+          var s = 1;
+          if (a[n]) {
+            return a[n];
+          }
+          for (var i = n; i > 1; i--) {
+            s *= i;
+          }
+          a[n] = s;
+          return s;
+        };
+      }(),
+      CatmullRom: function(p0, p1, p2, p3, t) {
+        var v0 = (p2 - p0) * 0.5;
+        var v1 = (p3 - p1) * 0.5;
+        var t2 = t * t;
+        var t3 = t * t2;
+        return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+      }
+    }
+  };
+  var Sequence = function() {
+    function Sequence2() {
+    }
+    Sequence2.nextId = function() {
+      return Sequence2._nextId++;
+    };
+    Sequence2._nextId = 0;
+    return Sequence2;
+  }();
+  var mainGroup = new Group2();
+  var Tween = function() {
+    function Tween2(_object, _group) {
+      if (_group === void 0) {
+        _group = mainGroup;
+      }
+      this._object = _object;
+      this._group = _group;
+      this._isPaused = false;
+      this._pauseStart = 0;
+      this._valuesStart = {};
+      this._valuesEnd = {};
+      this._valuesStartRepeat = {};
+      this._duration = 1e3;
+      this._initialRepeat = 0;
+      this._repeat = 0;
+      this._yoyo = false;
+      this._isPlaying = false;
+      this._reversed = false;
+      this._delayTime = 0;
+      this._startTime = 0;
+      this._easingFunction = Easing.Linear.None;
+      this._interpolationFunction = Interpolation.Linear;
+      this._chainedTweens = [];
+      this._onStartCallbackFired = false;
+      this._id = Sequence.nextId();
+      this._isChainStopped = false;
+      this._goToEnd = false;
+    }
+    Tween2.prototype.getId = function() {
+      return this._id;
+    };
+    Tween2.prototype.isPlaying = function() {
+      return this._isPlaying;
+    };
+    Tween2.prototype.isPaused = function() {
+      return this._isPaused;
+    };
+    Tween2.prototype.to = function(properties, duration) {
+      this._valuesEnd = Object.create(properties);
+      if (duration !== void 0) {
+        this._duration = duration;
+      }
+      return this;
+    };
+    Tween2.prototype.duration = function(d) {
+      this._duration = d;
+      return this;
+    };
+    Tween2.prototype.start = function(time) {
+      if (this._isPlaying) {
+        return this;
+      }
+      this._group && this._group.add(this);
+      this._repeat = this._initialRepeat;
+      if (this._reversed) {
+        this._reversed = false;
+        for (var property in this._valuesStartRepeat) {
+          this._swapEndStartRepeatValues(property);
+          this._valuesStart[property] = this._valuesStartRepeat[property];
+        }
+      }
+      this._isPlaying = true;
+      this._isPaused = false;
+      this._onStartCallbackFired = false;
+      this._isChainStopped = false;
+      this._startTime = time !== void 0 ? typeof time === "string" ? now$1() + parseFloat(time) : time : now$1();
+      this._startTime += this._delayTime;
+      this._setupProperties(this._object, this._valuesStart, this._valuesEnd, this._valuesStartRepeat);
+      return this;
+    };
+    Tween2.prototype._setupProperties = function(_object, _valuesStart, _valuesEnd, _valuesStartRepeat) {
+      for (var property in _valuesEnd) {
+        var startValue = _object[property];
+        var startValueIsArray = Array.isArray(startValue);
+        var propType = startValueIsArray ? "array" : typeof startValue;
+        var isInterpolationList = !startValueIsArray && Array.isArray(_valuesEnd[property]);
+        if (propType === "undefined" || propType === "function") {
+          continue;
+        }
+        if (isInterpolationList) {
+          var endValues = _valuesEnd[property];
+          if (endValues.length === 0) {
+            continue;
+          }
+          endValues = endValues.map(this._handleRelativeValue.bind(this, startValue));
+          _valuesEnd[property] = [startValue].concat(endValues);
+        }
+        if ((propType === "object" || startValueIsArray) && startValue && !isInterpolationList) {
+          _valuesStart[property] = startValueIsArray ? [] : {};
+          for (var prop in startValue) {
+            _valuesStart[property][prop] = startValue[prop];
+          }
+          _valuesStartRepeat[property] = startValueIsArray ? [] : {};
+          this._setupProperties(startValue, _valuesStart[property], _valuesEnd[property], _valuesStartRepeat[property]);
+        } else {
+          if (typeof _valuesStart[property] === "undefined") {
+            _valuesStart[property] = startValue;
+          }
+          if (!startValueIsArray) {
+            _valuesStart[property] *= 1;
+          }
+          if (isInterpolationList) {
+            _valuesStartRepeat[property] = _valuesEnd[property].slice().reverse();
+          } else {
+            _valuesStartRepeat[property] = _valuesStart[property] || 0;
+          }
+        }
+      }
+    };
+    Tween2.prototype.stop = function() {
+      if (!this._isChainStopped) {
+        this._isChainStopped = true;
+        this.stopChainedTweens();
+      }
+      if (!this._isPlaying) {
+        return this;
+      }
+      this._group && this._group.remove(this);
+      this._isPlaying = false;
+      this._isPaused = false;
+      if (this._onStopCallback) {
+        this._onStopCallback(this._object);
+      }
+      return this;
+    };
+    Tween2.prototype.end = function() {
+      this._goToEnd = true;
+      this.update(Infinity);
+      return this;
+    };
+    Tween2.prototype.pause = function(time) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (this._isPaused || !this._isPlaying) {
+        return this;
+      }
+      this._isPaused = true;
+      this._pauseStart = time;
+      this._group && this._group.remove(this);
+      return this;
+    };
+    Tween2.prototype.resume = function(time) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (!this._isPaused || !this._isPlaying) {
+        return this;
+      }
+      this._isPaused = false;
+      this._startTime += time - this._pauseStart;
+      this._pauseStart = 0;
+      this._group && this._group.add(this);
+      return this;
+    };
+    Tween2.prototype.stopChainedTweens = function() {
+      for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+        this._chainedTweens[i].stop();
+      }
+      return this;
+    };
+    Tween2.prototype.group = function(group) {
+      this._group = group;
+      return this;
+    };
+    Tween2.prototype.delay = function(amount) {
+      this._delayTime = amount;
+      return this;
+    };
+    Tween2.prototype.repeat = function(times) {
+      this._initialRepeat = times;
+      this._repeat = times;
+      return this;
+    };
+    Tween2.prototype.repeatDelay = function(amount) {
+      this._repeatDelayTime = amount;
+      return this;
+    };
+    Tween2.prototype.yoyo = function(yoyo) {
+      this._yoyo = yoyo;
+      return this;
+    };
+    Tween2.prototype.easing = function(easingFunction) {
+      this._easingFunction = easingFunction;
+      return this;
+    };
+    Tween2.prototype.interpolation = function(interpolationFunction) {
+      this._interpolationFunction = interpolationFunction;
+      return this;
+    };
+    Tween2.prototype.chain = function() {
+      var tweens = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        tweens[_i] = arguments[_i];
+      }
+      this._chainedTweens = tweens;
+      return this;
+    };
+    Tween2.prototype.onStart = function(callback) {
+      this._onStartCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onUpdate = function(callback) {
+      this._onUpdateCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onRepeat = function(callback) {
+      this._onRepeatCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onComplete = function(callback) {
+      this._onCompleteCallback = callback;
+      return this;
+    };
+    Tween2.prototype.onStop = function(callback) {
+      this._onStopCallback = callback;
+      return this;
+    };
+    Tween2.prototype.update = function(time, autoStart) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (autoStart === void 0) {
+        autoStart = true;
+      }
+      if (this._isPaused)
+        return true;
+      var property;
+      var elapsed;
+      var endTime = this._startTime + this._duration;
+      if (!this._goToEnd && !this._isPlaying) {
+        if (time > endTime)
+          return false;
+        if (autoStart)
+          this.start(time);
+      }
+      this._goToEnd = false;
+      if (time < this._startTime) {
+        return true;
+      }
+      if (this._onStartCallbackFired === false) {
+        if (this._onStartCallback) {
+          this._onStartCallback(this._object);
+        }
+        this._onStartCallbackFired = true;
+      }
+      elapsed = (time - this._startTime) / this._duration;
+      elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
+      var value = this._easingFunction(elapsed);
+      this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value);
+      if (this._onUpdateCallback) {
+        this._onUpdateCallback(this._object, elapsed);
+      }
+      if (elapsed === 1) {
+        if (this._repeat > 0) {
+          if (isFinite(this._repeat)) {
+            this._repeat--;
+          }
+          for (property in this._valuesStartRepeat) {
+            if (!this._yoyo && typeof this._valuesEnd[property] === "string") {
+              this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property]);
+            }
+            if (this._yoyo) {
+              this._swapEndStartRepeatValues(property);
+            }
+            this._valuesStart[property] = this._valuesStartRepeat[property];
+          }
+          if (this._yoyo) {
+            this._reversed = !this._reversed;
+          }
+          if (this._repeatDelayTime !== void 0) {
+            this._startTime = time + this._repeatDelayTime;
+          } else {
+            this._startTime = time + this._delayTime;
+          }
+          if (this._onRepeatCallback) {
+            this._onRepeatCallback(this._object);
+          }
+          return true;
+        } else {
+          if (this._onCompleteCallback) {
+            this._onCompleteCallback(this._object);
+          }
+          for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+            this._chainedTweens[i].start(this._startTime + this._duration);
+          }
+          this._isPlaying = false;
+          return false;
+        }
+      }
+      return true;
+    };
+    Tween2.prototype._updateProperties = function(_object, _valuesStart, _valuesEnd, value) {
+      for (var property in _valuesEnd) {
+        if (_valuesStart[property] === void 0) {
+          continue;
+        }
+        var start = _valuesStart[property] || 0;
+        var end = _valuesEnd[property];
+        var startIsArray = Array.isArray(_object[property]);
+        var endIsArray = Array.isArray(end);
+        var isInterpolationList = !startIsArray && endIsArray;
+        if (isInterpolationList) {
+          _object[property] = this._interpolationFunction(end, value);
+        } else if (typeof end === "object" && end) {
+          this._updateProperties(_object[property], start, end, value);
+        } else {
+          end = this._handleRelativeValue(start, end);
+          if (typeof end === "number") {
+            _object[property] = start + (end - start) * value;
+          }
+        }
+      }
+    };
+    Tween2.prototype._handleRelativeValue = function(start, end) {
+      if (typeof end !== "string") {
+        return end;
+      }
+      if (end.charAt(0) === "+" || end.charAt(0) === "-") {
+        return start + parseFloat(end);
+      } else {
+        return parseFloat(end);
+      }
+    };
+    Tween2.prototype._swapEndStartRepeatValues = function(property) {
+      var tmp = this._valuesStartRepeat[property];
+      var endValue = this._valuesEnd[property];
+      if (typeof endValue === "string") {
+        this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(endValue);
+      } else {
+        this._valuesStartRepeat[property] = this._valuesEnd[property];
+      }
+      this._valuesEnd[property] = tmp;
+    };
+    return Tween2;
+  }();
+  var nextId = Sequence.nextId;
+  var TWEEN = mainGroup;
+  var getAll = TWEEN.getAll.bind(TWEEN);
+  var removeAll = TWEEN.removeAll.bind(TWEEN);
+  var add = TWEEN.add.bind(TWEEN);
+  var remove = TWEEN.remove.bind(TWEEN);
+  var update = TWEEN.update.bind(TWEEN);
+
+  // src/app/core/camera.ts
   var _Camera = class {
     constructor() {
-      const { width, heigh } = getContainerSize();
+      const { width, height } = getContainerSize();
       this._perspectiveCamera = new PerspectiveCamera(
         90,
-        width / heigh,
+        width / height,
         0.1,
         1e3
       );
@@ -59271,8 +59603,8 @@
       this._orthographicCamera = new OrthographicCamera(
         width / -2,
         width / 2,
-        heigh / -2,
-        heigh / -2,
+        height / -2,
+        height / -2,
         0.1,
         1e3
       );
@@ -59280,6 +59612,11 @@
     _perspectiveCamera;
     _orthographicCamera;
     cameraType = "Perspective";
+    get activeCamera() {
+      if (this.cameraType === "Orthographic")
+        return this._orthographicCamera;
+      return this._perspectiveCamera;
+    }
     zoomCameraView = (ev) => {
       if (this.cameraType === "Orthographic")
         return;
@@ -59296,14 +59633,714 @@
       const target = { fov: camera.fov };
       new Tween(target).to({ fov: camera.userData.fovVolume }).easing(Easing.Quadratic.Out).onUpdate(() => {
         camera.userData.fovVolume = target.fov;
+        camera.fov = camera.userData.fovVolume;
         camera.updateProjectionMatrix();
       }).start();
     };
-    get activeCamera() {
-      if (this.cameraType === "Orthographic")
-        return this._orthographicCamera;
-      return this._perspectiveCamera;
+  };
+
+  // node_modules/three/examples/jsm/controls/OrbitControls.js
+  var _changeEvent = { type: "change" };
+  var _startEvent = { type: "start" };
+  var _endEvent = { type: "end" };
+  var OrbitControls = class extends EventDispatcher {
+    constructor(object4, domElement) {
+      super();
+      this.object = object4;
+      this.domElement = domElement;
+      this.domElement.style.touchAction = "none";
+      this.enabled = true;
+      this.target = new Vector3();
+      this.minDistance = 0;
+      this.maxDistance = Infinity;
+      this.minZoom = 0;
+      this.maxZoom = Infinity;
+      this.minPolarAngle = 0;
+      this.maxPolarAngle = Math.PI;
+      this.minAzimuthAngle = -Infinity;
+      this.maxAzimuthAngle = Infinity;
+      this.enableDamping = false;
+      this.dampingFactor = 0.05;
+      this.enableZoom = true;
+      this.zoomSpeed = 1;
+      this.enableRotate = true;
+      this.rotateSpeed = 1;
+      this.enablePan = true;
+      this.panSpeed = 1;
+      this.screenSpacePanning = true;
+      this.keyPanSpeed = 7;
+      this.autoRotate = false;
+      this.autoRotateSpeed = 2;
+      this.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
+      this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
+      this.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
+      this.target0 = this.target.clone();
+      this.position0 = this.object.position.clone();
+      this.zoom0 = this.object.zoom;
+      this._domElementKeyEvents = null;
+      this.getPolarAngle = function() {
+        return spherical.phi;
+      };
+      this.getAzimuthalAngle = function() {
+        return spherical.theta;
+      };
+      this.getDistance = function() {
+        return this.object.position.distanceTo(this.target);
+      };
+      this.listenToKeyEvents = function(domElement2) {
+        domElement2.addEventListener("keydown", onKeyDown);
+        this._domElementKeyEvents = domElement2;
+      };
+      this.saveState = function() {
+        scope.target0.copy(scope.target);
+        scope.position0.copy(scope.object.position);
+        scope.zoom0 = scope.object.zoom;
+      };
+      this.reset = function() {
+        scope.target.copy(scope.target0);
+        scope.object.position.copy(scope.position0);
+        scope.object.zoom = scope.zoom0;
+        scope.object.updateProjectionMatrix();
+        scope.dispatchEvent(_changeEvent);
+        scope.update();
+        state = STATE.NONE;
+      };
+      this.update = function() {
+        const offset2 = new Vector3();
+        const quat = new Quaternion().setFromUnitVectors(object4.up, new Vector3(0, 1, 0));
+        const quatInverse = quat.clone().invert();
+        const lastPosition = new Vector3();
+        const lastQuaternion = new Quaternion();
+        const twoPI = 2 * Math.PI;
+        return function update2() {
+          const position = scope.object.position;
+          offset2.copy(position).sub(scope.target);
+          offset2.applyQuaternion(quat);
+          spherical.setFromVector3(offset2);
+          if (scope.autoRotate && state === STATE.NONE) {
+            rotateLeft(getAutoRotationAngle());
+          }
+          if (scope.enableDamping) {
+            spherical.theta += sphericalDelta.theta * scope.dampingFactor;
+            spherical.phi += sphericalDelta.phi * scope.dampingFactor;
+          } else {
+            spherical.theta += sphericalDelta.theta;
+            spherical.phi += sphericalDelta.phi;
+          }
+          let min = scope.minAzimuthAngle;
+          let max = scope.maxAzimuthAngle;
+          if (isFinite(min) && isFinite(max)) {
+            if (min < -Math.PI)
+              min += twoPI;
+            else if (min > Math.PI)
+              min -= twoPI;
+            if (max < -Math.PI)
+              max += twoPI;
+            else if (max > Math.PI)
+              max -= twoPI;
+            if (min <= max) {
+              spherical.theta = Math.max(min, Math.min(max, spherical.theta));
+            } else {
+              spherical.theta = spherical.theta > (min + max) / 2 ? Math.max(min, spherical.theta) : Math.min(max, spherical.theta);
+            }
+          }
+          spherical.phi = Math.max(scope.minPolarAngle, Math.min(scope.maxPolarAngle, spherical.phi));
+          spherical.makeSafe();
+          spherical.radius *= scale;
+          spherical.radius = Math.max(scope.minDistance, Math.min(scope.maxDistance, spherical.radius));
+          if (scope.enableDamping === true) {
+            scope.target.addScaledVector(panOffset, scope.dampingFactor);
+          } else {
+            scope.target.add(panOffset);
+          }
+          offset2.setFromSpherical(spherical);
+          offset2.applyQuaternion(quatInverse);
+          position.copy(scope.target).add(offset2);
+          scope.object.lookAt(scope.target);
+          if (scope.enableDamping === true) {
+            sphericalDelta.theta *= 1 - scope.dampingFactor;
+            sphericalDelta.phi *= 1 - scope.dampingFactor;
+            panOffset.multiplyScalar(1 - scope.dampingFactor);
+          } else {
+            sphericalDelta.set(0, 0, 0);
+            panOffset.set(0, 0, 0);
+          }
+          scale = 1;
+          if (zoomChanged || lastPosition.distanceToSquared(scope.object.position) > EPS || 8 * (1 - lastQuaternion.dot(scope.object.quaternion)) > EPS) {
+            scope.dispatchEvent(_changeEvent);
+            lastPosition.copy(scope.object.position);
+            lastQuaternion.copy(scope.object.quaternion);
+            zoomChanged = false;
+            return true;
+          }
+          return false;
+        };
+      }();
+      this.dispose = function() {
+        scope.domElement.removeEventListener("contextmenu", onContextMenu);
+        scope.domElement.removeEventListener("pointerdown", onPointerDown);
+        scope.domElement.removeEventListener("pointercancel", onPointerCancel);
+        scope.domElement.removeEventListener("wheel", onMouseWheel);
+        scope.domElement.removeEventListener("pointermove", onPointerMove);
+        scope.domElement.removeEventListener("pointerup", onPointerUp);
+        if (scope._domElementKeyEvents !== null) {
+          scope._domElementKeyEvents.removeEventListener("keydown", onKeyDown);
+        }
+      };
+      const scope = this;
+      const STATE = {
+        NONE: -1,
+        ROTATE: 0,
+        DOLLY: 1,
+        PAN: 2,
+        TOUCH_ROTATE: 3,
+        TOUCH_PAN: 4,
+        TOUCH_DOLLY_PAN: 5,
+        TOUCH_DOLLY_ROTATE: 6
+      };
+      let state = STATE.NONE;
+      const EPS = 1e-6;
+      const spherical = new Spherical();
+      const sphericalDelta = new Spherical();
+      let scale = 1;
+      const panOffset = new Vector3();
+      let zoomChanged = false;
+      const rotateStart = new Vector2();
+      const rotateEnd = new Vector2();
+      const rotateDelta = new Vector2();
+      const panStart = new Vector2();
+      const panEnd = new Vector2();
+      const panDelta = new Vector2();
+      const dollyStart = new Vector2();
+      const dollyEnd = new Vector2();
+      const dollyDelta = new Vector2();
+      const pointers = [];
+      const pointerPositions = {};
+      function getAutoRotationAngle() {
+        return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
+      }
+      function getZoomScale() {
+        return Math.pow(0.95, scope.zoomSpeed);
+      }
+      function rotateLeft(angle) {
+        sphericalDelta.theta -= angle;
+      }
+      function rotateUp(angle) {
+        sphericalDelta.phi -= angle;
+      }
+      const panLeft = function() {
+        const v = new Vector3();
+        return function panLeft2(distance, objectMatrix) {
+          v.setFromMatrixColumn(objectMatrix, 0);
+          v.multiplyScalar(-distance);
+          panOffset.add(v);
+        };
+      }();
+      const panUp = function() {
+        const v = new Vector3();
+        return function panUp2(distance, objectMatrix) {
+          if (scope.screenSpacePanning === true) {
+            v.setFromMatrixColumn(objectMatrix, 1);
+          } else {
+            v.setFromMatrixColumn(objectMatrix, 0);
+            v.crossVectors(scope.object.up, v);
+          }
+          v.multiplyScalar(distance);
+          panOffset.add(v);
+        };
+      }();
+      const pan = function() {
+        const offset2 = new Vector3();
+        return function pan2(deltaX, deltaY) {
+          const element = scope.domElement;
+          if (scope.object.isPerspectiveCamera) {
+            const position = scope.object.position;
+            offset2.copy(position).sub(scope.target);
+            let targetDistance = offset2.length();
+            targetDistance *= Math.tan(scope.object.fov / 2 * Math.PI / 180);
+            panLeft(2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix);
+            panUp(2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix);
+          } else if (scope.object.isOrthographicCamera) {
+            panLeft(deltaX * (scope.object.right - scope.object.left) / scope.object.zoom / element.clientWidth, scope.object.matrix);
+            panUp(deltaY * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.clientHeight, scope.object.matrix);
+          } else {
+            console.warn("WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.");
+            scope.enablePan = false;
+          }
+        };
+      }();
+      function dollyOut(dollyScale) {
+        if (scope.object.isPerspectiveCamera) {
+          scale /= dollyScale;
+        } else if (scope.object.isOrthographicCamera) {
+          scope.object.zoom = Math.max(scope.minZoom, Math.min(scope.maxZoom, scope.object.zoom * dollyScale));
+          scope.object.updateProjectionMatrix();
+          zoomChanged = true;
+        } else {
+          console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
+          scope.enableZoom = false;
+        }
+      }
+      function dollyIn(dollyScale) {
+        if (scope.object.isPerspectiveCamera) {
+          scale *= dollyScale;
+        } else if (scope.object.isOrthographicCamera) {
+          scope.object.zoom = Math.max(scope.minZoom, Math.min(scope.maxZoom, scope.object.zoom / dollyScale));
+          scope.object.updateProjectionMatrix();
+          zoomChanged = true;
+        } else {
+          console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
+          scope.enableZoom = false;
+        }
+      }
+      function handleMouseDownRotate(event) {
+        rotateStart.set(event.clientX, event.clientY);
+      }
+      function handleMouseDownDolly(event) {
+        dollyStart.set(event.clientX, event.clientY);
+      }
+      function handleMouseDownPan(event) {
+        panStart.set(event.clientX, event.clientY);
+      }
+      function handleMouseMoveRotate(event) {
+        rotateEnd.set(event.clientX, event.clientY);
+        rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+        const element = scope.domElement;
+        rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+        rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+        rotateStart.copy(rotateEnd);
+        scope.update();
+      }
+      function handleMouseMoveDolly(event) {
+        dollyEnd.set(event.clientX, event.clientY);
+        dollyDelta.subVectors(dollyEnd, dollyStart);
+        if (dollyDelta.y > 0) {
+          dollyOut(getZoomScale());
+        } else if (dollyDelta.y < 0) {
+          dollyIn(getZoomScale());
+        }
+        dollyStart.copy(dollyEnd);
+        scope.update();
+      }
+      function handleMouseMovePan(event) {
+        panEnd.set(event.clientX, event.clientY);
+        panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+        pan(panDelta.x, panDelta.y);
+        panStart.copy(panEnd);
+        scope.update();
+      }
+      function handleMouseWheel(event) {
+        if (event.deltaY < 0) {
+          dollyIn(getZoomScale());
+        } else if (event.deltaY > 0) {
+          dollyOut(getZoomScale());
+        }
+        scope.update();
+      }
+      function handleKeyDown(event) {
+        let needsUpdate = false;
+        switch (event.code) {
+          case scope.keys.UP:
+            pan(0, scope.keyPanSpeed);
+            needsUpdate = true;
+            break;
+          case scope.keys.BOTTOM:
+            pan(0, -scope.keyPanSpeed);
+            needsUpdate = true;
+            break;
+          case scope.keys.LEFT:
+            pan(scope.keyPanSpeed, 0);
+            needsUpdate = true;
+            break;
+          case scope.keys.RIGHT:
+            pan(-scope.keyPanSpeed, 0);
+            needsUpdate = true;
+            break;
+        }
+        if (needsUpdate) {
+          event.preventDefault();
+          scope.update();
+        }
+      }
+      function handleTouchStartRotate() {
+        if (pointers.length === 1) {
+          rotateStart.set(pointers[0].pageX, pointers[0].pageY);
+        } else {
+          const x = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+          const y = 0.5 * (pointers[0].pageY + pointers[1].pageY);
+          rotateStart.set(x, y);
+        }
+      }
+      function handleTouchStartPan() {
+        if (pointers.length === 1) {
+          panStart.set(pointers[0].pageX, pointers[0].pageY);
+        } else {
+          const x = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+          const y = 0.5 * (pointers[0].pageY + pointers[1].pageY);
+          panStart.set(x, y);
+        }
+      }
+      function handleTouchStartDolly() {
+        const dx = pointers[0].pageX - pointers[1].pageX;
+        const dy = pointers[0].pageY - pointers[1].pageY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        dollyStart.set(0, distance);
+      }
+      function handleTouchStartDollyPan() {
+        if (scope.enableZoom)
+          handleTouchStartDolly();
+        if (scope.enablePan)
+          handleTouchStartPan();
+      }
+      function handleTouchStartDollyRotate() {
+        if (scope.enableZoom)
+          handleTouchStartDolly();
+        if (scope.enableRotate)
+          handleTouchStartRotate();
+      }
+      function handleTouchMoveRotate(event) {
+        if (pointers.length == 1) {
+          rotateEnd.set(event.pageX, event.pageY);
+        } else {
+          const position = getSecondPointerPosition(event);
+          const x = 0.5 * (event.pageX + position.x);
+          const y = 0.5 * (event.pageY + position.y);
+          rotateEnd.set(x, y);
+        }
+        rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+        const element = scope.domElement;
+        rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+        rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+        rotateStart.copy(rotateEnd);
+      }
+      function handleTouchMovePan(event) {
+        if (pointers.length === 1) {
+          panEnd.set(event.pageX, event.pageY);
+        } else {
+          const position = getSecondPointerPosition(event);
+          const x = 0.5 * (event.pageX + position.x);
+          const y = 0.5 * (event.pageY + position.y);
+          panEnd.set(x, y);
+        }
+        panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+        pan(panDelta.x, panDelta.y);
+        panStart.copy(panEnd);
+      }
+      function handleTouchMoveDolly(event) {
+        const position = getSecondPointerPosition(event);
+        const dx = event.pageX - position.x;
+        const dy = event.pageY - position.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        dollyEnd.set(0, distance);
+        dollyDelta.set(0, Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed));
+        dollyOut(dollyDelta.y);
+        dollyStart.copy(dollyEnd);
+      }
+      function handleTouchMoveDollyPan(event) {
+        if (scope.enableZoom)
+          handleTouchMoveDolly(event);
+        if (scope.enablePan)
+          handleTouchMovePan(event);
+      }
+      function handleTouchMoveDollyRotate(event) {
+        if (scope.enableZoom)
+          handleTouchMoveDolly(event);
+        if (scope.enableRotate)
+          handleTouchMoveRotate(event);
+      }
+      function onPointerDown(event) {
+        if (scope.enabled === false)
+          return;
+        if (pointers.length === 0) {
+          scope.domElement.setPointerCapture(event.pointerId);
+          scope.domElement.addEventListener("pointermove", onPointerMove);
+          scope.domElement.addEventListener("pointerup", onPointerUp);
+        }
+        addPointer(event);
+        if (event.pointerType === "touch") {
+          onTouchStart(event);
+        } else {
+          onMouseDown(event);
+        }
+      }
+      function onPointerMove(event) {
+        if (scope.enabled === false)
+          return;
+        if (event.pointerType === "touch") {
+          onTouchMove(event);
+        } else {
+          onMouseMove(event);
+        }
+      }
+      function onPointerUp(event) {
+        removePointer(event);
+        if (pointers.length === 0) {
+          scope.domElement.releasePointerCapture(event.pointerId);
+          scope.domElement.removeEventListener("pointermove", onPointerMove);
+          scope.domElement.removeEventListener("pointerup", onPointerUp);
+        }
+        scope.dispatchEvent(_endEvent);
+        state = STATE.NONE;
+      }
+      function onPointerCancel(event) {
+        removePointer(event);
+      }
+      function onMouseDown(event) {
+        let mouseAction;
+        switch (event.button) {
+          case 0:
+            mouseAction = scope.mouseButtons.LEFT;
+            break;
+          case 1:
+            mouseAction = scope.mouseButtons.MIDDLE;
+            break;
+          case 2:
+            mouseAction = scope.mouseButtons.RIGHT;
+            break;
+          default:
+            mouseAction = -1;
+        }
+        switch (mouseAction) {
+          case MOUSE.DOLLY:
+            if (scope.enableZoom === false)
+              return;
+            handleMouseDownDolly(event);
+            state = STATE.DOLLY;
+            break;
+          case MOUSE.ROTATE:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              if (scope.enablePan === false)
+                return;
+              handleMouseDownPan(event);
+              state = STATE.PAN;
+            } else {
+              if (scope.enableRotate === false)
+                return;
+              handleMouseDownRotate(event);
+              state = STATE.ROTATE;
+            }
+            break;
+          case MOUSE.PAN:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              if (scope.enableRotate === false)
+                return;
+              handleMouseDownRotate(event);
+              state = STATE.ROTATE;
+            } else {
+              if (scope.enablePan === false)
+                return;
+              handleMouseDownPan(event);
+              state = STATE.PAN;
+            }
+            break;
+          default:
+            state = STATE.NONE;
+        }
+        if (state !== STATE.NONE) {
+          scope.dispatchEvent(_startEvent);
+        }
+      }
+      function onMouseMove(event) {
+        switch (state) {
+          case STATE.ROTATE:
+            if (scope.enableRotate === false)
+              return;
+            handleMouseMoveRotate(event);
+            break;
+          case STATE.DOLLY:
+            if (scope.enableZoom === false)
+              return;
+            handleMouseMoveDolly(event);
+            break;
+          case STATE.PAN:
+            if (scope.enablePan === false)
+              return;
+            handleMouseMovePan(event);
+            break;
+        }
+      }
+      function onMouseWheel(event) {
+        if (scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE)
+          return;
+        event.preventDefault();
+        scope.dispatchEvent(_startEvent);
+        handleMouseWheel(event);
+        scope.dispatchEvent(_endEvent);
+      }
+      function onKeyDown(event) {
+        if (scope.enabled === false || scope.enablePan === false)
+          return;
+        handleKeyDown(event);
+      }
+      function onTouchStart(event) {
+        trackPointer(event);
+        switch (pointers.length) {
+          case 1:
+            switch (scope.touches.ONE) {
+              case TOUCH.ROTATE:
+                if (scope.enableRotate === false)
+                  return;
+                handleTouchStartRotate();
+                state = STATE.TOUCH_ROTATE;
+                break;
+              case TOUCH.PAN:
+                if (scope.enablePan === false)
+                  return;
+                handleTouchStartPan();
+                state = STATE.TOUCH_PAN;
+                break;
+              default:
+                state = STATE.NONE;
+            }
+            break;
+          case 2:
+            switch (scope.touches.TWO) {
+              case TOUCH.DOLLY_PAN:
+                if (scope.enableZoom === false && scope.enablePan === false)
+                  return;
+                handleTouchStartDollyPan();
+                state = STATE.TOUCH_DOLLY_PAN;
+                break;
+              case TOUCH.DOLLY_ROTATE:
+                if (scope.enableZoom === false && scope.enableRotate === false)
+                  return;
+                handleTouchStartDollyRotate();
+                state = STATE.TOUCH_DOLLY_ROTATE;
+                break;
+              default:
+                state = STATE.NONE;
+            }
+            break;
+          default:
+            state = STATE.NONE;
+        }
+        if (state !== STATE.NONE) {
+          scope.dispatchEvent(_startEvent);
+        }
+      }
+      function onTouchMove(event) {
+        trackPointer(event);
+        switch (state) {
+          case STATE.TOUCH_ROTATE:
+            if (scope.enableRotate === false)
+              return;
+            handleTouchMoveRotate(event);
+            scope.update();
+            break;
+          case STATE.TOUCH_PAN:
+            if (scope.enablePan === false)
+              return;
+            handleTouchMovePan(event);
+            scope.update();
+            break;
+          case STATE.TOUCH_DOLLY_PAN:
+            if (scope.enableZoom === false && scope.enablePan === false)
+              return;
+            handleTouchMoveDollyPan(event);
+            scope.update();
+            break;
+          case STATE.TOUCH_DOLLY_ROTATE:
+            if (scope.enableZoom === false && scope.enableRotate === false)
+              return;
+            handleTouchMoveDollyRotate(event);
+            scope.update();
+            break;
+          default:
+            state = STATE.NONE;
+        }
+      }
+      function onContextMenu(event) {
+        if (scope.enabled === false)
+          return;
+        event.preventDefault();
+      }
+      function addPointer(event) {
+        pointers.push(event);
+      }
+      function removePointer(event) {
+        delete pointerPositions[event.pointerId];
+        for (let i = 0; i < pointers.length; i++) {
+          if (pointers[i].pointerId == event.pointerId) {
+            pointers.splice(i, 1);
+            return;
+          }
+        }
+      }
+      function trackPointer(event) {
+        let position = pointerPositions[event.pointerId];
+        if (position === void 0) {
+          position = new Vector2();
+          pointerPositions[event.pointerId] = position;
+        }
+        position.set(event.pageX, event.pageY);
+      }
+      function getSecondPointerPosition(event) {
+        const pointer = event.pointerId === pointers[0].pointerId ? pointers[1] : pointers[0];
+        return pointerPositions[pointer.pointerId];
+      }
+      scope.domElement.addEventListener("contextmenu", onContextMenu);
+      scope.domElement.addEventListener("pointerdown", onPointerDown);
+      scope.domElement.addEventListener("pointercancel", onPointerCancel);
+      scope.domElement.addEventListener("wheel", onMouseWheel, { passive: false });
+      this.update();
     }
+  };
+
+  // src/app/core/controler.ts
+  var Controler = class {
+    constructor(props) {
+      this._controler = new OrbitControls(props.camera, props.domElement);
+      this._setUpControler();
+    }
+    _controler;
+    _setUpControler() {
+      this._controler.enablePan = false;
+      this._controler.enableZoom = false;
+      this._controler.enableDamping = true;
+      this._controler.dampingFactor = 0.05;
+      this._controler.rotateSpeed *= -0.3;
+    }
+    onlyFront = () => {
+      this._controler.maxAzimuthAngle = Math.PI / 2;
+      this._controler.minAzimuthAngle = 0;
+    };
+    prveentButtom = () => {
+      this._controler.maxPolarAngle = Math.PI / 2;
+    };
+    updateControler = () => this._controler.update();
+  };
+
+  // src/app/core/renderer.ts
+  var _Renderer = class {
+    constructor(scene, camera) {
+      this._scene = scene;
+      this._camera = camera;
+    }
+    _scene;
+    _camera;
+    _webGLRenderer = new WebGLRenderer({
+      antialias: true,
+      preserveDrawingBuffer: true
+    });
+    fnList = [];
+    get domElement() {
+      return this._webGLRenderer.domElement;
+    }
+    setUpWebGLrenderer = () => {
+      this._webGLRenderer.setPixelRatio(window.devicePixelRatio);
+      const { width, height } = getContainerSize();
+      this.setRendererSize(width, height);
+      this._webGLRenderer.setClearColor(new Color(0, 0, 0));
+    };
+    setRendererSize = (width, height) => {
+      this._webGLRenderer.setSize(width, height);
+    };
+    renderScene = () => {
+      this._webGLRenderer.render(this._scene, this._camera);
+    };
+    setClearColor = (color) => {
+      this._webGLRenderer.setClearColor(color);
+    };
   };
 
   // src/app/Application.ts
@@ -59313,6 +60350,45 @@
       app = this;
     }
     camera = new _Camera();
+    scene = new Scene();
+    renderer = new _Renderer(this.scene, this.camera.activeCamera);
+    controler = new Controler({ camera: this.camera.activeCamera, domElement: this.renderer.domElement });
+    initScene = (container) => {
+      const camera = this.camera.activeCamera;
+      this.renderer.setUpWebGLrenderer();
+      camera.position.set(100, 150, 100);
+      camera.lookAt(this.scene.position);
+      camera.updateProjectionMatrix();
+      container.current?.appendChild(this.renderer.domElement);
+      window.onresize = this._onWindowsResize;
+      window.onwheel = this.camera.zoomCameraView;
+      this._loopRender();
+    };
+    disposeScene = () => {
+      window.onresize = null;
+      window.onwheel = null;
+      this.renderer.fnList = [];
+    };
+    _loopRender = (time) => {
+      requestAnimationFrame(this._loopRender);
+      update(time);
+      this.controler.updateControler();
+      this.renderer.renderScene();
+      if (this.renderer.fnList.length === 0)
+        return;
+      for (const f of this.renderer.fnList) {
+        f.call(this);
+      }
+    };
+    _onWindowsResize = () => {
+      const camera = this.camera.activeCamera;
+      const { width, height } = getContainerSize();
+      this.renderer.setRendererSize(width, height);
+      if (camera instanceof OrthographicCamera)
+        return;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
   };
   var getContainerSize = () => {
     const container = document.querySelector("#container");
@@ -59320,15 +60396,54 @@
       message_default.error("\u6CA1\u6709\u52A0\u8F7D\u51FA\u5BB9\u5668,\u8BF7\u5237\u65B0\u91CD\u8BD5");
       return {
         width: document.body.clientWidth,
-        heigh: document.body.clientHeight
+        height: document.body.clientHeight
       };
       ;
     }
     return {
       width: container.clientWidth,
-      heigh: container.clientHeight
+      height: container.clientHeight
     };
   };
+
+  // src/hooks/useScene.ts
+  var import_react26 = __toESM(require_react(), 1);
+  function useScene(container) {
+    (0, import_react26.useEffect)(() => {
+      app.initScene(container);
+      return () => app.disposeScene();
+    }, [container]);
+  }
+
+  // src/page/Index.tsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  function Index() {
+    const container = (0, import_react27.useRef)(null);
+    useScene(container);
+    const mesh = (0, import_react27.useMemo)(() => {
+      const geometry = new BoxGeometry(100, 100, 100, 1, 1, 1);
+      const edge = new EdgesGeometry(geometry);
+      const line = new LineSegments(edge, new LineBasicMaterial({
+        color: "black",
+        linewidth: 3
+      }));
+      return line;
+    }, []);
+    const initScene = (0, import_react27.useCallback)(() => {
+      app.scene.add(mesh);
+      app.renderer.setClearColor(16777215);
+      app.renderer.fnList.push(function() {
+        mesh.rotation.y += 0.01;
+      });
+    }, [mesh]);
+    (0, import_react27.useEffect)(() => {
+      initScene();
+    }, [initScene]);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+      ref: container,
+      id: "container"
+    });
+  }
 
   // src/app/App.tsx
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
@@ -59343,7 +60458,7 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react27.useLayoutEffect)(() => {
+    (0, import_react28.useLayoutEffect)(() => {
       new Application();
     }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BrowserRouter, {

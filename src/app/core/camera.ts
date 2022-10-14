@@ -8,21 +8,19 @@ export default class _Camera
 
     constructor()
     {
-        const { width, heigh } = getContainerSize();
+        const { width, height } = getContainerSize();
 
         this._perspectiveCamera = new PerspectiveCamera(
             90,            //视野角度
-            width / heigh, //视野长宽比
+            width / height, //视野长宽比
             .1,            //近截面
             1000,          //远截面
         );
 
-
         this._perspectiveCamera.userData = { fovVolume: 90 };
 
-
         this._orthographicCamera = new OrthographicCamera(
-            width / -2, width / 2, heigh / -2, heigh / -2, .1, 1000
+            width / -2, width / 2, height / -2, height / -2, .1, 1000
         );
     }
 
@@ -36,6 +34,14 @@ export default class _Camera
 
 
     public cameraType: CameraType = 'Perspective';
+
+
+    /** 当前激活的相机 */
+    get activeCamera(): Camera
+    {
+        if (this.cameraType === 'Orthographic') return this._orthographicCamera;
+        return this._perspectiveCamera;
+    }
 
 
     public zoomCameraView = (ev: WheelEvent): void =>
@@ -63,18 +69,12 @@ export default class _Camera
             {
                 camera.userData.fovVolume = target.fov;
 
+                camera.fov = camera.userData.fovVolume;
+
                 camera.updateProjectionMatrix();
             })
             .start();
 
     };
-
-
-    /** 当前激活的相机 */
-    get activeCamera(): Camera
-    {
-        if (this.cameraType === 'Orthographic') return this._orthographicCamera;
-        return this._perspectiveCamera;
-    }
 
 }
