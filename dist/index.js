@@ -59632,8 +59632,7 @@
       }
       const target = { fov: camera.fov };
       new Tween(target).to({ fov: camera.userData.fovVolume }).easing(Easing.Quadratic.Out).onUpdate(() => {
-        camera.userData.fovVolume = target.fov;
-        camera.fov = camera.userData.fovVolume;
+        camera.fov = target.fov;
         camera.updateProjectionMatrix();
       }).start();
     };

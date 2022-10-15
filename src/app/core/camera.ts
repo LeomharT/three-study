@@ -67,9 +67,7 @@ export default class _Camera
             .easing(Easing.Quadratic.Out)
             .onUpdate(() =>
             {
-                camera.userData.fovVolume = target.fov;
-
-                camera.fov = camera.userData.fovVolume;
+                camera.fov = target.fov;
 
                 camera.updateProjectionMatrix();
             })
