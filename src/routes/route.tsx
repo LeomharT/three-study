@@ -1,5 +1,6 @@
 import { BookTwoTone } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
+import TranslateObject from '../page/Chapter_1/TranslateObject/TranslateObject';
 
 export type MenuItem = Required<MenuProps>['items'][number] &
 {
@@ -25,7 +26,7 @@ export function setItems({ label, key, path, type, icon, children, element }: Se
 export const ROUTES: MenuItem[] = [
     setItems({
         label: 'Chapter01 Basics', key: 'Chapter01 Basics', icon: <BookTwoTone />, children: [
-            setItems({ label: 'Transform Objects', key: '/transform_objects', path: '/transform_objects', element: <div>1</div> }),
+            setItems({ label: 'Transform Objects', key: '/transform_objects', path: '/transform_objects', element: <TranslateObject /> }),
             setItems({ label: 'Animations', key: '/animations', path: '/animations', element: <div>2</div> })
         ]
     }),

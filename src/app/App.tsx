@@ -18,14 +18,12 @@ const renderChildrenRoute = (route: MenuItem[]): MenuItem[] =>
 
     return prve_children.concat(renderChildrenRoute(route));
 };
+
 const ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
 
 export default function App()
 {
-    useLayoutEffect(() =>
-    {
-        new Application();
-    }, []);
+    useLayoutEffect(() => { new Application(); }, []);
 
     return (
         <BrowserRouter>

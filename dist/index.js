@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef40(initialValue) {
+          function useRef41(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect32(create, deps) {
+          function useEffect33(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback13(callback, deps) {
+          function useCallback14(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback13;
+          exports.useCallback = useCallback14;
           exports.useContext = useContext34;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect32;
+          exports.useEffect = useEffect33;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle7;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo24;
           exports.useReducer = useReducer;
-          exports.useRef = useRef40;
+          exports.useRef = useRef41;
           exports.useState = useState19;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key2, false);
             }
           }
-          var jsx6 = jsxWithValidationDynamic;
+          var jsx7 = jsxWithValidationDynamic;
           var jsxs2 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx6;
+          exports.jsx = jsx7;
           exports.jsxs = jsxs2;
         })();
       }
@@ -25545,7 +25545,7 @@
   var import_client = __toESM(require_client(), 1);
 
   // src/app/App.tsx
-  var import_react28 = __toESM(require_react(), 1);
+  var import_react29 = __toESM(require_react(), 1);
 
   // node_modules/react-router-dom/dist/index.js
   var React2 = __toESM(require_react());
@@ -40952,44 +40952,7 @@
   BookTwoTone2.displayName = "BookTwoTone";
   var BookTwoTone_default2 = /* @__PURE__ */ React102.forwardRef(BookTwoTone2);
 
-  // src/routes/route.tsx
-  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  function setItems({ label, key: key2, path, type: type4, icon, children, element }) {
-    return { key: key2, icon, path, children, label, type: type4, element };
-  }
-  var ROUTES = [
-    setItems({
-      label: "Chapter01 Basics",
-      key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BookTwoTone_default2, {}),
-      children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-          children: "1"
-        }) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-          children: "2"
-        }) })
-      ]
-    })
-  ];
-
-  // src/components/AsideNavi.tsx
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  function AsideNavi() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(menu_default, {
-      items: ROUTES,
-      defaultOpenKeys: ["Chapter01 Basics"],
-      activeKey: location.pathname,
-      mode: "inline",
-      onSelect: (e) => {
-        navigate(e.key);
-      }
-    });
-  }
-
-  // src/page/Index.tsx
+  // src/page/Chapter_1/TranslateObject/TranslateObject.tsx
   var import_react27 = __toESM(require_react(), 1);
 
   // node_modules/three/build/three.module.js
@@ -57951,6 +57914,128 @@
       return this;
     }
   };
+  var CylinderGeometry = class extends BufferGeometry {
+    constructor(radiusTop = 1, radiusBottom = 1, height = 1, radialSegments = 8, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2) {
+      super();
+      this.type = "CylinderGeometry";
+      this.parameters = {
+        radiusTop,
+        radiusBottom,
+        height,
+        radialSegments,
+        heightSegments,
+        openEnded,
+        thetaStart,
+        thetaLength
+      };
+      const scope = this;
+      radialSegments = Math.floor(radialSegments);
+      heightSegments = Math.floor(heightSegments);
+      const indices = [];
+      const vertices = [];
+      const normals = [];
+      const uvs = [];
+      let index2 = 0;
+      const indexArray = [];
+      const halfHeight = height / 2;
+      let groupStart = 0;
+      generateTorso();
+      if (openEnded === false) {
+        if (radiusTop > 0)
+          generateCap(true);
+        if (radiusBottom > 0)
+          generateCap(false);
+      }
+      this.setIndex(indices);
+      this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+      this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
+      this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
+      function generateTorso() {
+        const normal = new Vector3();
+        const vertex2 = new Vector3();
+        let groupCount = 0;
+        const slope = (radiusBottom - radiusTop) / height;
+        for (let y = 0; y <= heightSegments; y++) {
+          const indexRow = [];
+          const v = y / heightSegments;
+          const radius = v * (radiusBottom - radiusTop) + radiusTop;
+          for (let x = 0; x <= radialSegments; x++) {
+            const u = x / radialSegments;
+            const theta = u * thetaLength + thetaStart;
+            const sinTheta = Math.sin(theta);
+            const cosTheta = Math.cos(theta);
+            vertex2.x = radius * sinTheta;
+            vertex2.y = -v * height + halfHeight;
+            vertex2.z = radius * cosTheta;
+            vertices.push(vertex2.x, vertex2.y, vertex2.z);
+            normal.set(sinTheta, slope, cosTheta).normalize();
+            normals.push(normal.x, normal.y, normal.z);
+            uvs.push(u, 1 - v);
+            indexRow.push(index2++);
+          }
+          indexArray.push(indexRow);
+        }
+        for (let x = 0; x < radialSegments; x++) {
+          for (let y = 0; y < heightSegments; y++) {
+            const a = indexArray[y][x];
+            const b = indexArray[y + 1][x];
+            const c = indexArray[y + 1][x + 1];
+            const d = indexArray[y][x + 1];
+            indices.push(a, b, d);
+            indices.push(b, c, d);
+            groupCount += 6;
+          }
+        }
+        scope.addGroup(groupStart, groupCount, 0);
+        groupStart += groupCount;
+      }
+      function generateCap(top) {
+        const centerIndexStart = index2;
+        const uv = new Vector2();
+        const vertex2 = new Vector3();
+        let groupCount = 0;
+        const radius = top === true ? radiusTop : radiusBottom;
+        const sign = top === true ? 1 : -1;
+        for (let x = 1; x <= radialSegments; x++) {
+          vertices.push(0, halfHeight * sign, 0);
+          normals.push(0, sign, 0);
+          uvs.push(0.5, 0.5);
+          index2++;
+        }
+        const centerIndexEnd = index2;
+        for (let x = 0; x <= radialSegments; x++) {
+          const u = x / radialSegments;
+          const theta = u * thetaLength + thetaStart;
+          const cosTheta = Math.cos(theta);
+          const sinTheta = Math.sin(theta);
+          vertex2.x = radius * sinTheta;
+          vertex2.y = halfHeight * sign;
+          vertex2.z = radius * cosTheta;
+          vertices.push(vertex2.x, vertex2.y, vertex2.z);
+          normals.push(0, sign, 0);
+          uv.x = cosTheta * 0.5 + 0.5;
+          uv.y = sinTheta * 0.5 * sign + 0.5;
+          uvs.push(uv.x, uv.y);
+          index2++;
+        }
+        for (let x = 0; x < radialSegments; x++) {
+          const c = centerIndexStart + x;
+          const i = centerIndexEnd + x;
+          if (top === true) {
+            indices.push(i, i + 1, c);
+          } else {
+            indices.push(i + 1, i, c);
+          }
+          groupCount += 3;
+        }
+        scope.addGroup(groupStart, groupCount, top === true ? 1 : 2);
+        groupStart += groupCount;
+      }
+    }
+    static fromJSON(data) {
+      return new CylinderGeometry(data.radiusTop, data.radiusBottom, data.height, data.radialSegments, data.heightSegments, data.openEnded, data.thetaStart, data.thetaLength);
+    }
+  };
   var _v0 = /* @__PURE__ */ new Vector3();
   var _v1$1 = /* @__PURE__ */ new Vector3();
   var _normal = /* @__PURE__ */ new Vector3();
@@ -58902,6 +58987,64 @@
       return new this.constructor().copy(this);
     }
   };
+  var _axis = /* @__PURE__ */ new Vector3();
+  var _lineGeometry;
+  var _coneGeometry;
+  var ArrowHelper = class extends Object3D {
+    constructor(dir = new Vector3(0, 0, 1), origin = new Vector3(0, 0, 0), length = 1, color = 16776960, headLength = length * 0.2, headWidth = headLength * 0.2) {
+      super();
+      this.type = "ArrowHelper";
+      if (_lineGeometry === void 0) {
+        _lineGeometry = new BufferGeometry();
+        _lineGeometry.setAttribute("position", new Float32BufferAttribute([0, 0, 0, 0, 1, 0], 3));
+        _coneGeometry = new CylinderGeometry(0, 0.5, 1, 5, 1);
+        _coneGeometry.translate(0, -0.5, 0);
+      }
+      this.position.copy(origin);
+      this.line = new Line(_lineGeometry, new LineBasicMaterial({ color, toneMapped: false }));
+      this.line.matrixAutoUpdate = false;
+      this.add(this.line);
+      this.cone = new Mesh(_coneGeometry, new MeshBasicMaterial({ color, toneMapped: false }));
+      this.cone.matrixAutoUpdate = false;
+      this.add(this.cone);
+      this.setDirection(dir);
+      this.setLength(length, headLength, headWidth);
+    }
+    setDirection(dir) {
+      if (dir.y > 0.99999) {
+        this.quaternion.set(0, 0, 0, 1);
+      } else if (dir.y < -0.99999) {
+        this.quaternion.set(1, 0, 0, 0);
+      } else {
+        _axis.set(dir.z, 0, -dir.x).normalize();
+        const radians = Math.acos(dir.y);
+        this.quaternion.setFromAxisAngle(_axis, radians);
+      }
+    }
+    setLength(length, headLength = length * 0.2, headWidth = headLength * 0.2) {
+      this.line.scale.set(1, Math.max(1e-4, length - headLength), 1);
+      this.line.updateMatrix();
+      this.cone.scale.set(headWidth, headLength, headWidth);
+      this.cone.position.y = length;
+      this.cone.updateMatrix();
+    }
+    setColor(color) {
+      this.line.material.color.set(color);
+      this.cone.material.color.set(color);
+    }
+    copy(source) {
+      super.copy(source, false);
+      this.line.copy(source.line);
+      this.cone.copy(source.cone);
+      return this;
+    }
+    dispose() {
+      this.line.geometry.dispose();
+      this.line.material.dispose();
+      this.cone.geometry.dispose();
+      this.cone.material.dispose();
+    }
+  };
   if (typeof __THREE_DEVTOOLS__ !== "undefined") {
     __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("register", { detail: {
       revision: REVISION
@@ -59588,6 +59731,101 @@
   var add = TWEEN.add.bind(TWEEN);
   var remove = TWEEN.remove.bind(TWEEN);
   var update = TWEEN.update.bind(TWEEN);
+
+  // node_modules/three/examples/jsm/libs/stats.module.js
+  var Stats = function() {
+    var mode = 0;
+    var container = document.createElement("div");
+    container.style.cssText = "position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";
+    container.addEventListener("click", function(event) {
+      event.preventDefault();
+      showPanel(++mode % container.children.length);
+    }, false);
+    function addPanel(panel) {
+      container.appendChild(panel.dom);
+      return panel;
+    }
+    function showPanel(id) {
+      for (var i = 0; i < container.children.length; i++) {
+        container.children[i].style.display = i === id ? "block" : "none";
+      }
+      mode = id;
+    }
+    var beginTime = (performance || Date).now(), prevTime = beginTime, frames = 0;
+    var fpsPanel = addPanel(new Stats.Panel("FPS", "#0ff", "#002"));
+    var msPanel = addPanel(new Stats.Panel("MS", "#0f0", "#020"));
+    if (self.performance && self.performance.memory) {
+      var memPanel = addPanel(new Stats.Panel("MB", "#f08", "#201"));
+    }
+    showPanel(0);
+    return {
+      REVISION: 16,
+      dom: container,
+      addPanel,
+      showPanel,
+      begin: function() {
+        beginTime = (performance || Date).now();
+      },
+      end: function() {
+        frames++;
+        var time = (performance || Date).now();
+        msPanel.update(time - beginTime, 200);
+        if (time >= prevTime + 1e3) {
+          fpsPanel.update(frames * 1e3 / (time - prevTime), 100);
+          prevTime = time;
+          frames = 0;
+          if (memPanel) {
+            var memory = performance.memory;
+            memPanel.update(memory.usedJSHeapSize / 1048576, memory.jsHeapSizeLimit / 1048576);
+          }
+        }
+        return time;
+      },
+      update: function() {
+        beginTime = this.end();
+      },
+      domElement: container,
+      setMode: showPanel
+    };
+  };
+  Stats.Panel = function(name, fg, bg) {
+    var min = Infinity, max = 0, round = Math.round;
+    var PR = round(window.devicePixelRatio || 1);
+    var WIDTH = 80 * PR, HEIGHT = 48 * PR, TEXT_X = 3 * PR, TEXT_Y = 2 * PR, GRAPH_X = 3 * PR, GRAPH_Y = 15 * PR, GRAPH_WIDTH = 74 * PR, GRAPH_HEIGHT = 30 * PR;
+    var canvas = document.createElement("canvas");
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    canvas.style.cssText = "width:80px;height:48px";
+    var context = canvas.getContext("2d");
+    context.font = "bold " + 9 * PR + "px Helvetica,Arial,sans-serif";
+    context.textBaseline = "top";
+    context.fillStyle = bg;
+    context.fillRect(0, 0, WIDTH, HEIGHT);
+    context.fillStyle = fg;
+    context.fillText(name, TEXT_X, TEXT_Y);
+    context.fillRect(GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT);
+    context.fillStyle = bg;
+    context.globalAlpha = 0.9;
+    context.fillRect(GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT);
+    return {
+      dom: canvas,
+      update: function(value, maxValue) {
+        min = Math.min(min, value);
+        max = Math.max(max, value);
+        context.fillStyle = bg;
+        context.globalAlpha = 1;
+        context.fillRect(0, 0, WIDTH, GRAPH_Y);
+        context.fillStyle = fg;
+        context.fillText(round(value) + " " + name + " (" + round(min) + "-" + round(max) + ")", TEXT_X, TEXT_Y);
+        context.drawImage(canvas, GRAPH_X + PR, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT, GRAPH_X, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT);
+        context.fillRect(GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, GRAPH_HEIGHT);
+        context.fillStyle = bg;
+        context.globalAlpha = 0.9;
+        context.fillRect(GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, round((1 - value / maxValue) * GRAPH_HEIGHT));
+      }
+    };
+  };
+  var stats_module_default = Stats;
 
   // src/app/core/camera.ts
   var _Camera = class {
@@ -60352,10 +60590,11 @@
     scene = new Scene();
     renderer = new _Renderer(this.scene, this.camera.activeCamera);
     controler = new Controler({ camera: this.camera.activeCamera, domElement: this.renderer.domElement });
+    _stats = new stats_module_default();
     initScene = (container) => {
       const camera = this.camera.activeCamera;
       this.renderer.setUpWebGLrenderer();
-      camera.position.set(100, 150, 100);
+      camera.position.set(1, 1.5, 1);
       camera.lookAt(this.scene.position);
       camera.updateProjectionMatrix();
       container.current?.appendChild(this.renderer.domElement);
@@ -60371,6 +60610,7 @@
     _loopRender = (time) => {
       requestAnimationFrame(this._loopRender);
       update(time);
+      this._stats.update();
       this.controler.updateControler();
       this.renderer.renderScene();
       if (this.renderer.fnList.length === 0)
@@ -60387,6 +60627,20 @@
         return;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+    };
+    addArrowHelper = () => {
+      const arrow_helpers = [
+        new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 25, "#FF0000"),
+        new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 25, "#00FF00"),
+        new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 25, "#0000FF")
+      ];
+      app.scene.add(...arrow_helpers);
+    };
+    showStatus = () => {
+      const domElement = this._stats.dom;
+      domElement.id = "webgl_stats";
+      domElement.style.left = "330px";
+      document.body.appendChild(domElement);
     };
   };
   var getContainerSize = () => {
@@ -60414,12 +60668,97 @@
     }, [container]);
   }
 
-  // src/page/Index.tsx
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  function Index() {
+  // src/page/Chapter_1/TranslateObject/TranslateObject.tsx
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+  function TranslateObject() {
     const container = (0, import_react27.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react27.useMemo)(() => {
+    const setUpCamera = (0, import_react27.useCallback)(() => {
+      const camera = app.camera.activeCamera;
+      camera.position.set(0, 0, 3);
+      camera.lookAt(app.scene.position);
+      camera.updateProjectionMatrix();
+    }, []);
+    const moveObject = (0, import_react27.useCallback)((mesh) => {
+      const camera = app.camera.activeCamera;
+      mesh.position.y = 1;
+      mesh.position.x = 2;
+      console.log(mesh.position.length());
+      console.log(mesh.position.distanceTo(camera.position));
+      console.log(mesh.position.normalize());
+    }, []);
+    const scaleObject = (0, import_react27.useCallback)((mesh) => {
+      mesh.scale.x = 2;
+      mesh.scale.set(1, 1, 1);
+    }, []);
+    const rotateObject = (0, import_react27.useCallback)((mesh) => {
+      mesh.rotation.reorder("YXZ");
+      mesh.rotation.y = Math.PI * 0.25;
+    }, []);
+    const initScene = (0, import_react27.useCallback)(() => {
+      setUpCamera();
+      const mesh = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshBasicMaterial({ color: "gold" })
+      );
+      moveObject(mesh);
+      scaleObject(mesh);
+      rotateObject(mesh);
+      app.scene.add(mesh);
+    }, [setUpCamera]);
+    (0, import_react27.useEffect)(() => {
+      initScene();
+      app.showStatus();
+      app.addArrowHelper();
+    }, [initScene]);
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+      ref: container,
+      id: "container"
+    });
+  }
+
+  // src/routes/route.tsx
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  function setItems({ label, key: key2, path, type: type4, icon, children, element }) {
+    return { key: key2, icon, path, children, label, type: type4, element };
+  }
+  var ROUTES = [
+    setItems({
+      label: "Chapter01 Basics",
+      key: "Chapter01 Basics",
+      icon: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(BookTwoTone_default2, {}),
+      children: [
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", {
+          children: "2"
+        }) })
+      ]
+    })
+  ];
+
+  // src/components/AsideNavi.tsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  function AsideNavi() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(menu_default, {
+      items: ROUTES,
+      defaultOpenKeys: ["Chapter01 Basics"],
+      activeKey: location.pathname,
+      mode: "inline",
+      onSelect: (e) => {
+        navigate(e.key);
+      }
+    });
+  }
+
+  // src/page/Index.tsx
+  var import_react28 = __toESM(require_react(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  function Index() {
+    const container = (0, import_react28.useRef)(null);
+    useScene(container);
+    const mesh = (0, import_react28.useMemo)(() => {
       const geometry = new BoxGeometry(100, 100, 100, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line = new LineSegments(edge, new LineBasicMaterial({
@@ -60428,24 +60767,24 @@
       }));
       return line;
     }, []);
-    const initScene = (0, import_react27.useCallback)(() => {
+    const initScene = (0, import_react28.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       app.renderer.fnList.push(function() {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react27.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   var renderChildrenRoute = (route) => {
     if (!route)
       return [];
@@ -60457,21 +60796,21 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react28.useLayoutEffect)(() => {
+    (0, import_react29.useLayoutEffect)(() => {
       new Application();
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", {
         id: "app",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AsideNavi, {}),
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Routes, {
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AsideNavi, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(Routes, {
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Route, {
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Route, {
                 path: "/",
-                element: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Index, {})
+                element: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Index, {})
               }),
-              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Route, {
+              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Route, {
                 path: r.path,
                 element: r.element
               }, r.key))
@@ -60483,10 +60822,10 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(App, {})
   );
 })();
 /*!

@@ -1,7 +1,8 @@
 import { update } from "@tweenjs/tween.js";
 import { message } from "antd";
 import { RefObject } from "react";
-import { OrthographicCamera, PerspectiveCamera, Scene } from "three";
+import { ArrowHelper, Object3D, OrthographicCamera, PerspectiveCamera, Scene, Vector3 } from "three";
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import _Camera from "./core/camera";
 import Controler from "./core/controler";
 import _Renderer from "./core/renderer";
@@ -30,6 +31,11 @@ export class Application
     public controler: Controler = new Controler({ camera: this.camera.activeCamera, domElement: this.renderer.domElement });
 
 
+    /** 帧数状态 */
+    //@ts-ignore
+    private _stats: Stats = new Stats();
+
+
     /** 初始化场景 */
     public initScene = (container: RefObject<HTMLDivElement>): void =>
     {
@@ -37,7 +43,7 @@ export class Application
 
         this.renderer.setUpWebGLrenderer();
 
-        camera.position.set(100, 150, 100);
+        camera.position.set(1, 1.5, 1);
         camera.lookAt(this.scene.position);
         camera.updateProjectionMatrix();
 
@@ -67,6 +73,9 @@ export class Application
         //TWEEN
         update(time);
 
+        //Stats
+        this._stats.update();
+
         //轨道控制器更新
         this.controler.updateControler();
 
@@ -93,6 +102,32 @@ export class Application
         if (camera instanceof OrthographicCamera) return;
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+    };
+
+
+    /** 添加箭头坐标助手 */
+    public addArrowHelper = () =>
+    {
+        const arrow_helpers: Object3D[] = [
+            new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 25, "#FF0000"),
+            new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 25, "#00FF00"),
+            new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 25, "#0000FF"),
+        ];
+
+        app.scene.add(...arrow_helpers);
+    };
+
+
+    /** 添加帧数显示 */
+    public showStatus = () =>
+    {
+        const domElement = this._stats.dom;
+
+        domElement.id = 'webgl_stats';
+
+        domElement.style.left = '330px';
+
+        document.body.appendChild(domElement);
     };
 }
 
