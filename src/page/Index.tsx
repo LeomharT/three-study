@@ -13,7 +13,7 @@ export default function Index()
 
     const mesh = useMemo(() =>
     {
-        const geometry = new BoxGeometry(100, 100, 100, 1, 1, 1);
+        const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
 
         const edge = new EdgesGeometry(geometry);
 

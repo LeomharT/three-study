@@ -62,6 +62,7 @@ export class Application
         window.onresize = null;
         window.onwheel = null;
         this.renderer.fnList = [];
+        this.scene.clear();
     };
 
 
