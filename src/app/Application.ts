@@ -1,13 +1,15 @@
 import { update } from "@tweenjs/tween.js";
 import { message } from "antd";
 import { RefObject } from "react";
-import { ArrowHelper, Object3D, OrthographicCamera, PerspectiveCamera, Scene, Vector3 } from "three";
+import { ArrowHelper, Clock, Object3D, OrthographicCamera, PerspectiveCamera, Scene, Vector3 } from "three";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import _Camera from "./core/camera";
 import Controler from "./core/controler";
 import _Renderer from "./core/renderer";
 
 export let app: Application;
+
+const FRAME = 1 / 60;
 
 export class Application
 {
@@ -36,6 +38,14 @@ export class Application
     private _stats: Stats = new Stats();
 
 
+    /** 控制帧数->计时器 */
+    private _clock: Clock = new Clock();
+
+
+    /** 控制帧数->时间差 */
+    private _times: number = 0;
+
+
     /** 初始化场景 */
     public initScene = (container: RefObject<HTMLDivElement>): void =>
     {
@@ -57,12 +67,31 @@ export class Application
 
 
     /** 卸载场景 */
-    public disposeScene = () =>
+    public disposeScene = (): void =>
     {
         window.onresize = null;
+
         window.onwheel = null;
+
         this.renderer.fnList = [];
+
         this.scene.clear();
+    };
+
+
+    /** 限制渲染帧数 */
+    private _limitFrame = (): boolean =>
+    {
+        const delta = this._clock.getDelta();
+
+        this._times += delta;
+
+        //保证一秒最高FPS60 -> 小于16毫秒不执行
+        if (this._times < FRAME) return false;
+
+        this._times = 0;
+
+        return true;
     };
 
 
@@ -70,6 +99,10 @@ export class Application
     private _loopRender = (time?: number) =>
     {
         requestAnimationFrame(this._loopRender);
+
+        const isHeightFrame = this._limitFrame();
+
+        if (!isHeightFrame) return;
 
         //TWEEN
         update(time);

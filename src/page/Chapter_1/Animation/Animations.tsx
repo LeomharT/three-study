@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
 import { app } from "../../../app/Application";
 import useScene from "../../../hooks/useScene";
 
@@ -8,12 +9,25 @@ export default function Animation()
 
     useScene(container);
 
-    useEffect(() =>
+    const initScene = useCallback(() =>
     {
+        const cube = new Mesh(
+            new BoxGeometry(1, 1, 1),
+            new MeshBasicMaterial({ color: 'red' })
+        );
+
+        app.scene.add(cube);
+
         app.renderer.fnList.push(() =>
         {
-            console.log('ahah');
+            cube.rotation.y += 0.002;
+            cube.rotation.x += 0.002;
         });
+    }, []);
+
+    useEffect(() =>
+    {
+        initScene();
     }, []);
 
 
