@@ -60728,16 +60728,22 @@
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   function Animation() {
     const container = (0, import_react27.useRef)(null);
+    const { current: clock } = (0, import_react27.useRef)(new Clock());
     useScene(container);
     const initScene = (0, import_react27.useCallback)(() => {
+      app.addArrowHelper();
       const cube = new Mesh(
         new BoxGeometry(1, 1, 1),
         new MeshBasicMaterial({ color: "red" })
       );
+      const cube2 = cube.clone(true);
+      cube2.position.y = 2;
+      cube.add(cube2);
       app.scene.add(cube);
       app.renderer.fnList.push(() => {
-        cube.rotation.y += 2e-3;
-        cube.rotation.x += 2e-3;
+        const elapsed_time = clock.getElapsedTime();
+        cube.position.y = Math.sin(elapsed_time);
+        cube.position.x = Math.cos(elapsed_time);
       });
     }, []);
     (0, import_react27.useEffect)(() => {
