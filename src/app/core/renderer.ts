@@ -59,6 +59,10 @@ export default class _Renderer
 
     public renderScene = () =>
     {
+        const { width, height } = getContainerSize();
+
+        this._webGLRenderer.setViewport(0, 0, width, height);
+
         this._webGLRenderer.render(this._scene, this._camera);
     };
 

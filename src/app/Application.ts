@@ -57,8 +57,6 @@ export class Application
         camera.lookAt(this.scene.position);
         camera.updateProjectionMatrix();
 
-        this.scene.add(camera);
-
         container.current?.appendChild(this.renderer.domElement);
 
         window.onresize = this._onWindowsResize;

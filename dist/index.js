@@ -60617,6 +60617,8 @@
       this._webGLRenderer.setSize(width, height);
     };
     renderScene = () => {
+      const { width, height } = getContainerSize();
+      this._webGLRenderer.setViewport(0, 0, width, height);
       this._webGLRenderer.render(this._scene, this._camera);
     };
     setClearColor = (color) => {
@@ -60645,7 +60647,6 @@
       camera.position.set(1, 1.5, 1);
       camera.lookAt(this.scene.position);
       camera.updateProjectionMatrix();
-      this.scene.add(camera);
       container.current?.appendChild(this.renderer.domElement);
       window.onresize = this._onWindowsResize;
       window.onwheel = this.camera.zoomCameraView;
@@ -60829,20 +60830,12 @@
         0.1,
         10
       );
-      app.camera.activeCamera.add(camera2);
       const cube = new Mesh(
         new BoxGeometry(1, 1, 1),
         new MeshBasicMaterial({ color: "red" })
       );
       app.scene.add(cube);
       app.renderer.fnList.push(() => {
-        renderer.setViewport(
-          0,
-          0,
-          width,
-          height
-        );
-        renderer.render(app.scene, app.camera.activeCamera);
         renderer.clearDepth();
         renderer.setScissorTest(true);
         renderer.setScissor(
@@ -60857,12 +60850,17 @@
           innerWidth,
           innerHeight
         );
+        camera2.position.set(0, 2, 3);
+        camera2.lookAt(app.scene.position);
+        camera2.updateProjectionMatrix();
         renderer.render(app.scene, camera2);
+        cube.rotation.y += 0.02;
         renderer.setScissorTest(false);
       });
     }, []);
     (0, import_react29.useEffect)(() => {
       const { width, height } = getContainerSize();
+      app.addArrowHelper();
       initScene(width, height);
     }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {

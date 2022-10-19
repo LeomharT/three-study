@@ -25,8 +25,6 @@ export default function TwoCameras()
             10
         );
 
-        app.camera.activeCamera.add(camera2);
-
         const cube = new Mesh(
             new BoxGeometry(1, 1, 1),
             new MeshBasicMaterial({ color: 'red' })
@@ -34,17 +32,8 @@ export default function TwoCameras()
 
         app.scene.add(cube);
 
-
         app.renderer.fnList.push(() =>
         {
-            renderer.setViewport(
-                0, 0,
-                width, height
-            );
-
-            renderer.render(app.scene, app.camera.activeCamera);
-
-
             renderer.clearDepth();
 
             renderer.setScissorTest(true);
@@ -63,8 +52,13 @@ export default function TwoCameras()
                 innerHeight
             );
 
+            camera2.position.set(0, 2, 3);
+            camera2.lookAt(app.scene.position);
+            camera2.updateProjectionMatrix();
+
             renderer.render(app.scene, camera2);
 
+            cube.rotation.y += 0.02;
 
             renderer.setScissorTest(false);
         });
@@ -76,6 +70,8 @@ export default function TwoCameras()
     useEffect(() =>
     {
         const { width, height } = getContainerSize();
+
+        app.addArrowHelper();
 
         initScene(width, height);
 
