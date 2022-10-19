@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef42(initialValue) {
+          function useRef43(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect34(create, deps) {
+          function useEffect35(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback15(callback, deps) {
+          function useCallback16(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback15;
+          exports.useCallback = useCallback16;
           exports.useContext = useContext34;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect34;
+          exports.useEffect = useEffect35;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle7;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo24;
           exports.useReducer = useReducer;
-          exports.useRef = useRef42;
+          exports.useRef = useRef43;
           exports.useState = useState19;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key2, false);
             }
           }
-          var jsx8 = jsxWithValidationDynamic;
+          var jsx9 = jsxWithValidationDynamic;
           var jsxs2 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx8;
+          exports.jsx = jsx9;
           exports.jsxs = jsxs2;
         })();
       }
@@ -25545,7 +25545,7 @@
   var import_client = __toESM(require_client(), 1);
 
   // src/app/App.tsx
-  var import_react30 = __toESM(require_react(), 1);
+  var import_react31 = __toESM(require_react(), 1);
 
   // node_modules/react-router-dom/dist/index.js
   var React2 = __toESM(require_react());
@@ -25769,12 +25769,12 @@
     if (parentPath === void 0) {
       parentPath = "";
     }
-    routes.forEach((route, index2) => {
+    routes.forEach((route2, index2) => {
       let meta = {
-        relativePath: route.path || "",
-        caseSensitive: route.caseSensitive === true,
+        relativePath: route2.path || "",
+        caseSensitive: route2.caseSensitive === true,
         childrenIndex: index2,
-        route
+        route: route2
       };
       if (meta.relativePath.startsWith("/")) {
         invariant(meta.relativePath.startsWith(parentPath), 'Absolute route path "' + meta.relativePath + '" nested under path ' + ('"' + parentPath + '" is not valid. An absolute child route path ') + "must start with the combined path of all its parent routes.");
@@ -25782,19 +25782,19 @@
       }
       let path = joinPaths([parentPath, meta.relativePath]);
       let routesMeta = parentsMeta.concat(meta);
-      if (route.children && route.children.length > 0) {
+      if (route2.children && route2.children.length > 0) {
         invariant(
-          route.index !== true,
+          route2.index !== true,
           "Index routes must not have child routes. Please remove " + ('all child routes from route path "' + path + '".')
         );
-        flattenRoutes(route.children, branches, routesMeta, path);
+        flattenRoutes(route2.children, branches, routesMeta, path);
       }
-      if (route.path == null && !route.index) {
+      if (route2.path == null && !route2.index) {
         return;
       }
       branches.push({
         path,
-        score: computeScore(path, route.index),
+        score: computeScore(path, route2.index),
         routesMeta
       });
     });
@@ -25844,12 +25844,12 @@
       if (!match)
         return null;
       Object.assign(matchedParams, match.params);
-      let route = meta.route;
+      let route2 = meta.route;
       matches.push({
         params: matchedParams,
         pathname: joinPaths([matchedPathname, match.pathname]),
         pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
-        route
+        route: route2
       });
       if (match.pathnameBase !== "/") {
         matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
@@ -26490,12 +26490,12 @@
     var _state$errors;
     let error = React.useContext(RouteErrorContext);
     let state = useDataRouterState(DataRouterStateHook.UseRouteError);
-    let route = React.useContext(RouteContext);
-    let thisRoute = route.matches[route.matches.length - 1];
+    let route2 = React.useContext(RouteContext);
+    let thisRoute = route2.matches[route2.matches.length - 1];
     if (error) {
       return error;
     }
-    !route ? true ? invariant(false, "useRouteError must be used inside a RouteContext") : invariant(false) : void 0;
+    !route2 ? true ? invariant(false, "useRouteError must be used inside a RouteContext") : invariant(false) : void 0;
     !thisRoute.route.id ? true ? invariant(false, 'useRouteError can only be used on routes that contain a unique "id"') : invariant(false) : void 0;
     return (_state$errors = state.errors) == null ? void 0 : _state$errors[thisRoute.route.id];
   }
@@ -26595,7 +26595,7 @@
       !(element.type === Route) ? true ? invariant(false, "[" + (typeof element.type === "string" ? element.type : element.type.name) + "] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>") : invariant(false) : void 0;
       !(!element.props.index || !element.props.children) ? true ? invariant(false, "An index route cannot have child routes.") : invariant(false) : void 0;
       let treePath = [...parentPath, index2];
-      let route = {
+      let route2 = {
         id: element.props.id || treePath.join("-"),
         caseSensitive: element.props.caseSensitive,
         element: element.props.element,
@@ -26609,9 +26609,9 @@
         handle: element.props.handle
       };
       if (element.props.children) {
-        route.children = createRoutesFromChildren(element.props.children, treePath);
+        route2.children = createRoutesFromChildren(element.props.children, treePath);
       }
-      routes.push(route);
+      routes.push(route2);
     });
     return routes;
   }
@@ -60604,6 +60604,9 @@
     get domElement() {
       return this._webGLRenderer.domElement;
     }
+    get webGLRenderer() {
+      return this._webGLRenderer;
+    }
     setUpWebGLrenderer = () => {
       this._webGLRenderer.setPixelRatio(window.devicePixelRatio);
       const { width, height } = getContainerSize();
@@ -60619,6 +60622,7 @@
     setClearColor = (color) => {
       this._webGLRenderer.setClearColor(color);
     };
+    clearRendererDepth = () => this._webGLRenderer.clearDepth();
   };
 
   // src/app/Application.ts
@@ -60641,6 +60645,7 @@
       camera.position.set(1, 1.5, 1);
       camera.lookAt(this.scene.position);
       camera.updateProjectionMatrix();
+      this.scene.add(camera);
       container.current?.appendChild(this.renderer.domElement);
       window.onresize = this._onWindowsResize;
       window.onwheel = this.camera.zoomCameraView;
@@ -60651,6 +60656,9 @@
       window.onwheel = null;
       this.renderer.fnList = [];
       this.scene.clear();
+      if (document.body.contains(this._stats.dom)) {
+        document.body.removeChild(this._stats.dom);
+      }
     };
     _limitFrame = () => {
       const delta = this._clock.getDelta();
@@ -60805,8 +60813,66 @@
     });
   }
 
-  // src/routes/route.tsx
+  // src/page/Extra/TwoCameras.tsx
+  var import_react29 = __toESM(require_react(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  function TwoCameras() {
+    const container = (0, import_react29.useRef)(null);
+    useScene(container);
+    const initScene = (0, import_react29.useCallback)((width, height) => {
+      const renderer = app.renderer.webGLRenderer;
+      const innerWidth = width / 4;
+      const innerHeight = height / 4;
+      const camera2 = new PerspectiveCamera(
+        70,
+        width / height,
+        0.1,
+        10
+      );
+      app.camera.activeCamera.add(camera2);
+      const cube = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshBasicMaterial({ color: "red" })
+      );
+      app.scene.add(cube);
+      app.renderer.fnList.push(() => {
+        renderer.setViewport(
+          0,
+          0,
+          width,
+          height
+        );
+        renderer.render(app.scene, app.camera.activeCamera);
+        renderer.clearDepth();
+        renderer.setScissorTest(true);
+        renderer.setScissor(
+          width - innerWidth,
+          height - innerHeight,
+          innerWidth,
+          innerHeight
+        );
+        renderer.setViewport(
+          width - innerWidth,
+          height - innerHeight,
+          innerWidth,
+          innerHeight
+        );
+        renderer.render(app.scene, camera2);
+        renderer.setScissorTest(false);
+      });
+    }, []);
+    (0, import_react29.useEffect)(() => {
+      const { width, height } = getContainerSize();
+      initScene(width, height);
+    }, [initScene]);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+      id: "container",
+      ref: container
+    });
+  }
+
+  // src/routes/route.tsx
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
   function setItems({ label, key: key2, path, type: type4, icon, children, element }) {
     return { key: key2, icon, path, children, label, type: type4, element };
   }
@@ -60814,21 +60880,30 @@
     setItems({
       label: "Chapter01 Basics",
       key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TranslateObject, {}) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Animation, {}) })
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Animation, {}) })
+      ]
+    }),
+    setItems({
+      label: "Extra",
+      key: "Extra",
+      icon: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BookTwoTone_default2, {}),
+      children: [
+        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(TwoCameras, {}) })
       ]
     })
   ];
 
   // src/components/AsideNavi.tsx
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var route = [...ROUTES];
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(menu_default, {
-      items: ROUTES,
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(menu_default, {
+      items: route,
       defaultOpenKeys: ["Chapter01 Basics"],
       activeKey: location.pathname,
       mode: "inline",
@@ -60839,12 +60914,12 @@
   }
 
   // src/page/Index.tsx
-  var import_react29 = __toESM(require_react(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_react30 = __toESM(require_react(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function Index() {
-    const container = (0, import_react29.useRef)(null);
+    const container = (0, import_react30.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react29.useMemo)(() => {
+    const mesh = (0, import_react30.useMemo)(() => {
       const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line = new LineSegments(edge, new LineBasicMaterial({
@@ -60853,50 +60928,50 @@
       }));
       return line;
     }, []);
-    const initScene = (0, import_react29.useCallback)(() => {
+    const initScene = (0, import_react30.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       app.renderer.fnList.push(function() {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react29.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var renderChildrenRoute = (route) => {
-    if (!route)
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var renderChildrenRoute = (route2) => {
+    if (!route2)
       return [];
-    if (route.length === 1 && route[0].children)
-      return route[0].children;
-    const item = route.pop();
+    if (route2.length === 1 && route2[0].children)
+      return route2[0].children;
+    const item = route2.pop();
     const prve_children = item?.children ?? [];
-    return prve_children.concat(renderChildrenRoute(route));
+    return prve_children.concat(renderChildrenRoute(route2));
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react30.useLayoutEffect)(() => {
+    (0, import_react31.useLayoutEffect)(() => {
       new Application();
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
         id: "app",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AsideNavi, {}),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Routes, {
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(AsideNavi, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Routes, {
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Route, {
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Route, {
                 path: "/",
-                element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Index, {})
+                element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Index, {})
               }),
-              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Route, {
+              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Route, {
                 path: r.path,
                 element: r.element
               }, r.key))
@@ -60908,10 +60983,10 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(App, {})
   );
 })();
 /*!

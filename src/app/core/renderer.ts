@@ -31,6 +31,12 @@ export default class _Renderer
     }
 
 
+    get webGLRenderer()
+    {
+        return this._webGLRenderer;
+    }
+
+
     public setUpWebGLrenderer = (): void =>
     {
         //分辨率
@@ -61,4 +67,7 @@ export default class _Renderer
     {
         this._webGLRenderer.setClearColor(color);
     };
+
+
+    public clearRendererDepth = () => this._webGLRenderer.clearDepth();
 }
