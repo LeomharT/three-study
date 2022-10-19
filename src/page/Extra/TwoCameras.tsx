@@ -1,7 +1,10 @@
+import { Button } from "antd";
 import { useCallback, useEffect, useRef } from "react";
 import { BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera } from "three";
 import { app, getContainerSize } from "../../app/Application";
 import useScene from "../../hooks/useScene";
+
+let isSecondCamera = true;
 
 export default function TwoCameras()
 {
@@ -34,6 +37,7 @@ export default function TwoCameras()
 
         app.renderer.fnList.push(() =>
         {
+            console.log(isSecondCamera);
             renderer.clearDepth();
 
             renderer.setScissorTest(true);
@@ -56,7 +60,8 @@ export default function TwoCameras()
             camera2.lookAt(app.scene.position);
             camera2.updateProjectionMatrix();
 
-            renderer.render(app.scene, camera2);
+            if (isSecondCamera)
+                renderer.render(app.scene, camera2);
 
             cube.rotation.y += 0.02;
 
@@ -64,7 +69,7 @@ export default function TwoCameras()
         });
 
 
-    }, []);
+    }, [isSecondCamera]);
 
 
     useEffect(() =>
@@ -79,7 +84,10 @@ export default function TwoCameras()
 
     return (
         <div id='container' ref={container}>
-
+            <Button children='gogogo' onClick={e =>
+            {
+                isSecondCamera = !isSecondCamera;
+            }} />
         </div>
     );
 
