@@ -1,6 +1,7 @@
 import { BookTwoTone } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import Animation from '../page/Chapter_1/Animation/Animations';
+import CameraBase from '../page/Chapter_1/Camera/CameraBase';
 import TranslateObject from '../page/Chapter_1/TranslateObject/TranslateObject';
 import TwoCameras from '../page/Extra/TwoCameras';
 
@@ -29,7 +30,8 @@ export const ROUTES: MenuItem[] = [
     setItems({
         label: 'Chapter01 Basics', key: 'Chapter01 Basics', icon: <BookTwoTone />, children: [
             setItems({ label: 'Transform Objects', key: '/transform_objects', path: '/transform_objects', element: <TranslateObject /> }),
-            setItems({ label: 'Animations', key: '/animations', path: '/animations', element: <Animation /> })
+            setItems({ label: 'Animations', key: '/animations', path: '/animations', element: <Animation /> }),
+            setItems({ label: 'CameraBase', key: '/camera_base', path: '/camera_base', element: <CameraBase /> }),
         ]
     }),
     setItems({

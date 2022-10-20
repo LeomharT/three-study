@@ -1,0 +1,3 @@
+1. OrthographicCamera
+OrthographicCamera的前四个参数是定义正交相机矩形的尺寸,0表示Canvas的中心
+如果想将正交相机显示为透视相机的效果添加一个aspect_rotio然后代表水平的参数(left/right)乘这个宽高比即可
