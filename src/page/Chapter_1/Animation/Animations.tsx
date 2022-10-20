@@ -36,12 +36,12 @@ export default function Animation()
             cube.position.y = Math.sin(elapsed_time);
             cube.position.x = Math.cos(elapsed_time);
         });
-    }, []);
+    }, [clock]);
 
     useEffect(() =>
     {
         initScene();
-    }, []);
+    }, [initScene]);
 
 
     return (

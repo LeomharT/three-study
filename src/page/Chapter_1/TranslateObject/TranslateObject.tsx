@@ -83,7 +83,7 @@ export default function TranslateObject()
         rotateObject(mesh);
 
         app.scene.add(mesh);
-    }, [setUpCamera]);
+    }, [setUpCamera, moveObject, scaleObject, rotateObject]);
 
 
     useEffect(() =>

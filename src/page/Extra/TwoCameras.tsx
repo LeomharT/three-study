@@ -37,7 +37,6 @@ export default function TwoCameras()
 
         app.renderer.fnList.push(() =>
         {
-            console.log(isSecondCamera);
             renderer.clearDepth();
 
             renderer.setScissorTest(true);
@@ -69,7 +68,7 @@ export default function TwoCameras()
         });
 
 
-    }, [isSecondCamera]);
+    }, []);
 
 
     useEffect(() =>
@@ -84,10 +83,16 @@ export default function TwoCameras()
 
     return (
         <div id='container' ref={container}>
-            <Button children='gogogo' onClick={e =>
-            {
-                isSecondCamera = !isSecondCamera;
-            }} />
+            <Button children='显示/关闭 悬浮相机'
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 330
+                }}
+                onClick={() =>
+                {
+                    isSecondCamera = !isSecondCamera;
+                }} />
         </div>
     );
 

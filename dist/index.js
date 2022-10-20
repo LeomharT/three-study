@@ -61238,10 +61238,10 @@
         cube.position.y = Math.sin(elapsed_time);
         cube.position.x = Math.cos(elapsed_time);
       });
-    }, []);
+    }, [clock]);
     (0, import_react29.useEffect)(() => {
       initScene();
-    }, []);
+    }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
       ref: container,
       id: "container"
@@ -61286,7 +61286,7 @@
       scaleObject(mesh);
       rotateObject(mesh);
       app.scene.add(mesh);
-    }, [setUpCamera]);
+    }, [setUpCamera, moveObject, scaleObject, rotateObject]);
     (0, import_react30.useEffect)(() => {
       initScene();
       app.showStatus();
@@ -61321,7 +61321,6 @@
       );
       app.scene.add(cube);
       app.renderer.fnList.push(() => {
-        console.log(isSecondCamera);
         renderer.clearDepth();
         renderer.setScissorTest(true);
         renderer.setScissor(
@@ -61344,7 +61343,7 @@
         cube.rotation.y += 0.02;
         renderer.setScissorTest(false);
       });
-    }, [isSecondCamera]);
+    }, []);
     (0, import_react31.useEffect)(() => {
       const { width, height } = getContainerSize();
       app.addArrowHelper();
@@ -61354,8 +61353,13 @@
       id: "container",
       ref: container,
       children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(button_default2, {
-        children: "gogogo",
-        onClick: (e) => {
+        children: "\u663E\u793A/\u5173\u95ED \u60AC\u6D6E\u76F8\u673A",
+        style: {
+          position: "absolute",
+          top: 0,
+          left: 330
+        },
+        onClick: () => {
           isSecondCamera = !isSecondCamera;
         }
       })
