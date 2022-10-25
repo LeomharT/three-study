@@ -61108,7 +61108,6 @@
     setClearColor = (color) => {
       this._webGLRenderer.setClearColor(color);
     };
-    clearRendererDepth = () => this._webGLRenderer.clearDepth();
   };
 
   // src/app/Application.ts
@@ -61134,6 +61133,18 @@
       container.current?.appendChild(this.renderer.domElement);
       window.onresize = this._onWindowsResize;
       window.onwheel = this.camera.zoomCameraView;
+      this.renderer.domElement.addEventListener("dblclick", () => {
+        const fullScreenElement = document.fullscreenElement;
+        if (!fullScreenElement) {
+          try {
+            this.renderer.domElement.requestFullscreen();
+          } catch (e) {
+            throw e;
+          }
+        } else {
+          document.exitFullscreen();
+        }
+      });
       this._loopRender();
     };
     disposeScene = () => {

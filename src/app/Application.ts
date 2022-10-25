@@ -62,6 +62,25 @@ export class Application
         window.onresize = this._onWindowsResize;
         window.onwheel = this.camera.zoomCameraView;
 
+        this.renderer.domElement.addEventListener('dblclick', () =>
+        {
+            const fullScreenElement = document.fullscreenElement;
+
+            if (!fullScreenElement)
+            {
+                try
+                {
+                    this.renderer.domElement.requestFullscreen();
+                } catch (e)
+                {
+                    throw e;
+                }
+            } else
+            {
+                document.exitFullscreen();
+            }
+        });
+
         this._loopRender();
     };
 

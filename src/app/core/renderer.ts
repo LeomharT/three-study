@@ -72,6 +72,4 @@ export default class _Renderer
         this._webGLRenderer.setClearColor(color);
     };
 
-
-    public clearRendererDepth = () => this._webGLRenderer.clearDepth();
 }
