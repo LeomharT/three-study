@@ -2,6 +2,7 @@ import { BookTwoTone } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import Animation from '../page/Chapter_1/Animation/Animations';
 import CameraBase from '../page/Chapter_1/Camera/CameraBase';
+import DebugUI from '../page/Chapter_1/DebugUI/DebugUI';
 import GeometriesBase from '../page/Chapter_1/Geometries/GeometriesBase';
 import TranslateObject from '../page/Chapter_1/TranslateObject/TranslateObject';
 import TwoCameras from '../page/Extra/TwoCameras';
@@ -34,6 +35,9 @@ export const ROUTES: MenuItem[] = [
             setItems({ label: 'Animations', key: '/animations', path: '/animations', element: <Animation /> }),
             setItems({ label: 'CameraBase', key: '/camera_base', path: '/camera_base', element: <CameraBase /> }),
             setItems({ label: 'GeometriesBase', key: '/geometries_base', path: '/geometries_base', element: <GeometriesBase /> }),
+            setItems({ label: 'DebugUI', key: '/debugui', path: '/debugui', element: <DebugUI /> }),
+
+
         ]
     }),
     setItems({

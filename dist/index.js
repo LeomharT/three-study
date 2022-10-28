@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef45(initialValue) {
+          function useRef46(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect38(create, deps) {
+          function useEffect39(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback18(callback, deps) {
+          function useCallback19(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback18;
+          exports.useCallback = useCallback19;
           exports.useContext = useContext36;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect38;
+          exports.useEffect = useEffect39;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle7;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo24;
           exports.useReducer = useReducer;
-          exports.useRef = useRef45;
+          exports.useRef = useRef46;
           exports.useState = useState20;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -2473,7 +2473,7 @@
             }
           }
           var RESERVED = 0;
-          var STRING = 1;
+          var STRING2 = 1;
           var BOOLEANISH_STRING = 2;
           var BOOLEAN = 3;
           var OVERLOADED_BOOLEAN = 4;
@@ -2599,7 +2599,7 @@
             var name = _ref[0], attributeName = _ref[1];
             properties[name] = new PropertyInfoRecord(
               name,
-              STRING,
+              STRING2,
               false,
               attributeName,
               null,
@@ -2803,7 +2803,7 @@
             var name = attributeName.replace(CAMELIZE, capitalize);
             properties[name] = new PropertyInfoRecord(
               name,
-              STRING,
+              STRING2,
               false,
               attributeName,
               null,
@@ -2822,7 +2822,7 @@
             var name = attributeName.replace(CAMELIZE, capitalize);
             properties[name] = new PropertyInfoRecord(
               name,
-              STRING,
+              STRING2,
               false,
               attributeName,
               "http://www.w3.org/1999/xlink",
@@ -2838,7 +2838,7 @@
             var name = attributeName.replace(CAMELIZE, capitalize);
             properties[name] = new PropertyInfoRecord(
               name,
-              STRING,
+              STRING2,
               false,
               attributeName,
               "http://www.w3.org/XML/1998/namespace",
@@ -2849,7 +2849,7 @@
           ["tabIndex", "crossOrigin"].forEach(function(attributeName) {
             properties[attributeName] = new PropertyInfoRecord(
               attributeName,
-              STRING,
+              STRING2,
               false,
               attributeName.toLowerCase(),
               null,
@@ -2860,7 +2860,7 @@
           var xlinkHref = "xlinkHref";
           properties[xlinkHref] = new PropertyInfoRecord(
             "xlinkHref",
-            STRING,
+            STRING2,
             false,
             "xlink:href",
             "http://www.w3.org/1999/xlink",
@@ -2870,7 +2870,7 @@
           ["src", "href", "action", "formAction"].forEach(function(attributeName) {
             properties[attributeName] = new PropertyInfoRecord(
               attributeName,
-              STRING,
+              STRING2,
               false,
               attributeName.toLowerCase(),
               null,
@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key2, false);
             }
           }
-          var jsx11 = jsxWithValidationDynamic;
+          var jsx12 = jsxWithValidationDynamic;
           var jsxs2 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx11;
+          exports.jsx = jsx12;
           exports.jsxs = jsxs2;
         })();
       }
@@ -25545,7 +25545,7 @@
   var import_client = __toESM(require_client(), 1);
 
   // src/app/App.tsx
-  var import_react35 = __toESM(require_react(), 1);
+  var import_react36 = __toESM(require_react(), 1);
 
   // node_modules/react-router-dom/dist/index.js
   var React2 = __toESM(require_react());
@@ -61276,13 +61276,1414 @@
     });
   }
 
-  // src/page/Chapter_1/Geometries/GeometriesBase.tsx
+  // node_modules/lil-gui/dist/lil-gui.esm.js
+  var Controller = class {
+    constructor(parent, object4, property, className, widgetTag = "div") {
+      this.parent = parent;
+      this.object = object4;
+      this.property = property;
+      this._disabled = false;
+      this._hidden = false;
+      this.initialValue = this.getValue();
+      this.domElement = document.createElement("div");
+      this.domElement.classList.add("controller");
+      this.domElement.classList.add(className);
+      this.$name = document.createElement("div");
+      this.$name.classList.add("name");
+      Controller.nextNameID = Controller.nextNameID || 0;
+      this.$name.id = `lil-gui-name-${++Controller.nextNameID}`;
+      this.$widget = document.createElement(widgetTag);
+      this.$widget.classList.add("widget");
+      this.$disable = this.$widget;
+      this.domElement.appendChild(this.$name);
+      this.domElement.appendChild(this.$widget);
+      this.parent.children.push(this);
+      this.parent.controllers.push(this);
+      this.parent.$children.appendChild(this.domElement);
+      this._listenCallback = this._listenCallback.bind(this);
+      this.name(property);
+    }
+    name(name) {
+      this._name = name;
+      this.$name.innerHTML = name;
+      return this;
+    }
+    onChange(callback) {
+      this._onChange = callback;
+      return this;
+    }
+    _callOnChange() {
+      this.parent._callOnChange(this);
+      if (this._onChange !== void 0) {
+        this._onChange.call(this, this.getValue());
+      }
+      this._changed = true;
+    }
+    onFinishChange(callback) {
+      this._onFinishChange = callback;
+      return this;
+    }
+    _callOnFinishChange() {
+      if (this._changed) {
+        this.parent._callOnFinishChange(this);
+        if (this._onFinishChange !== void 0) {
+          this._onFinishChange.call(this, this.getValue());
+        }
+      }
+      this._changed = false;
+    }
+    reset() {
+      this.setValue(this.initialValue);
+      this._callOnFinishChange();
+      return this;
+    }
+    enable(enabled = true) {
+      return this.disable(!enabled);
+    }
+    disable(disabled = true) {
+      if (disabled === this._disabled)
+        return this;
+      this._disabled = disabled;
+      this.domElement.classList.toggle("disabled", disabled);
+      this.$disable.toggleAttribute("disabled", disabled);
+      return this;
+    }
+    show(show = true) {
+      this._hidden = !show;
+      this.domElement.style.display = this._hidden ? "none" : "";
+      return this;
+    }
+    hide() {
+      return this.show(false);
+    }
+    options(options) {
+      const controller = this.parent.add(this.object, this.property, options);
+      controller.name(this._name);
+      this.destroy();
+      return controller;
+    }
+    min(min) {
+      return this;
+    }
+    max(max) {
+      return this;
+    }
+    step(step) {
+      return this;
+    }
+    decimals(decimals) {
+      return this;
+    }
+    listen(listen = true) {
+      this._listening = listen;
+      if (this._listenCallbackID !== void 0) {
+        cancelAnimationFrame(this._listenCallbackID);
+        this._listenCallbackID = void 0;
+      }
+      if (this._listening) {
+        this._listenCallback();
+      }
+      return this;
+    }
+    _listenCallback() {
+      this._listenCallbackID = requestAnimationFrame(this._listenCallback);
+      const curValue = this.save();
+      if (curValue !== this._listenPrevValue) {
+        this.updateDisplay();
+      }
+      this._listenPrevValue = curValue;
+    }
+    getValue() {
+      return this.object[this.property];
+    }
+    setValue(value) {
+      this.object[this.property] = value;
+      this._callOnChange();
+      this.updateDisplay();
+      return this;
+    }
+    updateDisplay() {
+      return this;
+    }
+    load(value) {
+      this.setValue(value);
+      this._callOnFinishChange();
+      return this;
+    }
+    save() {
+      return this.getValue();
+    }
+    destroy() {
+      this.listen(false);
+      this.parent.children.splice(this.parent.children.indexOf(this), 1);
+      this.parent.controllers.splice(this.parent.controllers.indexOf(this), 1);
+      this.parent.$children.removeChild(this.domElement);
+    }
+  };
+  var BooleanController = class extends Controller {
+    constructor(parent, object4, property) {
+      super(parent, object4, property, "boolean", "label");
+      this.$input = document.createElement("input");
+      this.$input.setAttribute("type", "checkbox");
+      this.$input.setAttribute("aria-labelledby", this.$name.id);
+      this.$widget.appendChild(this.$input);
+      this.$input.addEventListener("change", () => {
+        this.setValue(this.$input.checked);
+        this._callOnFinishChange();
+      });
+      this.$disable = this.$input;
+      this.updateDisplay();
+    }
+    updateDisplay() {
+      this.$input.checked = this.getValue();
+      return this;
+    }
+  };
+  function normalizeColorString(string3) {
+    let match, result;
+    if (match = string3.match(/(#|0x)?([a-f0-9]{6})/i)) {
+      result = match[2];
+    } else if (match = string3.match(/rgb\(\s*(\d*)\s*,\s*(\d*)\s*,\s*(\d*)\s*\)/)) {
+      result = parseInt(match[1]).toString(16).padStart(2, 0) + parseInt(match[2]).toString(16).padStart(2, 0) + parseInt(match[3]).toString(16).padStart(2, 0);
+    } else if (match = string3.match(/^#?([a-f0-9])([a-f0-9])([a-f0-9])$/i)) {
+      result = match[1] + match[1] + match[2] + match[2] + match[3] + match[3];
+    }
+    if (result) {
+      return "#" + result;
+    }
+    return false;
+  }
+  var STRING = {
+    isPrimitive: true,
+    match: (v) => typeof v === "string",
+    fromHexString: normalizeColorString,
+    toHexString: normalizeColorString
+  };
+  var INT = {
+    isPrimitive: true,
+    match: (v) => typeof v === "number",
+    fromHexString: (string3) => parseInt(string3.substring(1), 16),
+    toHexString: (value) => "#" + value.toString(16).padStart(6, 0)
+  };
+  var ARRAY = {
+    isPrimitive: false,
+    match: Array.isArray,
+    fromHexString(string3, target, rgbScale = 1) {
+      const int = INT.fromHexString(string3);
+      target[0] = (int >> 16 & 255) / 255 * rgbScale;
+      target[1] = (int >> 8 & 255) / 255 * rgbScale;
+      target[2] = (int & 255) / 255 * rgbScale;
+    },
+    toHexString([r, g, b], rgbScale = 1) {
+      rgbScale = 255 / rgbScale;
+      const int = r * rgbScale << 16 ^ g * rgbScale << 8 ^ b * rgbScale << 0;
+      return INT.toHexString(int);
+    }
+  };
+  var OBJECT = {
+    isPrimitive: false,
+    match: (v) => Object(v) === v,
+    fromHexString(string3, target, rgbScale = 1) {
+      const int = INT.fromHexString(string3);
+      target.r = (int >> 16 & 255) / 255 * rgbScale;
+      target.g = (int >> 8 & 255) / 255 * rgbScale;
+      target.b = (int & 255) / 255 * rgbScale;
+    },
+    toHexString({ r, g, b }, rgbScale = 1) {
+      rgbScale = 255 / rgbScale;
+      const int = r * rgbScale << 16 ^ g * rgbScale << 8 ^ b * rgbScale << 0;
+      return INT.toHexString(int);
+    }
+  };
+  var FORMATS = [STRING, INT, ARRAY, OBJECT];
+  function getColorFormat(value) {
+    return FORMATS.find((format2) => format2.match(value));
+  }
+  var ColorController = class extends Controller {
+    constructor(parent, object4, property, rgbScale) {
+      super(parent, object4, property, "color");
+      this.$input = document.createElement("input");
+      this.$input.setAttribute("type", "color");
+      this.$input.setAttribute("tabindex", -1);
+      this.$input.setAttribute("aria-labelledby", this.$name.id);
+      this.$text = document.createElement("input");
+      this.$text.setAttribute("type", "text");
+      this.$text.setAttribute("spellcheck", "false");
+      this.$text.setAttribute("aria-labelledby", this.$name.id);
+      this.$display = document.createElement("div");
+      this.$display.classList.add("display");
+      this.$display.appendChild(this.$input);
+      this.$widget.appendChild(this.$display);
+      this.$widget.appendChild(this.$text);
+      this._format = getColorFormat(this.initialValue);
+      this._rgbScale = rgbScale;
+      this._initialValueHexString = this.save();
+      this._textFocused = false;
+      this.$input.addEventListener("input", () => {
+        this._setValueFromHexString(this.$input.value);
+      });
+      this.$input.addEventListener("blur", () => {
+        this._callOnFinishChange();
+      });
+      this.$text.addEventListener("input", () => {
+        const tryParse = normalizeColorString(this.$text.value);
+        if (tryParse) {
+          this._setValueFromHexString(tryParse);
+        }
+      });
+      this.$text.addEventListener("focus", () => {
+        this._textFocused = true;
+        this.$text.select();
+      });
+      this.$text.addEventListener("blur", () => {
+        this._textFocused = false;
+        this.updateDisplay();
+        this._callOnFinishChange();
+      });
+      this.$disable = this.$text;
+      this.updateDisplay();
+    }
+    reset() {
+      this._setValueFromHexString(this._initialValueHexString);
+      return this;
+    }
+    _setValueFromHexString(value) {
+      if (this._format.isPrimitive) {
+        const newValue = this._format.fromHexString(value);
+        this.setValue(newValue);
+      } else {
+        this._format.fromHexString(value, this.getValue(), this._rgbScale);
+        this._callOnChange();
+        this.updateDisplay();
+      }
+    }
+    save() {
+      return this._format.toHexString(this.getValue(), this._rgbScale);
+    }
+    load(value) {
+      this._setValueFromHexString(value);
+      this._callOnFinishChange();
+      return this;
+    }
+    updateDisplay() {
+      this.$input.value = this._format.toHexString(this.getValue(), this._rgbScale);
+      if (!this._textFocused) {
+        this.$text.value = this.$input.value.substring(1);
+      }
+      this.$display.style.backgroundColor = this.$input.value;
+      return this;
+    }
+  };
+  var FunctionController = class extends Controller {
+    constructor(parent, object4, property) {
+      super(parent, object4, property, "function");
+      this.$button = document.createElement("button");
+      this.$button.appendChild(this.$name);
+      this.$widget.appendChild(this.$button);
+      this.$button.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.getValue().call(this.object);
+      });
+      this.$button.addEventListener("touchstart", () => {
+      }, { passive: true });
+      this.$disable = this.$button;
+    }
+  };
+  var NumberController = class extends Controller {
+    constructor(parent, object4, property, min, max, step) {
+      super(parent, object4, property, "number");
+      this._initInput();
+      this.min(min);
+      this.max(max);
+      const stepExplicit = step !== void 0;
+      this.step(stepExplicit ? step : this._getImplicitStep(), stepExplicit);
+      this.updateDisplay();
+    }
+    decimals(decimals) {
+      this._decimals = decimals;
+      this.updateDisplay();
+      return this;
+    }
+    min(min) {
+      this._min = min;
+      this._onUpdateMinMax();
+      return this;
+    }
+    max(max) {
+      this._max = max;
+      this._onUpdateMinMax();
+      return this;
+    }
+    step(step, explicit = true) {
+      this._step = step;
+      this._stepExplicit = explicit;
+      return this;
+    }
+    updateDisplay() {
+      const value = this.getValue();
+      if (this._hasSlider) {
+        let percent = (value - this._min) / (this._max - this._min);
+        percent = Math.max(0, Math.min(percent, 1));
+        this.$fill.style.width = percent * 100 + "%";
+      }
+      if (!this._inputFocused) {
+        this.$input.value = this._decimals === void 0 ? value : value.toFixed(this._decimals);
+      }
+      return this;
+    }
+    _initInput() {
+      this.$input = document.createElement("input");
+      this.$input.setAttribute("type", "number");
+      this.$input.setAttribute("step", "any");
+      this.$input.setAttribute("aria-labelledby", this.$name.id);
+      this.$widget.appendChild(this.$input);
+      this.$disable = this.$input;
+      const onInput = () => {
+        let value = parseFloat(this.$input.value);
+        if (isNaN(value))
+          return;
+        if (this._stepExplicit) {
+          value = this._snap(value);
+        }
+        this.setValue(this._clamp(value));
+      };
+      const increment = (delta) => {
+        const value = parseFloat(this.$input.value);
+        if (isNaN(value))
+          return;
+        this._snapClampSetValue(value + delta);
+        this.$input.value = this.getValue();
+      };
+      const onKeyDown = (e) => {
+        if (e.code === "Enter") {
+          this.$input.blur();
+        }
+        if (e.code === "ArrowUp") {
+          e.preventDefault();
+          increment(this._step * this._arrowKeyMultiplier(e));
+        }
+        if (e.code === "ArrowDown") {
+          e.preventDefault();
+          increment(this._step * this._arrowKeyMultiplier(e) * -1);
+        }
+      };
+      const onWheel = (e) => {
+        if (this._inputFocused) {
+          e.preventDefault();
+          increment(this._step * this._normalizeMouseWheel(e));
+        }
+      };
+      let testingForVerticalDrag = false, initClientX, initClientY, prevClientY, initValue, dragDelta;
+      const DRAG_THRESH = 5;
+      const onMouseDown = (e) => {
+        initClientX = e.clientX;
+        initClientY = prevClientY = e.clientY;
+        testingForVerticalDrag = true;
+        initValue = this.getValue();
+        dragDelta = 0;
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseup", onMouseUp);
+      };
+      const onMouseMove = (e) => {
+        if (testingForVerticalDrag) {
+          const dx = e.clientX - initClientX;
+          const dy = e.clientY - initClientY;
+          if (Math.abs(dy) > DRAG_THRESH) {
+            e.preventDefault();
+            this.$input.blur();
+            testingForVerticalDrag = false;
+            this._setDraggingStyle(true, "vertical");
+          } else if (Math.abs(dx) > DRAG_THRESH) {
+            onMouseUp();
+          }
+        }
+        if (!testingForVerticalDrag) {
+          const dy = e.clientY - prevClientY;
+          dragDelta -= dy * this._step * this._arrowKeyMultiplier(e);
+          if (initValue + dragDelta > this._max) {
+            dragDelta = this._max - initValue;
+          } else if (initValue + dragDelta < this._min) {
+            dragDelta = this._min - initValue;
+          }
+          this._snapClampSetValue(initValue + dragDelta);
+        }
+        prevClientY = e.clientY;
+      };
+      const onMouseUp = () => {
+        this._setDraggingStyle(false, "vertical");
+        this._callOnFinishChange();
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      };
+      const onFocus = () => {
+        this._inputFocused = true;
+      };
+      const onBlur = () => {
+        this._inputFocused = false;
+        this.updateDisplay();
+        this._callOnFinishChange();
+      };
+      this.$input.addEventListener("input", onInput);
+      this.$input.addEventListener("keydown", onKeyDown);
+      this.$input.addEventListener("wheel", onWheel, { passive: false });
+      this.$input.addEventListener("mousedown", onMouseDown);
+      this.$input.addEventListener("focus", onFocus);
+      this.$input.addEventListener("blur", onBlur);
+    }
+    _initSlider() {
+      this._hasSlider = true;
+      this.$slider = document.createElement("div");
+      this.$slider.classList.add("slider");
+      this.$fill = document.createElement("div");
+      this.$fill.classList.add("fill");
+      this.$slider.appendChild(this.$fill);
+      this.$widget.insertBefore(this.$slider, this.$input);
+      this.domElement.classList.add("hasSlider");
+      const map = (v, a, b, c, d) => {
+        return (v - a) / (b - a) * (d - c) + c;
+      };
+      const setValueFromX = (clientX) => {
+        const rect = this.$slider.getBoundingClientRect();
+        let value = map(clientX, rect.left, rect.right, this._min, this._max);
+        this._snapClampSetValue(value);
+      };
+      const mouseDown = (e) => {
+        this._setDraggingStyle(true);
+        setValueFromX(e.clientX);
+        window.addEventListener("mousemove", mouseMove);
+        window.addEventListener("mouseup", mouseUp);
+      };
+      const mouseMove = (e) => {
+        setValueFromX(e.clientX);
+      };
+      const mouseUp = () => {
+        this._callOnFinishChange();
+        this._setDraggingStyle(false);
+        window.removeEventListener("mousemove", mouseMove);
+        window.removeEventListener("mouseup", mouseUp);
+      };
+      let testingForScroll = false, prevClientX, prevClientY;
+      const beginTouchDrag = (e) => {
+        e.preventDefault();
+        this._setDraggingStyle(true);
+        setValueFromX(e.touches[0].clientX);
+        testingForScroll = false;
+      };
+      const onTouchStart = (e) => {
+        if (e.touches.length > 1)
+          return;
+        if (this._hasScrollBar) {
+          prevClientX = e.touches[0].clientX;
+          prevClientY = e.touches[0].clientY;
+          testingForScroll = true;
+        } else {
+          beginTouchDrag(e);
+        }
+        window.addEventListener("touchmove", onTouchMove, { passive: false });
+        window.addEventListener("touchend", onTouchEnd);
+      };
+      const onTouchMove = (e) => {
+        if (testingForScroll) {
+          const dx = e.touches[0].clientX - prevClientX;
+          const dy = e.touches[0].clientY - prevClientY;
+          if (Math.abs(dx) > Math.abs(dy)) {
+            beginTouchDrag(e);
+          } else {
+            window.removeEventListener("touchmove", onTouchMove);
+            window.removeEventListener("touchend", onTouchEnd);
+          }
+        } else {
+          e.preventDefault();
+          setValueFromX(e.touches[0].clientX);
+        }
+      };
+      const onTouchEnd = () => {
+        this._callOnFinishChange();
+        this._setDraggingStyle(false);
+        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchend", onTouchEnd);
+      };
+      const callOnFinishChange = this._callOnFinishChange.bind(this);
+      const WHEEL_DEBOUNCE_TIME = 400;
+      let wheelFinishChangeTimeout;
+      const onWheel = (e) => {
+        const isVertical = Math.abs(e.deltaX) < Math.abs(e.deltaY);
+        if (isVertical && this._hasScrollBar)
+          return;
+        e.preventDefault();
+        const delta = this._normalizeMouseWheel(e) * this._step;
+        this._snapClampSetValue(this.getValue() + delta);
+        this.$input.value = this.getValue();
+        clearTimeout(wheelFinishChangeTimeout);
+        wheelFinishChangeTimeout = setTimeout(callOnFinishChange, WHEEL_DEBOUNCE_TIME);
+      };
+      this.$slider.addEventListener("mousedown", mouseDown);
+      this.$slider.addEventListener("touchstart", onTouchStart, { passive: false });
+      this.$slider.addEventListener("wheel", onWheel, { passive: false });
+    }
+    _setDraggingStyle(active, axis = "horizontal") {
+      if (this.$slider) {
+        this.$slider.classList.toggle("active", active);
+      }
+      document.body.classList.toggle("lil-gui-dragging", active);
+      document.body.classList.toggle(`lil-gui-${axis}`, active);
+    }
+    _getImplicitStep() {
+      if (this._hasMin && this._hasMax) {
+        return (this._max - this._min) / 1e3;
+      }
+      return 0.1;
+    }
+    _onUpdateMinMax() {
+      if (!this._hasSlider && this._hasMin && this._hasMax) {
+        if (!this._stepExplicit) {
+          this.step(this._getImplicitStep(), false);
+        }
+        this._initSlider();
+        this.updateDisplay();
+      }
+    }
+    _normalizeMouseWheel(e) {
+      let { deltaX, deltaY } = e;
+      if (Math.floor(e.deltaY) !== e.deltaY && e.wheelDelta) {
+        deltaX = 0;
+        deltaY = -e.wheelDelta / 120;
+        deltaY *= this._stepExplicit ? 1 : 10;
+      }
+      const wheel = deltaX + -deltaY;
+      return wheel;
+    }
+    _arrowKeyMultiplier(e) {
+      let mult = this._stepExplicit ? 1 : 10;
+      if (e.shiftKey) {
+        mult *= 10;
+      } else if (e.altKey) {
+        mult /= 10;
+      }
+      return mult;
+    }
+    _snap(value) {
+      const r = Math.round(value / this._step) * this._step;
+      return parseFloat(r.toPrecision(15));
+    }
+    _clamp(value) {
+      if (value < this._min)
+        value = this._min;
+      if (value > this._max)
+        value = this._max;
+      return value;
+    }
+    _snapClampSetValue(value) {
+      this.setValue(this._clamp(this._snap(value)));
+    }
+    get _hasScrollBar() {
+      const root2 = this.parent.root.$children;
+      return root2.scrollHeight > root2.clientHeight;
+    }
+    get _hasMin() {
+      return this._min !== void 0;
+    }
+    get _hasMax() {
+      return this._max !== void 0;
+    }
+  };
+  var OptionController = class extends Controller {
+    constructor(parent, object4, property, options) {
+      super(parent, object4, property, "option");
+      this.$select = document.createElement("select");
+      this.$select.setAttribute("aria-labelledby", this.$name.id);
+      this.$display = document.createElement("div");
+      this.$display.classList.add("display");
+      this._values = Array.isArray(options) ? options : Object.values(options);
+      this._names = Array.isArray(options) ? options : Object.keys(options);
+      this._names.forEach((name) => {
+        const $option = document.createElement("option");
+        $option.innerHTML = name;
+        this.$select.appendChild($option);
+      });
+      this.$select.addEventListener("change", () => {
+        this.setValue(this._values[this.$select.selectedIndex]);
+        this._callOnFinishChange();
+      });
+      this.$select.addEventListener("focus", () => {
+        this.$display.classList.add("focus");
+      });
+      this.$select.addEventListener("blur", () => {
+        this.$display.classList.remove("focus");
+      });
+      this.$widget.appendChild(this.$select);
+      this.$widget.appendChild(this.$display);
+      this.$disable = this.$select;
+      this.updateDisplay();
+    }
+    updateDisplay() {
+      const value = this.getValue();
+      const index2 = this._values.indexOf(value);
+      this.$select.selectedIndex = index2;
+      this.$display.innerHTML = index2 === -1 ? value : this._names[index2];
+      return this;
+    }
+  };
+  var StringController = class extends Controller {
+    constructor(parent, object4, property) {
+      super(parent, object4, property, "string");
+      this.$input = document.createElement("input");
+      this.$input.setAttribute("type", "text");
+      this.$input.setAttribute("aria-labelledby", this.$name.id);
+      this.$input.addEventListener("input", () => {
+        this.setValue(this.$input.value);
+      });
+      this.$input.addEventListener("keydown", (e) => {
+        if (e.code === "Enter") {
+          this.$input.blur();
+        }
+      });
+      this.$input.addEventListener("blur", () => {
+        this._callOnFinishChange();
+      });
+      this.$widget.appendChild(this.$input);
+      this.$disable = this.$input;
+      this.updateDisplay();
+    }
+    updateDisplay() {
+      this.$input.value = this.getValue();
+      return this;
+    }
+  };
+  var stylesheet = `.lil-gui {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: 1;
+  font-weight: normal;
+  font-style: normal;
+  text-align: left;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  --background-color: #1f1f1f;
+  --text-color: #ebebeb;
+  --title-background-color: #111111;
+  --title-text-color: #ebebeb;
+  --widget-color: #424242;
+  --hover-color: #4f4f4f;
+  --focus-color: #595959;
+  --number-color: #2cc9ff;
+  --string-color: #a2db3c;
+  --font-size: 11px;
+  --input-font-size: 11px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-family-mono: Menlo, Monaco, Consolas, "Droid Sans Mono", monospace;
+  --padding: 4px;
+  --spacing: 4px;
+  --widget-height: 20px;
+  --name-width: 45%;
+  --slider-knob-width: 2px;
+  --slider-input-width: 27%;
+  --color-input-width: 27%;
+  --slider-input-min-width: 45px;
+  --color-input-min-width: 45px;
+  --folder-indent: 7px;
+  --widget-padding: 0 0 0 3px;
+  --widget-border-radius: 2px;
+  --checkbox-size: calc(0.75 * var(--widget-height));
+  --scrollbar-width: 5px;
+}
+.lil-gui, .lil-gui * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.lil-gui.root {
+  width: var(--width, 245px);
+  display: flex;
+  flex-direction: column;
+}
+.lil-gui.root > .title {
+  background: var(--title-background-color);
+  color: var(--title-text-color);
+}
+.lil-gui.root > .children {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.lil-gui.root > .children::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+  background: var(--background-color);
+}
+.lil-gui.root > .children::-webkit-scrollbar-thumb {
+  border-radius: var(--scrollbar-width);
+  background: var(--focus-color);
+}
+@media (pointer: coarse) {
+  .lil-gui.allow-touch-styles {
+    --widget-height: 28px;
+    --padding: 6px;
+    --spacing: 6px;
+    --font-size: 13px;
+    --input-font-size: 16px;
+    --folder-indent: 10px;
+    --scrollbar-width: 7px;
+    --slider-input-min-width: 50px;
+    --color-input-min-width: 65px;
+  }
+}
+.lil-gui.force-touch-styles {
+  --widget-height: 28px;
+  --padding: 6px;
+  --spacing: 6px;
+  --font-size: 13px;
+  --input-font-size: 16px;
+  --folder-indent: 10px;
+  --scrollbar-width: 7px;
+  --slider-input-min-width: 50px;
+  --color-input-min-width: 65px;
+}
+.lil-gui.autoPlace {
+  max-height: 100%;
+  position: fixed;
+  top: 0;
+  right: 15px;
+  z-index: 1001;
+}
+
+.lil-gui .controller {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--padding);
+  margin: var(--spacing) 0;
+}
+.lil-gui .controller.disabled {
+  opacity: 0.5;
+}
+.lil-gui .controller.disabled, .lil-gui .controller.disabled * {
+  pointer-events: none !important;
+}
+.lil-gui .controller > .name {
+  min-width: var(--name-width);
+  flex-shrink: 0;
+  white-space: pre;
+  padding-right: var(--spacing);
+  line-height: var(--widget-height);
+}
+.lil-gui .controller .widget {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--widget-height);
+}
+.lil-gui .controller.string input {
+  color: var(--string-color);
+}
+.lil-gui .controller.boolean .widget {
+  cursor: pointer;
+}
+.lil-gui .controller.color .display {
+  width: 100%;
+  height: var(--widget-height);
+  border-radius: var(--widget-border-radius);
+  position: relative;
+}
+@media (hover: hover) {
+  .lil-gui .controller.color .display:hover:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    border-radius: var(--widget-border-radius);
+    border: 1px solid #fff9;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+.lil-gui .controller.color input[type=color] {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.lil-gui .controller.color input[type=text] {
+  margin-left: var(--spacing);
+  font-family: var(--font-family-mono);
+  min-width: var(--color-input-min-width);
+  width: var(--color-input-width);
+  flex-shrink: 0;
+}
+.lil-gui .controller.option select {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  max-width: 100%;
+}
+.lil-gui .controller.option .display {
+  position: relative;
+  pointer-events: none;
+  border-radius: var(--widget-border-radius);
+  height: var(--widget-height);
+  line-height: var(--widget-height);
+  max-width: 100%;
+  overflow: hidden;
+  word-break: break-all;
+  padding-left: 0.55em;
+  padding-right: 1.75em;
+  background: var(--widget-color);
+}
+@media (hover: hover) {
+  .lil-gui .controller.option .display.focus {
+    background: var(--focus-color);
+  }
+}
+.lil-gui .controller.option .display.active {
+  background: var(--focus-color);
+}
+.lil-gui .controller.option .display:after {
+  font-family: "lil-gui";
+  content: "\u2195";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding-right: 0.375em;
+}
+.lil-gui .controller.option .widget,
+.lil-gui .controller.option select {
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .lil-gui .controller.option .widget:hover .display {
+    background: var(--hover-color);
+  }
+}
+.lil-gui .controller.number input {
+  color: var(--number-color);
+}
+.lil-gui .controller.number.hasSlider input {
+  margin-left: var(--spacing);
+  width: var(--slider-input-width);
+  min-width: var(--slider-input-min-width);
+  flex-shrink: 0;
+}
+.lil-gui .controller.number .slider {
+  width: 100%;
+  height: var(--widget-height);
+  background-color: var(--widget-color);
+  border-radius: var(--widget-border-radius);
+  padding-right: var(--slider-knob-width);
+  overflow: hidden;
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+@media (hover: hover) {
+  .lil-gui .controller.number .slider:hover {
+    background-color: var(--hover-color);
+  }
+}
+.lil-gui .controller.number .slider.active {
+  background-color: var(--focus-color);
+}
+.lil-gui .controller.number .slider.active .fill {
+  opacity: 0.95;
+}
+.lil-gui .controller.number .fill {
+  height: 100%;
+  border-right: var(--slider-knob-width) solid var(--number-color);
+  box-sizing: content-box;
+}
+
+.lil-gui-dragging .lil-gui {
+  --hover-color: var(--widget-color);
+}
+.lil-gui-dragging * {
+  cursor: ew-resize !important;
+}
+
+.lil-gui-dragging.lil-gui-vertical * {
+  cursor: ns-resize !important;
+}
+
+.lil-gui .title {
+  --title-height: calc(var(--widget-height) + var(--spacing) * 1.25);
+  height: var(--title-height);
+  line-height: calc(var(--title-height) - 4px);
+  font-weight: 600;
+  padding: 0 var(--padding);
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  outline: none;
+  text-decoration-skip: objects;
+}
+.lil-gui .title:before {
+  font-family: "lil-gui";
+  content: "\u25BE";
+  padding-right: 2px;
+  display: inline-block;
+}
+.lil-gui .title:active {
+  background: var(--title-background-color);
+  opacity: 0.75;
+}
+@media (hover: hover) {
+  body:not(.lil-gui-dragging) .lil-gui .title:hover {
+    background: var(--title-background-color);
+    opacity: 0.85;
+  }
+  .lil-gui .title:focus {
+    text-decoration: underline var(--focus-color);
+  }
+}
+.lil-gui.root > .title:focus {
+  text-decoration: none !important;
+}
+.lil-gui.closed > .title:before {
+  content: "\u25B8";
+}
+.lil-gui.closed > .children {
+  transform: translateY(-7px);
+  opacity: 0;
+}
+.lil-gui.closed:not(.transition) > .children {
+  display: none;
+}
+.lil-gui.transition > .children {
+  transition-duration: 300ms;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1);
+  overflow: hidden;
+  pointer-events: none;
+}
+.lil-gui .children:empty:before {
+  content: "Empty";
+  padding: 0 var(--padding);
+  margin: var(--spacing) 0;
+  display: block;
+  height: var(--widget-height);
+  font-style: italic;
+  line-height: var(--widget-height);
+  opacity: 0.5;
+}
+.lil-gui.root > .children > .lil-gui > .title {
+  border: 0 solid var(--widget-color);
+  border-width: 1px 0;
+  transition: border-color 300ms;
+}
+.lil-gui.root > .children > .lil-gui.closed > .title {
+  border-bottom-color: transparent;
+}
+.lil-gui + .controller {
+  border-top: 1px solid var(--widget-color);
+  margin-top: 0;
+  padding-top: var(--spacing);
+}
+.lil-gui .lil-gui .lil-gui > .title {
+  border: none;
+}
+.lil-gui .lil-gui .lil-gui > .children {
+  border: none;
+  margin-left: var(--folder-indent);
+  border-left: 2px solid var(--widget-color);
+}
+.lil-gui .lil-gui .controller {
+  border: none;
+}
+
+.lil-gui input {
+  -webkit-tap-highlight-color: transparent;
+  border: 0;
+  outline: none;
+  font-family: var(--font-family);
+  font-size: var(--input-font-size);
+  border-radius: var(--widget-border-radius);
+  height: var(--widget-height);
+  background: var(--widget-color);
+  color: var(--text-color);
+  width: 100%;
+}
+@media (hover: hover) {
+  .lil-gui input:hover {
+    background: var(--hover-color);
+  }
+  .lil-gui input:active {
+    background: var(--focus-color);
+  }
+}
+.lil-gui input:disabled {
+  opacity: 1;
+}
+.lil-gui input[type=text],
+.lil-gui input[type=number] {
+  padding: var(--widget-padding);
+}
+.lil-gui input[type=text]:focus,
+.lil-gui input[type=number]:focus {
+  background: var(--focus-color);
+}
+.lil-gui input::-webkit-outer-spin-button,
+.lil-gui input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.lil-gui input[type=number] {
+  -moz-appearance: textfield;
+}
+.lil-gui input[type=checkbox] {
+  appearance: none;
+  -webkit-appearance: none;
+  height: var(--checkbox-size);
+  width: var(--checkbox-size);
+  border-radius: var(--widget-border-radius);
+  text-align: center;
+  cursor: pointer;
+}
+.lil-gui input[type=checkbox]:checked:before {
+  font-family: "lil-gui";
+  content: "\u2713";
+  font-size: var(--checkbox-size);
+  line-height: var(--checkbox-size);
+}
+@media (hover: hover) {
+  .lil-gui input[type=checkbox]:focus {
+    box-shadow: inset 0 0 0 1px var(--focus-color);
+  }
+}
+.lil-gui button {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  color: var(--text-color);
+  width: 100%;
+  height: var(--widget-height);
+  text-transform: none;
+  background: var(--widget-color);
+  border-radius: var(--widget-border-radius);
+  border: 1px solid var(--widget-color);
+  text-align: center;
+  line-height: calc(var(--widget-height) - 4px);
+}
+@media (hover: hover) {
+  .lil-gui button:hover {
+    background: var(--hover-color);
+    border-color: var(--hover-color);
+  }
+  .lil-gui button:focus {
+    border-color: var(--focus-color);
+  }
+}
+.lil-gui button:active {
+  background: var(--focus-color);
+}
+
+@font-face {
+  font-family: "lil-gui";
+  src: url("data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAUsAAsAAAAACJwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAAH4AAADAImwmYE9TLzIAAAGIAAAAPwAAAGBKqH5SY21hcAAAAcgAAAD0AAACrukyyJBnbHlmAAACvAAAAF8AAACEIZpWH2hlYWQAAAMcAAAAJwAAADZfcj2zaGhlYQAAA0QAAAAYAAAAJAC5AHhobXR4AAADXAAAABAAAABMAZAAAGxvY2EAAANsAAAAFAAAACgCEgIybWF4cAAAA4AAAAAeAAAAIAEfABJuYW1lAAADoAAAASIAAAIK9SUU/XBvc3QAAATEAAAAZgAAAJCTcMc2eJxVjbEOgjAURU+hFRBK1dGRL+ALnAiToyMLEzFpnPz/eAshwSa97517c/MwwJmeB9kwPl+0cf5+uGPZXsqPu4nvZabcSZldZ6kfyWnomFY/eScKqZNWupKJO6kXN3K9uCVoL7iInPr1X5baXs3tjuMqCtzEuagm/AAlzQgPAAB4nGNgYRBlnMDAysDAYM/gBiT5oLQBAwuDJAMDEwMrMwNWEJDmmsJwgCFeXZghBcjlZMgFCzOiKOIFAB71Bb8AeJy1kjFuwkAQRZ+DwRAwBtNQRUGKQ8OdKCAWUhAgKLhIuAsVSpWz5Bbkj3dEgYiUIszqWdpZe+Z7/wB1oCYmIoboiwiLT2WjKl/jscrHfGg/pKdMkyklC5Zs2LEfHYpjcRoPzme9MWWmk3dWbK9ObkWkikOetJ554fWyoEsmdSlt+uR0pCJR34b6t/TVg1SY3sYvdf8vuiKrpyaDXDISiegp17p7579Gp3p++y7HPAiY9pmTibljrr85qSidtlg4+l25GLCaS8e6rRxNBmsnERunKbaOObRz7N72ju5vdAjYpBXHgJylOAVsMseDAPEP8LYoUHicY2BiAAEfhiAGJgZWBgZ7RnFRdnVJELCQlBSRlATJMoLV2DK4glSYs6ubq5vbKrJLSbGrgEmovDuDJVhe3VzcXFwNLCOILB/C4IuQ1xTn5FPilBTj5FPmBAB4WwoqAHicY2BkYGAA4sk1sR/j+W2+MnAzpDBgAyEMQUCSg4EJxAEAwUgFHgB4nGNgZGBgSGFggJMhDIwMqEAYAByHATJ4nGNgAIIUNEwmAABl3AGReJxjYAACIQYlBiMGJ3wQAEcQBEV4nGNgZGBgEGZgY2BiAAEQyQWEDAz/wXwGAAsPATIAAHicXdBNSsNAHAXwl35iA0UQXYnMShfS9GPZA7T7LgIu03SSpkwzYTIt1BN4Ak/gKTyAeCxfw39jZkjymzcvAwmAW/wgwHUEGDb36+jQQ3GXGot79L24jxCP4gHzF/EIr4jEIe7wxhOC3g2TMYy4Q7+Lu/SHuEd/ivt4wJd4wPxbPEKMX3GI5+DJFGaSn4qNzk8mcbKSR6xdXdhSzaOZJGtdapd4vVPbi6rP+cL7TGXOHtXKll4bY1Xl7EGnPtp7Xy2n00zyKLVHfkHBa4IcJ2oD3cgggWvt/V/FbDrUlEUJhTn/0azVWbNTNr0Ens8de1tceK9xZmfB1CPjOmPH4kitmvOubcNpmVTN3oFJyjzCvnmrwhJTzqzVj9jiSX911FjeAAB4nG3HMRKCMBBA0f0giiKi4DU8k0V2GWbIZDOh4PoWWvq6J5V8If9NVNQcaDhyouXMhY4rPTcG7jwYmXhKq8Wz+p762aNaeYXom2n3m2dLTVgsrCgFJ7OTmIkYbwIbC6vIB7WmFfAAAA==") format("woff");
+}`;
+  function _injectStyles(cssContent) {
+    const injected = document.createElement("style");
+    injected.innerHTML = cssContent;
+    const before = document.querySelector("head link[rel=stylesheet], head style");
+    if (before) {
+      document.head.insertBefore(injected, before);
+    } else {
+      document.head.appendChild(injected);
+    }
+  }
+  var stylesInjected = false;
+  var GUI = class {
+    constructor({
+      parent,
+      autoPlace = parent === void 0,
+      container,
+      width,
+      title = "Controls",
+      injectStyles = true,
+      touchStyles = true
+    } = {}) {
+      this.parent = parent;
+      this.root = parent ? parent.root : this;
+      this.children = [];
+      this.controllers = [];
+      this.folders = [];
+      this._closed = false;
+      this._hidden = false;
+      this.domElement = document.createElement("div");
+      this.domElement.classList.add("lil-gui");
+      this.$title = document.createElement("div");
+      this.$title.classList.add("title");
+      this.$title.setAttribute("role", "button");
+      this.$title.setAttribute("aria-expanded", true);
+      this.$title.setAttribute("tabindex", 0);
+      this.$title.addEventListener("click", () => this.openAnimated(this._closed));
+      this.$title.addEventListener("keydown", (e) => {
+        if (e.code === "Enter" || e.code === "Space") {
+          e.preventDefault();
+          this.$title.click();
+        }
+      });
+      this.$title.addEventListener("touchstart", () => {
+      }, { passive: true });
+      this.$children = document.createElement("div");
+      this.$children.classList.add("children");
+      this.domElement.appendChild(this.$title);
+      this.domElement.appendChild(this.$children);
+      this.title(title);
+      if (touchStyles) {
+        this.domElement.classList.add("allow-touch-styles");
+      }
+      if (this.parent) {
+        this.parent.children.push(this);
+        this.parent.folders.push(this);
+        this.parent.$children.appendChild(this.domElement);
+        return;
+      }
+      this.domElement.classList.add("root");
+      if (!stylesInjected && injectStyles) {
+        _injectStyles(stylesheet);
+        stylesInjected = true;
+      }
+      if (container) {
+        container.appendChild(this.domElement);
+      } else if (autoPlace) {
+        this.domElement.classList.add("autoPlace");
+        document.body.appendChild(this.domElement);
+      }
+      if (width) {
+        this.domElement.style.setProperty("--width", width + "px");
+      }
+      this.domElement.addEventListener("keydown", (e) => e.stopPropagation());
+      this.domElement.addEventListener("keyup", (e) => e.stopPropagation());
+    }
+    add(object4, property, $1, max, step) {
+      if (Object($1) === $1) {
+        return new OptionController(this, object4, property, $1);
+      }
+      const initialValue = object4[property];
+      switch (typeof initialValue) {
+        case "number":
+          return new NumberController(this, object4, property, $1, max, step);
+        case "boolean":
+          return new BooleanController(this, object4, property);
+        case "string":
+          return new StringController(this, object4, property);
+        case "function":
+          return new FunctionController(this, object4, property);
+      }
+      console.error(`gui.add failed
+	property:`, property, `
+	object:`, object4, `
+	value:`, initialValue);
+    }
+    addColor(object4, property, rgbScale = 1) {
+      return new ColorController(this, object4, property, rgbScale);
+    }
+    addFolder(title) {
+      return new GUI({ parent: this, title });
+    }
+    load(obj, recursive = true) {
+      if (obj.controllers) {
+        this.controllers.forEach((c) => {
+          if (c instanceof FunctionController)
+            return;
+          if (c._name in obj.controllers) {
+            c.load(obj.controllers[c._name]);
+          }
+        });
+      }
+      if (recursive && obj.folders) {
+        this.folders.forEach((f) => {
+          if (f._title in obj.folders) {
+            f.load(obj.folders[f._title]);
+          }
+        });
+      }
+      return this;
+    }
+    save(recursive = true) {
+      const obj = {
+        controllers: {},
+        folders: {}
+      };
+      this.controllers.forEach((c) => {
+        if (c instanceof FunctionController)
+          return;
+        if (c._name in obj.controllers) {
+          throw new Error(`Cannot save GUI with duplicate property "${c._name}"`);
+        }
+        obj.controllers[c._name] = c.save();
+      });
+      if (recursive) {
+        this.folders.forEach((f) => {
+          if (f._title in obj.folders) {
+            throw new Error(`Cannot save GUI with duplicate folder "${f._title}"`);
+          }
+          obj.folders[f._title] = f.save();
+        });
+      }
+      return obj;
+    }
+    open(open = true) {
+      this._closed = !open;
+      this.$title.setAttribute("aria-expanded", !this._closed);
+      this.domElement.classList.toggle("closed", this._closed);
+      return this;
+    }
+    close() {
+      return this.open(false);
+    }
+    show(show = true) {
+      this._hidden = !show;
+      this.domElement.style.display = this._hidden ? "none" : "";
+      return this;
+    }
+    hide() {
+      return this.show(false);
+    }
+    openAnimated(open = true) {
+      this._closed = !open;
+      this.$title.setAttribute("aria-expanded", !this._closed);
+      requestAnimationFrame(() => {
+        const initialHeight = this.$children.clientHeight;
+        this.$children.style.height = initialHeight + "px";
+        this.domElement.classList.add("transition");
+        const onTransitionEnd = (e) => {
+          if (e.target !== this.$children)
+            return;
+          this.$children.style.height = "";
+          this.domElement.classList.remove("transition");
+          this.$children.removeEventListener("transitionend", onTransitionEnd);
+        };
+        this.$children.addEventListener("transitionend", onTransitionEnd);
+        const targetHeight = !open ? 0 : this.$children.scrollHeight;
+        this.domElement.classList.toggle("closed", !open);
+        requestAnimationFrame(() => {
+          this.$children.style.height = targetHeight + "px";
+        });
+      });
+      return this;
+    }
+    title(title) {
+      this._title = title;
+      this.$title.innerHTML = title;
+      return this;
+    }
+    reset(recursive = true) {
+      const controllers = recursive ? this.controllersRecursive() : this.controllers;
+      controllers.forEach((c) => c.reset());
+      return this;
+    }
+    onChange(callback) {
+      this._onChange = callback;
+      return this;
+    }
+    _callOnChange(controller) {
+      if (this.parent) {
+        this.parent._callOnChange(controller);
+      }
+      if (this._onChange !== void 0) {
+        this._onChange.call(this, {
+          object: controller.object,
+          property: controller.property,
+          value: controller.getValue(),
+          controller
+        });
+      }
+    }
+    onFinishChange(callback) {
+      this._onFinishChange = callback;
+      return this;
+    }
+    _callOnFinishChange(controller) {
+      if (this.parent) {
+        this.parent._callOnFinishChange(controller);
+      }
+      if (this._onFinishChange !== void 0) {
+        this._onFinishChange.call(this, {
+          object: controller.object,
+          property: controller.property,
+          value: controller.getValue(),
+          controller
+        });
+      }
+    }
+    destroy() {
+      if (this.parent) {
+        this.parent.children.splice(this.parent.children.indexOf(this), 1);
+        this.parent.folders.splice(this.parent.folders.indexOf(this), 1);
+      }
+      if (this.domElement.parentElement) {
+        this.domElement.parentElement.removeChild(this.domElement);
+      }
+      Array.from(this.children).forEach((c) => c.destroy());
+    }
+    controllersRecursive() {
+      let controllers = Array.from(this.controllers);
+      this.folders.forEach((f) => {
+        controllers = controllers.concat(f.controllersRecursive());
+      });
+      return controllers;
+    }
+    foldersRecursive() {
+      let folders = Array.from(this.folders);
+      this.folders.forEach((f) => {
+        folders = folders.concat(f.foldersRecursive());
+      });
+      return folders;
+    }
+  };
+
+  // src/page/Chapter_1/DebugUI/DebugUI.tsx
   var import_react31 = __toESM(require_react(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  function GeometriesBase() {
+  var debugObject = {
+    y: 0,
+    spin: () => {
+    }
+  };
+  function DebugUI() {
     const container = (0, import_react31.useRef)(null);
     useScene(container);
+    const { current: gui } = (0, import_react31.useRef)(new GUI());
     const initScene = (0, import_react31.useCallback)(() => {
+      const material = new MeshBasicMaterial({ color: "red" });
+      const mesh = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        material
+      );
+      app.scene.add(mesh);
+      const position = {
+        y: debugObject.y
+      };
+      const tween = new Tween(position);
+      gui.add(debugObject, "y").min(-3).max(3).step(0.01).name("positionY").onChange((e) => {
+        console.log(position.y);
+        tween.to({ y: e }).easing(Easing.Quadratic.Out).onUpdate(() => {
+          mesh.position.y = position.y;
+        }).start();
+      });
+      gui.add(mesh, "visible");
+      gui.add(material, "wireframe");
+      gui.addColor(material, "color");
+    }, []);
+    (0, import_react31.useEffect)(() => {
+      initScene();
+    }, [initScene]);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+      ref: container,
+      id: "container"
+    });
+  }
+
+  // src/page/Chapter_1/Geometries/GeometriesBase.tsx
+  var import_react32 = __toESM(require_react(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  function GeometriesBase() {
+    const container = (0, import_react32.useRef)(null);
+    useScene(container);
+    const initScene = (0, import_react32.useCallback)(() => {
       const geometry = new BufferGeometry();
       const count = 5e3;
       const position_array = new Float32Array(count * 3 * 3);
@@ -61301,28 +62702,28 @@
       );
       app.scene.add(mesh);
     }, []);
-    (0, import_react31.useEffect)(() => {
+    (0, import_react32.useEffect)(() => {
       initScene();
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", {
       id: "container",
       ref: container
     });
   }
 
   // src/page/Chapter_1/TranslateObject/TranslateObject.tsx
-  var import_react32 = __toESM(require_react(), 1);
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_react33 = __toESM(require_react(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   function TranslateObject() {
-    const container = (0, import_react32.useRef)(null);
+    const container = (0, import_react33.useRef)(null);
     useScene(container);
-    const setUpCamera = (0, import_react32.useCallback)(() => {
+    const setUpCamera = (0, import_react33.useCallback)(() => {
       const camera = app.camera.activeCamera;
       camera.position.set(0, 0, 3);
       camera.lookAt(app.scene.position);
       camera.updateProjectionMatrix();
     }, []);
-    const moveObject = (0, import_react32.useCallback)((mesh) => {
+    const moveObject = (0, import_react33.useCallback)((mesh) => {
       const camera = app.camera.activeCamera;
       mesh.position.y = 1;
       mesh.position.x = 2;
@@ -61330,15 +62731,15 @@
       console.log(mesh.position.distanceTo(camera.position));
       console.log(mesh.position.normalize());
     }, []);
-    const scaleObject = (0, import_react32.useCallback)((mesh) => {
+    const scaleObject = (0, import_react33.useCallback)((mesh) => {
       mesh.scale.x = 2;
       mesh.scale.set(1, 1, 1);
     }, []);
-    const rotateObject = (0, import_react32.useCallback)((mesh) => {
+    const rotateObject = (0, import_react33.useCallback)((mesh) => {
       mesh.rotation.reorder("YXZ");
       mesh.rotation.y = Math.PI * 0.25;
     }, []);
-    const initScene = (0, import_react32.useCallback)(() => {
+    const initScene = (0, import_react33.useCallback)(() => {
       setUpCamera();
       const mesh = new Mesh(
         new BoxGeometry(1, 1, 1),
@@ -61349,25 +62750,25 @@
       rotateObject(mesh);
       app.scene.add(mesh);
     }, [setUpCamera, moveObject, scaleObject, rotateObject]);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react33.useEffect)(() => {
       initScene();
       app.showStatus();
       app.addArrowHelper();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/page/Extra/TwoCameras.tsx
-  var import_react33 = __toESM(require_react(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_react34 = __toESM(require_react(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   var isSecondCamera = true;
   function TwoCameras() {
-    const container = (0, import_react33.useRef)(null);
+    const container = (0, import_react34.useRef)(null);
     useScene(container);
-    const initScene = (0, import_react33.useCallback)((width, height) => {
+    const initScene = (0, import_react34.useCallback)((width, height) => {
       const renderer = app.renderer.webGLRenderer;
       const innerWidth = width / 4;
       const innerHeight = height / 4;
@@ -61406,15 +62807,15 @@
         renderer.setScissorTest(false);
       });
     }, []);
-    (0, import_react33.useEffect)(() => {
+    (0, import_react34.useEffect)(() => {
       const { width, height } = getContainerSize();
       app.addArrowHelper();
       initScene(width, height);
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
       id: "container",
       ref: container,
-      children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(button_default2, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(button_default2, {
         children: "\u663E\u793A/\u5173\u95ED \u60AC\u6D6E\u76F8\u673A",
         style: {
           position: "absolute",
@@ -61429,7 +62830,7 @@
   }
 
   // src/routes/route.tsx
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   function setItems({ label, key: key2, path, type: type4, icon, children, element }) {
     return { key: key2, icon, path, children, label, type: type4, element };
   }
@@ -61437,31 +62838,32 @@
     setItems({
       label: "Chapter01 Basics",
       key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TranslateObject, {}) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Animation, {}) }),
-        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(CameraBase, {}) }),
-        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(GeometriesBase, {}) })
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Animation, {}) }),
+        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(CameraBase, {}) }),
+        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(GeometriesBase, {}) }),
+        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(DebugUI, {}) })
       ]
     }),
     setItems({
       label: "Extra",
       key: "Extra",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TwoCameras, {}) })
+        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TwoCameras, {}) })
       ]
     })
   ];
 
   // src/components/AsideNavi.tsx
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   var route = [...ROUTES];
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(menu_default, {
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(menu_default, {
       items: route,
       defaultOpenKeys: ["Chapter01 Basics"],
       activeKey: location.pathname,
@@ -61473,12 +62875,12 @@
   }
 
   // src/page/Index.tsx
-  var import_react34 = __toESM(require_react(), 1);
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_react35 = __toESM(require_react(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   function Index() {
-    const container = (0, import_react34.useRef)(null);
+    const container = (0, import_react35.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react34.useMemo)(() => {
+    const mesh = (0, import_react35.useMemo)(() => {
       const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line = new LineSegments(edge, new LineBasicMaterial({
@@ -61487,24 +62889,24 @@
       }));
       return line;
     }, []);
-    const initScene = (0, import_react34.useCallback)(() => {
+    const initScene = (0, import_react35.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       app.renderer.fnList.push(function() {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react34.useEffect)(() => {
+    (0, import_react35.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   var renderChildrenRoute = (route2) => {
     if (!route2)
       return [];
@@ -61516,21 +62918,21 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react35.useLayoutEffect)(() => {
+    (0, import_react36.useLayoutEffect)(() => {
       new Application();
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", {
         id: "app",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AsideNavi, {}),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Routes, {
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AsideNavi, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Routes, {
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Route, {
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Route, {
                 path: "/",
-                element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Index, {})
+                element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Index, {})
               }),
-              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Route, {
+              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Route, {
                 path: r.path,
                 element: r.element
               }, r.key))
@@ -61542,10 +62944,10 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(App, {})
   );
 })();
 /*!
@@ -61636,6 +63038,13 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.md file in the root directory of this source tree.
  *
+ * @license MIT
+ */
+/**
+ * lil-gui
+ * https://lil-gui.georgealways.com
+ * @version 0.17.0
+ * @author George Michael Brower
  * @license MIT
  */
 /** @license React v16.13.1
