@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef44(initialValue) {
+          function useRef45(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect37(create, deps) {
+          function useEffect38(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback17(callback, deps) {
+          function useCallback18(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback17;
+          exports.useCallback = useCallback18;
           exports.useContext = useContext36;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect37;
+          exports.useEffect = useEffect38;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle7;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo24;
           exports.useReducer = useReducer;
-          exports.useRef = useRef44;
+          exports.useRef = useRef45;
           exports.useState = useState20;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key2, false);
             }
           }
-          var jsx10 = jsxWithValidationDynamic;
+          var jsx11 = jsxWithValidationDynamic;
           var jsxs2 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx10;
+          exports.jsx = jsx11;
           exports.jsxs = jsxs2;
         })();
       }
@@ -25545,7 +25545,7 @@
   var import_client = __toESM(require_client(), 1);
 
   // src/app/App.tsx
-  var import_react34 = __toESM(require_react(), 1);
+  var import_react35 = __toESM(require_react(), 1);
 
   // node_modules/react-router-dom/dist/index.js
   var React2 = __toESM(require_react());
@@ -61276,19 +61276,53 @@
     });
   }
 
-  // src/page/Chapter_1/TranslateObject/TranslateObject.tsx
+  // src/page/Chapter_1/Geometries/GeometriesBase.tsx
   var import_react31 = __toESM(require_react(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  function TranslateObject() {
+  function GeometriesBase() {
     const container = (0, import_react31.useRef)(null);
     useScene(container);
-    const setUpCamera = (0, import_react31.useCallback)(() => {
+    const initScene = (0, import_react31.useCallback)(() => {
+      const geometry = new BufferGeometry();
+      const count = 5e3;
+      const position_array = new Float32Array(count * 3 * 3);
+      for (let i = 0; i < count * 3 * 3; i++) {
+        position_array[i] = Math.random();
+      }
+      const position_attribute = new BufferAttribute(position_array, 3);
+      geometry.setAttribute("position", position_attribute);
+      const material = new MeshBasicMaterial({
+        color: "red",
+        wireframe: true
+      });
+      const mesh = new Mesh(
+        geometry,
+        material
+      );
+      app.scene.add(mesh);
+    }, []);
+    (0, import_react31.useEffect)(() => {
+      initScene();
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+      id: "container",
+      ref: container
+    });
+  }
+
+  // src/page/Chapter_1/TranslateObject/TranslateObject.tsx
+  var import_react32 = __toESM(require_react(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  function TranslateObject() {
+    const container = (0, import_react32.useRef)(null);
+    useScene(container);
+    const setUpCamera = (0, import_react32.useCallback)(() => {
       const camera = app.camera.activeCamera;
       camera.position.set(0, 0, 3);
       camera.lookAt(app.scene.position);
       camera.updateProjectionMatrix();
     }, []);
-    const moveObject = (0, import_react31.useCallback)((mesh) => {
+    const moveObject = (0, import_react32.useCallback)((mesh) => {
       const camera = app.camera.activeCamera;
       mesh.position.y = 1;
       mesh.position.x = 2;
@@ -61296,15 +61330,15 @@
       console.log(mesh.position.distanceTo(camera.position));
       console.log(mesh.position.normalize());
     }, []);
-    const scaleObject = (0, import_react31.useCallback)((mesh) => {
+    const scaleObject = (0, import_react32.useCallback)((mesh) => {
       mesh.scale.x = 2;
       mesh.scale.set(1, 1, 1);
     }, []);
-    const rotateObject = (0, import_react31.useCallback)((mesh) => {
+    const rotateObject = (0, import_react32.useCallback)((mesh) => {
       mesh.rotation.reorder("YXZ");
       mesh.rotation.y = Math.PI * 0.25;
     }, []);
-    const initScene = (0, import_react31.useCallback)(() => {
+    const initScene = (0, import_react32.useCallback)(() => {
       setUpCamera();
       const mesh = new Mesh(
         new BoxGeometry(1, 1, 1),
@@ -61315,25 +61349,25 @@
       rotateObject(mesh);
       app.scene.add(mesh);
     }, [setUpCamera, moveObject, scaleObject, rotateObject]);
-    (0, import_react31.useEffect)(() => {
+    (0, import_react32.useEffect)(() => {
       initScene();
       app.showStatus();
       app.addArrowHelper();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/page/Extra/TwoCameras.tsx
-  var import_react32 = __toESM(require_react(), 1);
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_react33 = __toESM(require_react(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   var isSecondCamera = true;
   function TwoCameras() {
-    const container = (0, import_react32.useRef)(null);
+    const container = (0, import_react33.useRef)(null);
     useScene(container);
-    const initScene = (0, import_react32.useCallback)((width, height) => {
+    const initScene = (0, import_react33.useCallback)((width, height) => {
       const renderer = app.renderer.webGLRenderer;
       const innerWidth = width / 4;
       const innerHeight = height / 4;
@@ -61372,15 +61406,15 @@
         renderer.setScissorTest(false);
       });
     }, []);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react33.useEffect)(() => {
       const { width, height } = getContainerSize();
       app.addArrowHelper();
       initScene(width, height);
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {
       id: "container",
       ref: container,
-      children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(button_default2, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(button_default2, {
         children: "\u663E\u793A/\u5173\u95ED \u60AC\u6D6E\u76F8\u673A",
         style: {
           position: "absolute",
@@ -61395,7 +61429,7 @@
   }
 
   // src/routes/route.tsx
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function setItems({ label, key: key2, path, type: type4, icon, children, element }) {
     return { key: key2, icon, path, children, label, type: type4, element };
   }
@@ -61403,30 +61437,31 @@
     setItems({
       label: "Chapter01 Basics",
       key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(TranslateObject, {}) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Animation, {}) }),
-        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(CameraBase, {}) })
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Animation, {}) }),
+        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(CameraBase, {}) }),
+        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(GeometriesBase, {}) })
       ]
     }),
     setItems({
       label: "Extra",
       key: "Extra",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(TwoCameras, {}) })
+        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TwoCameras, {}) })
       ]
     })
   ];
 
   // src/components/AsideNavi.tsx
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   var route = [...ROUTES];
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(menu_default, {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(menu_default, {
       items: route,
       defaultOpenKeys: ["Chapter01 Basics"],
       activeKey: location.pathname,
@@ -61438,12 +61473,12 @@
   }
 
   // src/page/Index.tsx
-  var import_react33 = __toESM(require_react(), 1);
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_react34 = __toESM(require_react(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   function Index() {
-    const container = (0, import_react33.useRef)(null);
+    const container = (0, import_react34.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react33.useMemo)(() => {
+    const mesh = (0, import_react34.useMemo)(() => {
       const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line = new LineSegments(edge, new LineBasicMaterial({
@@ -61452,24 +61487,24 @@
       }));
       return line;
     }, []);
-    const initScene = (0, import_react33.useCallback)(() => {
+    const initScene = (0, import_react34.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       app.renderer.fnList.push(function() {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react33.useEffect)(() => {
+    (0, import_react34.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   var renderChildrenRoute = (route2) => {
     if (!route2)
       return [];
@@ -61481,21 +61516,21 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react34.useLayoutEffect)(() => {
+    (0, import_react35.useLayoutEffect)(() => {
       new Application();
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", {
         id: "app",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(AsideNavi, {}),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Routes, {
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AsideNavi, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Routes, {
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, {
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Route, {
                 path: "/",
-                element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Index, {})
+                element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Index, {})
               }),
-              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, {
+              ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Route, {
                 path: r.path,
                 element: r.element
               }, r.key))
@@ -61507,10 +61542,10 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(App, {})
   );
 })();
 /*!
