@@ -39,7 +39,6 @@ export default function DebugUI()
         const position = {
             y: debugObject.y
         };
-        const tween = new Tween(position);
         gui.add(debugObject, 'y')  //错的,不能直接指向mesh的对象
             .min(-3)
             .max(3)
@@ -48,8 +47,8 @@ export default function DebugUI()
             .onChange((e: any) =>
             {
                 console.log(position.y);
-                tween
-                    .to({ y: e })
+                new Tween(position)
+                    .to({ y: e }, 20)
                     .easing(Easing.Quadratic.Out)
                     .onUpdate(() =>
                     {
@@ -63,6 +62,21 @@ export default function DebugUI()
         gui.add(material, 'wireframe');
 
         gui.addColor(material, 'color');
+
+        debugObject.spin = () =>
+        {
+            new Tween(position)
+                .to({ y: 2 })
+                .duration(3)
+                .easing(Easing.Quadratic.Out)
+                .onUpdate(() =>
+                {
+                    mesh.position.y = position.y;
+                })
+                .start();
+        };
+
+        gui.add(debugObject, 'spin');
 
     }, []);
 

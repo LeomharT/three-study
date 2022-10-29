@@ -62657,16 +62657,21 @@
       const position = {
         y: debugObject.y
       };
-      const tween = new Tween(position);
       gui.add(debugObject, "y").min(-3).max(3).step(0.01).name("positionY").onChange((e) => {
         console.log(position.y);
-        tween.to({ y: e }).easing(Easing.Quadratic.Out).onUpdate(() => {
+        new Tween(position).to({ y: e }, 20).easing(Easing.Quadratic.Out).onUpdate(() => {
           mesh.position.y = position.y;
         }).start();
       });
       gui.add(mesh, "visible");
       gui.add(material, "wireframe");
       gui.addColor(material, "color");
+      debugObject.spin = () => {
+        new Tween(position).to({ y: 2 }).duration(3).easing(Easing.Quadratic.Out).onUpdate(() => {
+          mesh.position.y = position.y;
+        }).start();
+      };
+      gui.add(debugObject, "spin");
     }, []);
     (0, import_react31.useEffect)(() => {
       initScene();
