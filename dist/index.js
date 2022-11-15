@@ -68374,9 +68374,20 @@
   // src/page/Chapter_1/DebugUI/DebugUI.tsx
   var import_react31 = __toESM(require_react(), 1);
 
-  // src/app/core/gui.tsx
+  // src/app/core/pane.ts
   var import_tweakpane = __toESM(require_tweakpane(), 1);
-  var pane = new import_tweakpane.Pane();
+  var IPane = class extends import_tweakpane.Pane {
+    constructor() {
+      super();
+      this.title = "Debug Params";
+    }
+    clear() {
+      for (const c of this.children) {
+        this.remove(c);
+      }
+    }
+  };
+  var pane = new IPane();
 
   // src/page/Chapter_1/DebugUI/DebugUI.tsx
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
@@ -68410,6 +68421,7 @@
     }, []);
     (0, import_react31.useEffect)(() => {
       initScene();
+      return () => pane.clear();
     }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
       ref: container,

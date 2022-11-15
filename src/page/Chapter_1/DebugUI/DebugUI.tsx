@@ -2,9 +2,8 @@ import { Easing, Tween } from "@tweenjs/tween.js";
 import { useCallback, useEffect, useRef } from "react";
 import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
 import { app } from "../../../app/Application";
-import { pane } from '../../../app/core/gui';
+import { pane } from "../../../app/core/pane";
 import useScene from "../../../hooks/useScene";
-
 export default function DebugUI()
 {
     const container = useRef(null);
@@ -99,6 +98,7 @@ export default function DebugUI()
     {
         initScene();
 
+        return () => pane.clear();
     }, [initScene]);
 
     return (
