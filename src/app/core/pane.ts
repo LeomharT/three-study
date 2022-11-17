@@ -12,6 +12,8 @@ class IPane extends Pane
 
     public clear()
     {
+        if (this.children.length === 0) return;
+
         for (const c of this.children)
         {
             this.remove(c);

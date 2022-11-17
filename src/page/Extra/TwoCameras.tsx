@@ -1,7 +1,7 @@
-import { Button } from "antd";
 import { useCallback, useEffect, useRef } from "react";
 import { BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera } from "three";
 import { app, getContainerSize } from "../../app/Application";
+import { pane } from "../../app/core/pane";
 import useScene from "../../hooks/useScene";
 
 let isSecondCamera = true;
@@ -68,6 +68,14 @@ export default function TwoCameras()
         });
 
 
+        pane.addButton({
+            title: '显示/关闭 悬浮相机',
+            label: "相机",
+        }).on('click', () =>
+        {
+            isSecondCamera = !isSecondCamera;
+        });
+
     }, []);
 
 
@@ -78,21 +86,11 @@ export default function TwoCameras()
         app.addArrowHelper();
 
         initScene(width, height);
-
     }, [initScene]);
 
     return (
         <div id='container' ref={container}>
-            <Button children='显示/关闭 悬浮相机'
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 330
-                }}
-                onClick={() =>
-                {
-                    isSecondCamera = !isSecondCamera;
-                }} />
+
         </div>
     );
 

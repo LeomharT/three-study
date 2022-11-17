@@ -98,7 +98,6 @@ export default function DebugUI()
     {
         initScene();
 
-        return () => pane.clear();
     }, [initScene]);
 
     return (
