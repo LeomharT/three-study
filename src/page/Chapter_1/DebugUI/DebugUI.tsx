@@ -1,12 +1,15 @@
 import { Easing, Tween } from "@tweenjs/tween.js";
 import { useCallback, useEffect, useRef } from "react";
-import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
+import { useLocation } from "react-router";
+import { BoxGeometry, Color, Mesh, MeshBasicMaterial } from "three";
 import { app } from "../../../app/Application";
 import { pane } from "../../../app/core/pane";
 import useScene from "../../../hooks/useScene";
 export default function DebugUI()
 {
     const container = useRef(null);
+
+    const location = useLocation();
 
     useScene(container);
 
@@ -24,8 +27,9 @@ export default function DebugUI()
         /**
          * Debuger
          */
-        const position = {
-            y: 0
+        const debugParams = {
+            y: 0,
+            color: 0xffffff
         };
 
         const target = {
@@ -34,7 +38,7 @@ export default function DebugUI()
 
         const params = pane.addFolder({ title: "Params" });
 
-        params.addInput(position, 'y', {
+        params.addInput(debugParams, 'y', {
             min: -3,
             max: 3,
             step: 0.01,
@@ -52,44 +56,12 @@ export default function DebugUI()
                 .start();
         });
 
-        // gui.add(debugObject, 'y')  //错的,不能直接指向mesh的对象
-        //     .min(-3)
-        //     .max(3)
-        //     .step(0.01)
-        //     .name('positionY')
-        //     .onChange((e: any) =>
-        //     {
-        //         console.log(position.y);
-        //         new Tween(position)
-        //             .to({ y: e }, 20)
-        //             .easing(Easing.Quadratic.Out)
-        //             .onUpdate(() =>
-        //             {
-        //                 mesh.position.y = position.y;
-        //             })
-        //             .start();
-        //     });
-
-        // gui.add(mesh, 'visible');
-
-        // gui.add(material, 'wireframe');
-
-        // gui.addColor(material, 'color');
-
-        // debugObject.spin = () =>
-        // {
-        //     new Tween(position)
-        //         .to({ y: 2 })
-        //         .duration(3)
-        //         .easing(Easing.Quadratic.Out)
-        //         .onUpdate(() =>
-        //         {
-        //             mesh.position.y = position.y;
-        //         })
-        //         .start();
-        // };
-
-        // gui.add(debugObject, 'spin');
+        params.addInput(debugParams, 'color', {
+            view: 'color'
+        }).on('change', (e) =>
+        {
+            mesh.material.color = new Color(e.value);
+        });
 
     }, []);
 
@@ -97,6 +69,13 @@ export default function DebugUI()
     useEffect(() =>
     {
         initScene();
+
+        const { hash } = location;
+
+        if (hash !== '#debug')
+        {
+            pane.hidden = true;
+        }
 
     }, [initScene]);
 

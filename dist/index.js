@@ -67911,6 +67911,7 @@
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   function DebugUI() {
     const container = (0, import_react29.useRef)(null);
+    const location = useLocation();
     useScene(container);
     const initScene = (0, import_react29.useCallback)(() => {
       const material = new MeshBasicMaterial({ color: "red" });
@@ -67919,14 +67920,15 @@
         material
       );
       app.scene.add(mesh);
-      const position = {
-        y: 0
+      const debugParams = {
+        y: 0,
+        color: 16777215
       };
       const target = {
         y: 0
       };
       const params = pane.addFolder({ title: "Params" });
-      params.addInput(position, "y", {
+      params.addInput(debugParams, "y", {
         min: -3,
         max: 3,
         step: 0.01,
@@ -67936,9 +67938,18 @@
           mesh.position.y = v.y;
         }).start();
       });
+      params.addInput(debugParams, "color", {
+        view: "color"
+      }).on("change", (e) => {
+        mesh.material.color = new Color(e.value);
+      });
     }, []);
     (0, import_react29.useEffect)(() => {
       initScene();
+      const { hash } = location;
+      if (hash !== "#debug") {
+        pane.hidden = true;
+      }
     }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
       ref: container,
