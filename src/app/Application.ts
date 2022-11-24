@@ -195,7 +195,7 @@ export const getContainerSize = (): { width: number, height: number; } =>
 
     if (!container)
     {
-        message.error("没有加载出容器,请刷新重试");
+        message.error({ key: "no-container", content: '没有加载出容器' });
         return {
             width: document.body.clientWidth,
             height: document.body.clientHeight,

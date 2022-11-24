@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key2, false);
             }
           }
-          var jsx12 = jsxWithValidationDynamic;
+          var jsx13 = jsxWithValidationDynamic;
           var jsxs2 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx12;
+          exports.jsx = jsx13;
           exports.jsxs = jsxs2;
         })();
       }
@@ -67817,7 +67817,7 @@
   var getContainerSize = () => {
     const container = document.querySelector("#container");
     if (!container) {
-      message_default.error("\u6CA1\u6709\u52A0\u8F7D\u51FA\u5BB9\u5668,\u8BF7\u5237\u65B0\u91CD\u8BD5");
+      message_default.error({ key: "no-container", content: "\u6CA1\u6709\u52A0\u8F7D\u51FA\u5BB9\u5668" });
       return {
         width: document.body.clientWidth,
         height: document.body.clientHeight
@@ -68030,9 +68030,17 @@
     });
   }
 
+  // src/page/Chapter_1/WoodTexture/WoodTexture.tsx
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  function WoodTexture() {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+      children: "WoodTexture"
+    });
+  }
+
   // src/page/Extra/TwoCameras.tsx
   var import_react32 = __toESM(require_react(), 1);
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   var isSecondCamera = true;
   function TwoCameras() {
     const container = (0, import_react32.useRef)(null);
@@ -68087,14 +68095,14 @@
       app.addArrowHelper();
       initScene(width, height);
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
       id: "container",
       ref: container
     });
   }
 
   // src/routes/route.tsx
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   function setItems({ label, key: key2, path, type: type4, icon, children, element }) {
     return { key: key2, icon, path, children, label, type: type4, element };
   }
@@ -68102,32 +68110,33 @@
     setItems({
       label: "Chapter01 Basics",
       key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TranslateObject, {}) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Animation, {}) }),
-        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(CameraBase, {}) }),
-        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(GeometriesBase, {}) }),
-        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(DebugUI, {}) })
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Animation, {}) }),
+        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(CameraBase, {}) }),
+        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GeometriesBase, {}) }),
+        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(DebugUI, {}) }),
+        setItems({ label: "WoodTexture", key: "/woodtexture", path: "/woodtexture", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(WoodTexture, {}) })
       ]
     }),
     setItems({
       label: "Extra",
       key: "Extra",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TwoCameras, {}) })
+        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TwoCameras, {}) })
       ]
     })
   ];
 
   // src/components/AsideNavi.tsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   var route = [...ROUTES];
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(menu_default, {
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(menu_default, {
       items: route,
       defaultOpenKeys: ["Chapter01 Basics"],
       activeKey: location.pathname,
@@ -68140,7 +68149,7 @@
 
   // src/page/Index.tsx
   var import_react33 = __toESM(require_react(), 1);
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   function Index() {
     const container = (0, import_react33.useRef)(null);
     useScene(container);
@@ -68163,14 +68172,14 @@
     (0, import_react33.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   var renderChildrenRoute = (route2) => {
     if (!route2)
       return [];
@@ -68193,17 +68202,17 @@
         return;
       pane.clear();
     }, [location]);
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
       id: "app",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AsideNavi, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Routes, {
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(AsideNavi, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Routes, {
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Route, {
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Route, {
               path: "/",
-              element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Index, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Index, {})
             }),
-            ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Route, {
+            ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Route, {
               path: r.path,
               element: r.element
             }, r.key))
@@ -68214,11 +68223,11 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(App, {})
     })
   );
 })();

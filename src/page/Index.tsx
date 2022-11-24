@@ -47,7 +47,6 @@ export default function Index()
 
     return (
         <div ref={container} id='container'>
-
         </div>
     );
 }

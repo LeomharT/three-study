@@ -5,6 +5,7 @@ import CameraBase from '../page/Chapter_1/Camera/CameraBase';
 import DebugUI from '../page/Chapter_1/DebugUI/DebugUI';
 import GeometriesBase from '../page/Chapter_1/Geometries/GeometriesBase';
 import TranslateObject from '../page/Chapter_1/TranslateObject/TranslateObject';
+import WoodTexture from '../page/Chapter_1/WoodTexture/WoodTexture';
 import TwoCameras from '../page/Extra/TwoCameras';
 
 export type MenuItem = Required<MenuProps>['items'][number] &
@@ -36,8 +37,7 @@ export const ROUTES: MenuItem[] = [
             setItems({ label: 'CameraBase', key: '/camera_base', path: '/camera_base', element: <CameraBase /> }),
             setItems({ label: 'GeometriesBase', key: '/geometries_base', path: '/geometries_base', element: <GeometriesBase /> }),
             setItems({ label: 'DebugUI', key: '/debugui', path: '/debugui', element: <DebugUI /> }),
-
-
+            setItems({ label: 'WoodTexture', key: '/woodtexture', path: '/woodtexture', element: <WoodTexture /> }),
         ]
     }),
     setItems({
