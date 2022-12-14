@@ -3,6 +3,7 @@ import { BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera } from "three";
 import { app, getContainerSize } from "../../app/Application";
 import { pane } from "../../app/core/pane";
 import useScene from "../../hooks/useScene";
+import { end } from "../../util/aop";
 
 let isSecondCamera = true;
 
@@ -35,7 +36,7 @@ export default function TwoCameras()
 
         app.scene.add(cube);
 
-        app.renderer.fnList.push(() =>
+        end(app.loopRender, () =>
         {
             renderer.clearDepth();
 
@@ -66,7 +67,6 @@ export default function TwoCameras()
 
             renderer.setScissorTest(false);
         });
-
 
         pane.addButton({
             title: '显示/关闭 悬浮相机',

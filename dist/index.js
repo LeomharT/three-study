@@ -7177,7 +7177,7 @@
             var start;
             var startValue = startText;
             var startLength = startValue.length;
-            var end;
+            var end2;
             var endValue = getText();
             var endLength = endValue.length;
             for (start = 0; start < startLength; start++) {
@@ -7186,12 +7186,12 @@
               }
             }
             var minEnd = startLength - start;
-            for (end = 1; end <= minEnd; end++) {
-              if (startValue[startLength - end] !== endValue[endLength - end]) {
+            for (end2 = 1; end2 <= minEnd; end2++) {
+              if (startValue[startLength - end2] !== endValue[endLength - end2]) {
                 break;
               }
             }
-            var sliceTail = end > 1 ? 1 - end : void 0;
+            var sliceTail = end2 > 1 ? 1 - end2 : void 0;
             fallbackText = endValue.slice(start, sliceTail);
             return fallbackText;
           }
@@ -8029,7 +8029,7 @@
           function getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNode, focusOffset) {
             var length = 0;
             var start = -1;
-            var end = -1;
+            var end2 = -1;
             var indexWithinAnchor = 0;
             var indexWithinFocus = 0;
             var node = outerNode;
@@ -8042,7 +8042,7 @@
                     start = length + anchorOffset;
                   }
                   if (node === focusNode && (focusOffset === 0 || node.nodeType === TEXT_NODE)) {
-                    end = length + focusOffset;
+                    end2 = length + focusOffset;
                   }
                   if (node.nodeType === TEXT_NODE) {
                     length += node.nodeValue.length;
@@ -8061,7 +8061,7 @@
                     start = length;
                   }
                   if (parentNode === focusNode && ++indexWithinFocus === focusOffset) {
-                    end = length;
+                    end2 = length;
                   }
                   if ((next = node.nextSibling) !== null) {
                     break;
@@ -8071,12 +8071,12 @@
                 }
                 node = next;
               }
-            if (start === -1 || end === -1) {
+            if (start === -1 || end2 === -1) {
               return null;
             }
             return {
               start,
-              end
+              end: end2
             };
           }
           function setOffsets(node, offsets) {
@@ -8088,14 +8088,14 @@
             var selection = win.getSelection();
             var length = node.textContent.length;
             var start = Math.min(offsets.start, length);
-            var end = offsets.end === void 0 ? start : Math.min(offsets.end, length);
-            if (!selection.extend && start > end) {
-              var temp = end;
-              end = start;
+            var end2 = offsets.end === void 0 ? start : Math.min(offsets.end, length);
+            if (!selection.extend && start > end2) {
+              var temp = end2;
+              end2 = start;
               start = temp;
             }
             var startMarker = getNodeForCharacterOffset(node, start);
-            var endMarker = getNodeForCharacterOffset(node, end);
+            var endMarker = getNodeForCharacterOffset(node, end2);
             if (startMarker && endMarker) {
               if (selection.rangeCount === 1 && selection.anchorNode === startMarker.node && selection.anchorOffset === startMarker.offset && selection.focusNode === endMarker.node && selection.focusOffset === endMarker.offset) {
                 return;
@@ -8103,7 +8103,7 @@
               var range3 = doc.createRange();
               range3.setStart(startMarker.node, startMarker.offset);
               selection.removeAllRanges();
-              if (start > end) {
+              if (start > end2) {
                 selection.addRange(range3);
                 selection.extend(endMarker.node, endMarker.offset);
               } else {
@@ -8212,13 +8212,13 @@
           }
           function setSelection(input, offsets) {
             var start = offsets.start;
-            var end = offsets.end;
-            if (end === void 0) {
-              end = start;
+            var end2 = offsets.end;
+            if (end2 === void 0) {
+              end2 = start;
             }
             if ("selectionStart" in input) {
               input.selectionStart = start;
-              input.selectionEnd = Math.min(end, input.value.length);
+              input.selectionEnd = Math.min(end2, input.value.length);
             } else {
               setOffsets(input, offsets);
             }
@@ -32926,12 +32926,12 @@
     let matches = [];
     for (let i = 0; i < routesMeta.length; ++i) {
       let meta = routesMeta[i];
-      let end = i === routesMeta.length - 1;
+      let end2 = i === routesMeta.length - 1;
       let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
       let match = matchPath({
         path: meta.relativePath,
         caseSensitive: meta.caseSensitive,
-        end
+        end: end2
       }, remainingPathname);
       if (!match)
         return null;
@@ -32979,12 +32979,12 @@
       pattern: pattern4
     };
   }
-  function compilePath(path, caseSensitive, end) {
+  function compilePath(path, caseSensitive, end2) {
     if (caseSensitive === void 0) {
       caseSensitive = false;
     }
-    if (end === void 0) {
-      end = true;
+    if (end2 === void 0) {
+      end2 = true;
     }
     warning(path === "*" || !path.endsWith("*") || path.endsWith("/*"), 'Route path "' + path + '" will be treated as if it were ' + ('"' + path.replace(/\*$/, "/*") + '" because the `*` character must ') + "always follow a `/` in the pattern. To get rid of this warning, " + ('please change the route path to "' + path.replace(/\*$/, "/*") + '".'));
     let paramNames = [];
@@ -32995,7 +32995,7 @@
     if (path.endsWith("*")) {
       paramNames.push("*");
       regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
-    } else if (end) {
+    } else if (end2) {
       regexpSource += "\\/*$";
     } else if (path !== "" && path !== "/") {
       regexpSource += "(?:(?=\\/|$))";
@@ -33911,7 +33911,7 @@
       "aria-current": ariaCurrentProp = "page",
       caseSensitive = false,
       className: classNameProp = "",
-      end = false,
+      end: end2 = false,
       style: styleProp,
       to,
       children
@@ -33919,7 +33919,7 @@
     let path = useResolvedPath(to);
     let match = useMatch({
       path: path.pathname,
-      end,
+      end: end2,
       caseSensitive
     });
     let routerState = React2.useContext(DataRouterStateContext);
@@ -33927,9 +33927,9 @@
     let nextPath = useResolvedPath(nextLocation || "");
     let nextMatch = React2.useMemo(() => nextLocation ? matchPath({
       path: path.pathname,
-      end,
+      end: end2,
       caseSensitive
-    }, nextPath.pathname) : null, [nextLocation, path.pathname, caseSensitive, end, nextPath.pathname]);
+    }, nextPath.pathname) : null, [nextLocation, path.pathname, caseSensitive, end2, nextPath.pathname]);
     let isPending = nextMatch != null;
     let isActive2 = match != null;
     let ariaCurrent = isActive2 ? ariaCurrentProp : void 0;
@@ -54511,8 +54511,8 @@
             const group = groups[i];
             const groupMaterial = material[group.materialIndex];
             const start = Math.max(group.start, drawRange.start);
-            const end = Math.min(index2.count, Math.min(group.start + group.count, drawRange.start + drawRange.count));
-            for (let j = start, jl = end; j < jl; j += 3) {
+            const end2 = Math.min(index2.count, Math.min(group.start + group.count, drawRange.start + drawRange.count));
+            for (let j = start, jl = end2; j < jl; j += 3) {
               const a = index2.getX(j);
               const b = index2.getX(j + 1);
               const c = index2.getX(j + 2);
@@ -54526,8 +54526,8 @@
           }
         } else {
           const start = Math.max(0, drawRange.start);
-          const end = Math.min(index2.count, drawRange.start + drawRange.count);
-          for (let i = start, il = end; i < il; i += 3) {
+          const end2 = Math.min(index2.count, drawRange.start + drawRange.count);
+          for (let i = start, il = end2; i < il; i += 3) {
             const a = index2.getX(i);
             const b = index2.getX(i + 1);
             const c = index2.getX(i + 2);
@@ -54544,8 +54544,8 @@
             const group = groups[i];
             const groupMaterial = material[group.materialIndex];
             const start = Math.max(group.start, drawRange.start);
-            const end = Math.min(position.count, Math.min(group.start + group.count, drawRange.start + drawRange.count));
-            for (let j = start, jl = end; j < jl; j += 3) {
+            const end2 = Math.min(position.count, Math.min(group.start + group.count, drawRange.start + drawRange.count));
+            for (let j = start, jl = end2; j < jl; j += 3) {
               const a = j;
               const b = j + 1;
               const c = j + 2;
@@ -54559,8 +54559,8 @@
           }
         } else {
           const start = Math.max(0, drawRange.start);
-          const end = Math.min(position.count, drawRange.start + drawRange.count);
-          for (let i = start, il = end; i < il; i += 3) {
+          const end2 = Math.min(position.count, drawRange.start + drawRange.count);
+          for (let i = start, il = end2; i < il; i += 3) {
             const a = i;
             const b = i + 1;
             const c = i + 2;
@@ -58850,9 +58850,9 @@
   function unrollLoops(string3) {
     return string3.replace(unrollLoopPattern, loopReplacer);
   }
-  function loopReplacer(match, start, end, snippet) {
+  function loopReplacer(match, start, end2, snippet) {
     let string3 = "";
-    for (let i = parseInt(start); i < parseInt(end); i++) {
+    for (let i = parseInt(start); i < parseInt(end2); i++) {
       string3 += snippet.replace(/\[\s*i\s*\]/g, "[ " + i + " ]").replace(/UNROLLED_LOOP_INDEX/g, i);
     }
     return string3;
@@ -64919,8 +64919,8 @@
       const positionAttribute = attributes.position;
       if (index2 !== null) {
         const start = Math.max(0, drawRange.start);
-        const end = Math.min(index2.count, drawRange.start + drawRange.count);
-        for (let i = start, l = end - 1; i < l; i += step) {
+        const end2 = Math.min(index2.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end2 - 1; i < l; i += step) {
           const a = index2.getX(i);
           const b = index2.getX(i + 1);
           vStart.fromBufferAttribute(positionAttribute, a);
@@ -64943,8 +64943,8 @@
         }
       } else {
         const start = Math.max(0, drawRange.start);
-        const end = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
-        for (let i = start, l = end - 1; i < l; i += step) {
+        const end2 = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end2 - 1; i < l; i += step) {
           vStart.fromBufferAttribute(positionAttribute, i);
           vEnd.fromBufferAttribute(positionAttribute, i + 1);
           const distSq = _ray$1.distanceSqToSegment(vStart, vEnd, interRay, interSegment);
@@ -65656,7 +65656,7 @@
     interpolate_(i1, t0, t, t1) {
       const result = this.resultBuffer, values = this.sampleValues, stride = this.valueSize, alpha = (t - t0) / (t1 - t0);
       let offset2 = i1 * stride;
-      for (let end = offset2 + stride; offset2 !== end; offset2 += 4) {
+      for (let end2 = offset2 + stride; offset2 !== end2; offset2 += 4) {
         Quaternion.slerpFlat(result, 0, values, offset2 - stride, values, offset2, alpha);
       }
       return result;
@@ -66822,30 +66822,30 @@
           continue;
         }
         var start = _valuesStart[property] || 0;
-        var end = _valuesEnd[property];
+        var end2 = _valuesEnd[property];
         var startIsArray = Array.isArray(_object[property]);
-        var endIsArray = Array.isArray(end);
+        var endIsArray = Array.isArray(end2);
         var isInterpolationList = !startIsArray && endIsArray;
         if (isInterpolationList) {
-          _object[property] = this._interpolationFunction(end, value);
-        } else if (typeof end === "object" && end) {
-          this._updateProperties(_object[property], start, end, value);
+          _object[property] = this._interpolationFunction(end2, value);
+        } else if (typeof end2 === "object" && end2) {
+          this._updateProperties(_object[property], start, end2, value);
         } else {
-          end = this._handleRelativeValue(start, end);
-          if (typeof end === "number") {
-            _object[property] = start + (end - start) * value;
+          end2 = this._handleRelativeValue(start, end2);
+          if (typeof end2 === "number") {
+            _object[property] = start + (end2 - start) * value;
           }
         }
       }
     };
-    Tween2.prototype._handleRelativeValue = function(start, end) {
-      if (typeof end !== "string") {
-        return end;
+    Tween2.prototype._handleRelativeValue = function(start, end2) {
+      if (typeof end2 !== "string") {
+        return end2;
       }
-      if (end.charAt(0) === "+" || end.charAt(0) === "-") {
-        return start + parseFloat(end);
+      if (end2.charAt(0) === "+" || end2.charAt(0) === "-") {
+        return start + parseFloat(end2);
       } else {
-        return parseFloat(end);
+        return parseFloat(end2);
       }
     };
     Tween2.prototype._swapEndStartRepeatValues = function(property) {
@@ -66962,6 +66962,38 @@
     };
   };
   var stats_module_default = Stats;
+
+  // src/util/aop.ts
+  var InjectFunctionList = class {
+    beginFunctionList = [];
+    endFunctionList = [];
+  };
+  var aopWeakMap = /* @__PURE__ */ new WeakMap();
+  var function_list = new InjectFunctionList();
+  function callFunctionList(funcList, target, ...args) {
+    for (const f of funcList) {
+      if (f.call(target, ...args))
+        return;
+    }
+  }
+  function makeAop(target) {
+    const returnFunction = (...args) => {
+      callFunctionList(function_list.beginFunctionList, globalThis, ...args);
+      const result = target.call(globalThis, ...args);
+      if (result)
+        args.unshift(result);
+      callFunctionList(function_list.endFunctionList, globalThis, ...args);
+    };
+    aopWeakMap.set(returnFunction, function_list);
+    return returnFunction;
+  }
+  function end(target, endFunction) {
+    if (!aopWeakMap.has(target)) {
+      console.warn(target.name + "This function is not aop function");
+      return;
+    }
+    aopWeakMap.get(target)?.endFunctionList.push(endFunction);
+  }
 
   // src/app/core/camera.ts
   var _Camera = class {
@@ -67695,7 +67727,6 @@
       antialias: true,
       preserveDrawingBuffer: true
     });
-    fnList = [];
     get domElement() {
       return this._webGLRenderer.domElement;
     }
@@ -67756,12 +67787,11 @@
           document.exitFullscreen();
         }
       });
-      this._loopRender();
+      this.loopRender();
     };
     disposeScene = () => {
       window.onresize = null;
       window.onwheel = null;
-      this.renderer.fnList = [];
       this.scene.clear();
       if (document.body.contains(this._stats.dom)) {
         document.body.removeChild(this._stats.dom);
@@ -67775,8 +67805,8 @@
       this._times = 0;
       return true;
     };
-    _loopRender = (time) => {
-      requestAnimationFrame(this._loopRender);
+    loopRender = makeAop((time) => {
+      requestAnimationFrame(this.loopRender);
       const isHeightFrame = this._limitFrame();
       if (!isHeightFrame)
         return;
@@ -67784,12 +67814,7 @@
       this._stats.update();
       this.controler.updateControler();
       this.renderer.renderScene();
-      if (this.renderer.fnList.length === 0)
-        return;
-      for (const f of this.renderer.fnList) {
-        f.call(this);
-      }
-    };
+    });
     _onWindowsResize = () => {
       const camera = this.camera.activeCamera;
       const { width, height } = getContainerSize();
@@ -67855,7 +67880,7 @@
       cube2.position.y = 2;
       cube.add(cube2);
       app.scene.add(cube);
-      app.renderer.fnList.push(() => {
+      end(app.loopRender, () => {
         const elapsed_time = clock.getElapsedTime();
         cube.position.y = Math.sin(elapsed_time);
         cube.position.x = Math.cos(elapsed_time);
@@ -67946,6 +67971,7 @@
     }, []);
     (0, import_react29.useEffect)(() => {
       initScene();
+      console.log(location);
       const { hash } = location;
       if (hash !== "#debug") {
         pane.hidden = true;
@@ -68071,7 +68097,7 @@
         new MeshBasicMaterial({ color: "red" })
       );
       app.scene.add(cube);
-      app.renderer.fnList.push(() => {
+      end(app.loopRender, () => {
         renderer.clearDepth();
         renderer.setScissorTest(true);
         renderer.setScissor(
@@ -68176,7 +68202,7 @@
     const initScene = (0, import_react33.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
-      app.renderer.fnList.push(function() {
+      end(app.loopRender, () => {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);

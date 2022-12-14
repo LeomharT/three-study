@@ -2,6 +2,7 @@ import { RefObject, useCallback, useEffect, useMemo, useRef } from "react";
 import { BoxGeometry, EdgesGeometry, LineBasicMaterial, LineSegments } from "three";
 import { app } from "../app/Application";
 import useScene from "../hooks/useScene";
+import { end } from "../util/aop";
 
 export default function Index()
 {
@@ -31,7 +32,7 @@ export default function Index()
 
         app.renderer.setClearColor(0xffffff);
 
-        app.renderer.fnList.push(function ()
+        end(app.loopRender, () =>
         {
             mesh.rotation.y += 0.01;
         });

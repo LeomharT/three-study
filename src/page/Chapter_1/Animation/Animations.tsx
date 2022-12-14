@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { BoxGeometry, Clock, Mesh, MeshBasicMaterial } from "three";
 import { app } from "../../../app/Application";
 import useScene from "../../../hooks/useScene";
+import { end } from "../../../util/aop";
 
 export default function Animation()
 {
@@ -28,7 +29,7 @@ export default function Animation()
 
         app.scene.add(cube);
 
-        app.renderer.fnList.push(() =>
+        end(app.loopRender, () =>
         {
             const elapsed_time = clock.getElapsedTime();
 
@@ -36,6 +37,7 @@ export default function Animation()
             cube.position.y = Math.sin(elapsed_time);
             cube.position.x = Math.cos(elapsed_time);
         });
+
     }, [clock]);
 
     useEffect(() =>

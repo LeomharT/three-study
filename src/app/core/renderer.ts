@@ -21,10 +21,6 @@ export default class _Renderer
     });
 
 
-    /** 渲染时注入的函数 */
-    public fnList: Function[] = [];
-
-
     get domElement()
     {
         return this._webGLRenderer.domElement;

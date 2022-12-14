@@ -3,6 +3,7 @@ import { message } from "antd";
 import { RefObject } from "react";
 import { ArrowHelper, Clock, Object3D, OrthographicCamera, PerspectiveCamera, Scene, Vector3 } from "three";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
+import { makeAop } from "../util/aop";
 import _Camera from "./core/camera";
 import Controler from "./core/controler";
 import _Renderer from "./core/renderer";
@@ -81,7 +82,7 @@ export class Application
             }
         });
 
-        this._loopRender();
+        this.loopRender();
     };
 
 
@@ -91,8 +92,6 @@ export class Application
         window.onresize = null;
 
         window.onwheel = null;
-
-        this.renderer.fnList = [];
 
         this.scene.clear();
 
@@ -120,9 +119,9 @@ export class Application
 
 
     /** 每帧更新渲染 */
-    private _loopRender = (time?: number) =>
+    public loopRender = makeAop((time?: number) =>
     {
-        requestAnimationFrame(this._loopRender);
+        requestAnimationFrame(this.loopRender);
 
         const isHeightFrame = this._limitFrame();
 
@@ -138,14 +137,7 @@ export class Application
         this.controler.updateControler();
 
         this.renderer.renderScene();
-
-        if (this.renderer.fnList.length === 0) return;
-
-        for (const f of this.renderer.fnList)
-        {
-            f.call(this);
-        }
-    };
+    });
 
 
     /** 更新画布尺寸 */

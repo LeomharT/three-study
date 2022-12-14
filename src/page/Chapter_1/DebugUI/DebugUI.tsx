@@ -70,6 +70,8 @@ export default function DebugUI()
     {
         initScene();
 
+        console.log(location);
+
         const { hash } = location;
 
         if (hash !== '#debug')
