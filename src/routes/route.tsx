@@ -42,7 +42,7 @@ export const ROUTES: MenuItem[] = [
     }),
     setItems({
         label: 'Extra', key: 'Extra', icon: <BookTwoTone />, children: [
-            setItems({ label: 'two_camera', key: '/two_camera', path: '/two_camera', element: <TwoCameras /> }),
+            setItems({ label: 'TwoCamera', key: '/TwoCamera', path: '/two_camera', element: <TwoCameras /> }),
         ]
     }),
 ];

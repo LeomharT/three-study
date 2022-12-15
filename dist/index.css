@@ -281,7 +281,7 @@ mark {
   transition: all 0.5s ease 0s;
 }
 #app > .ant-menu .ant-menu-title-content {
-  font-size: 20px;
+  font-size: 15px;
 }
 #app > div {
   width: 100%;

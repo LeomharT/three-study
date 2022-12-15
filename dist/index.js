@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef46(initialValue) {
+          function useRef47(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect44(create, deps) {
+          function useEffect45(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback20(callback, deps) {
+          function useCallback21(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act3;
-          exports.useCallback = useCallback20;
+          exports.useCallback = useCallback21;
           exports.useContext = useContext46;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect44;
+          exports.useEffect = useEffect45;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle11;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo31;
           exports.useReducer = useReducer;
-          exports.useRef = useRef46;
+          exports.useRef = useRef47;
           exports.useState = useState24;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -34210,7 +34210,7 @@
   }
 
   // src/app/App.tsx
-  var import_react39 = __toESM(require_react(), 1);
+  var import_react40 = __toESM(require_react(), 1);
 
   // node_modules/@ant-design/icons/es/components/Context.js
   var import_react = __toESM(require_react());
@@ -52059,7 +52059,7 @@
   var message_default = staticMethods;
 
   // src/components/AsideNavi.tsx
-  var import_react37 = __toESM(require_react(), 1);
+  var import_react38 = __toESM(require_react(), 1);
 
   // src/page/Chapter_1/Animation/Animations.tsx
   var import_react31 = __toESM(require_react(), 1);
@@ -69694,6 +69694,208 @@
   var VectorKeyframeTrack = class extends KeyframeTrack {
   };
   VectorKeyframeTrack.prototype.ValueTypeName = "vector";
+  var Cache = {
+    enabled: false,
+    files: {},
+    add: function(key, file) {
+      if (this.enabled === false)
+        return;
+      this.files[key] = file;
+    },
+    get: function(key) {
+      if (this.enabled === false)
+        return;
+      return this.files[key];
+    },
+    remove: function(key) {
+      delete this.files[key];
+    },
+    clear: function() {
+      this.files = {};
+    }
+  };
+  var LoadingManager = class {
+    constructor(onLoad, onProgress, onError) {
+      const scope = this;
+      let isLoading = false;
+      let itemsLoaded = 0;
+      let itemsTotal = 0;
+      let urlModifier = void 0;
+      const handlers = [];
+      this.onStart = void 0;
+      this.onLoad = onLoad;
+      this.onProgress = onProgress;
+      this.onError = onError;
+      this.itemStart = function(url2) {
+        itemsTotal++;
+        if (isLoading === false) {
+          if (scope.onStart !== void 0) {
+            scope.onStart(url2, itemsLoaded, itemsTotal);
+          }
+        }
+        isLoading = true;
+      };
+      this.itemEnd = function(url2) {
+        itemsLoaded++;
+        if (scope.onProgress !== void 0) {
+          scope.onProgress(url2, itemsLoaded, itemsTotal);
+        }
+        if (itemsLoaded === itemsTotal) {
+          isLoading = false;
+          if (scope.onLoad !== void 0) {
+            scope.onLoad();
+          }
+        }
+      };
+      this.itemError = function(url2) {
+        if (scope.onError !== void 0) {
+          scope.onError(url2);
+        }
+      };
+      this.resolveURL = function(url2) {
+        if (urlModifier) {
+          return urlModifier(url2);
+        }
+        return url2;
+      };
+      this.setURLModifier = function(transform) {
+        urlModifier = transform;
+        return this;
+      };
+      this.addHandler = function(regex, loader) {
+        handlers.push(regex, loader);
+        return this;
+      };
+      this.removeHandler = function(regex) {
+        const index2 = handlers.indexOf(regex);
+        if (index2 !== -1) {
+          handlers.splice(index2, 2);
+        }
+        return this;
+      };
+      this.getHandler = function(file) {
+        for (let i = 0, l = handlers.length; i < l; i += 2) {
+          const regex = handlers[i];
+          const loader = handlers[i + 1];
+          if (regex.global)
+            regex.lastIndex = 0;
+          if (regex.test(file)) {
+            return loader;
+          }
+        }
+        return null;
+      };
+    }
+  };
+  var DefaultLoadingManager = /* @__PURE__ */ new LoadingManager();
+  var Loader = class {
+    constructor(manager) {
+      this.manager = manager !== void 0 ? manager : DefaultLoadingManager;
+      this.crossOrigin = "anonymous";
+      this.withCredentials = false;
+      this.path = "";
+      this.resourcePath = "";
+      this.requestHeader = {};
+    }
+    load() {
+    }
+    loadAsync(url2, onProgress) {
+      const scope = this;
+      return new Promise(function(resolve, reject) {
+        scope.load(url2, resolve, onProgress, reject);
+      });
+    }
+    parse() {
+    }
+    setCrossOrigin(crossOrigin) {
+      this.crossOrigin = crossOrigin;
+      return this;
+    }
+    setWithCredentials(value) {
+      this.withCredentials = value;
+      return this;
+    }
+    setPath(path) {
+      this.path = path;
+      return this;
+    }
+    setResourcePath(resourcePath) {
+      this.resourcePath = resourcePath;
+      return this;
+    }
+    setRequestHeader(requestHeader) {
+      this.requestHeader = requestHeader;
+      return this;
+    }
+  };
+  var ImageLoader = class extends Loader {
+    constructor(manager) {
+      super(manager);
+    }
+    load(url2, onLoad, onProgress, onError) {
+      if (this.path !== void 0)
+        url2 = this.path + url2;
+      url2 = this.manager.resolveURL(url2);
+      const scope = this;
+      const cached = Cache.get(url2);
+      if (cached !== void 0) {
+        scope.manager.itemStart(url2);
+        setTimeout(function() {
+          if (onLoad)
+            onLoad(cached);
+          scope.manager.itemEnd(url2);
+        }, 0);
+        return cached;
+      }
+      const image = createElementNS("img");
+      function onImageLoad() {
+        removeEventListeners();
+        Cache.add(url2, this);
+        if (onLoad)
+          onLoad(this);
+        scope.manager.itemEnd(url2);
+      }
+      function onImageError(event) {
+        removeEventListeners();
+        if (onError)
+          onError(event);
+        scope.manager.itemError(url2);
+        scope.manager.itemEnd(url2);
+      }
+      function removeEventListeners() {
+        image.removeEventListener("load", onImageLoad, false);
+        image.removeEventListener("error", onImageError, false);
+      }
+      image.addEventListener("load", onImageLoad, false);
+      image.addEventListener("error", onImageError, false);
+      if (url2.slice(0, 5) !== "data:") {
+        if (this.crossOrigin !== void 0)
+          image.crossOrigin = this.crossOrigin;
+      }
+      scope.manager.itemStart(url2);
+      image.src = url2;
+      return image;
+    }
+  };
+  var TextureLoader = class extends Loader {
+    constructor(manager) {
+      super(manager);
+    }
+    load(url2, onLoad, onProgress, onError) {
+      const texture = new Texture();
+      const loader = new ImageLoader(this.manager);
+      loader.setCrossOrigin(this.crossOrigin);
+      loader.setPath(this.path);
+      loader.load(url2, function(image) {
+        texture.image = image;
+        texture.needsUpdate = true;
+        if (onLoad !== void 0) {
+          onLoad(texture);
+        }
+      }, onProgress, onError);
+      return texture;
+    }
+  };
   var Clock = class {
     constructor(autoStart = true) {
       this.autoStart = autoStart;
@@ -72080,21 +72282,39 @@
   }
 
   // src/page/Chapter_1/WoodTexture/WoodTexture.tsx
+  var import_react36 = __toESM(require_react(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function WoodTexture() {
+    const container = (0, import_react36.useRef)(null);
+    useScene(container);
+    const initScene = (0, import_react36.useCallback)(() => {
+      const textureLoader = new TextureLoader();
+      const doorColorTexture = textureLoader.load("/assets/door/Door_Wood_001_basecolor.jpg");
+      const geometry = new BoxGeometry(1, 1, 1);
+      const material = new MeshBasicMaterial({
+        map: doorColorTexture
+      });
+      const cube = new Mesh(geometry, material);
+      app.scene.add(cube);
+    }, []);
+    (0, import_react36.useEffect)(() => {
+      app.showStatus();
+      initScene();
+    }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
-      children: "WoodTexture"
+      ref: container,
+      id: "container"
     });
   }
 
   // src/page/Extra/TwoCameras.tsx
-  var import_react36 = __toESM(require_react(), 1);
+  var import_react37 = __toESM(require_react(), 1);
   var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   var isSecondCamera = true;
   function TwoCameras() {
-    const container = (0, import_react36.useRef)(null);
+    const container = (0, import_react37.useRef)(null);
     useScene(container);
-    const initScene = (0, import_react36.useCallback)((width, height) => {
+    const initScene = (0, import_react37.useCallback)((width, height) => {
       const renderer = app.renderer.webGLRenderer;
       const innerWidth = width / 4;
       const innerHeight = height / 4;
@@ -72139,7 +72359,7 @@
         isSecondCamera = !isSecondCamera;
       });
     }, []);
-    (0, import_react36.useEffect)(() => {
+    (0, import_react37.useEffect)(() => {
       const { width, height } = getContainerSize();
       app.addArrowHelper();
       initScene(width, height);
@@ -72174,7 +72394,7 @@
       key: "Extra",
       icon: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "two_camera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TwoCameras, {}) })
+        setItems({ label: "TwoCamera", key: "/TwoCamera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TwoCameras, {}) })
       ]
     })
   ];
@@ -72185,8 +72405,8 @@
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [collapsed, setCollapsed] = (0, import_react37.useState)(false);
-    const toggleCollapsed = (0, import_react37.useCallback)(() => {
+    const [collapsed, setCollapsed] = (0, import_react38.useState)(false);
+    const toggleCollapsed = (0, import_react38.useCallback)(() => {
       setCollapsed(!collapsed);
     }, [collapsed]);
     return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_jsx_runtime9.Fragment, {
@@ -72213,12 +72433,12 @@
   }
 
   // src/page/Index.tsx
-  var import_react38 = __toESM(require_react(), 1);
+  var import_react39 = __toESM(require_react(), 1);
   var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   function Index() {
-    const container = (0, import_react38.useRef)(null);
+    const container = (0, import_react39.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react38.useMemo)(() => {
+    const mesh = (0, import_react39.useMemo)(() => {
       const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line2 = new LineSegments(edge, new LineBasicMaterial({
@@ -72227,14 +72447,14 @@
       }));
       return line2;
     }, []);
-    const initScene = (0, import_react38.useCallback)(() => {
+    const initScene = (0, import_react39.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       end(app.loopRender, () => {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react38.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       initScene();
     }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", {
@@ -72256,11 +72476,11 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react39.useLayoutEffect)(() => {
+    (0, import_react40.useLayoutEffect)(() => {
       new Application();
     }, []);
     const location = useLocation();
-    (0, import_react39.useLayoutEffect)(() => {
+    (0, import_react40.useLayoutEffect)(() => {
       if (!location.pathname)
         return;
       if (!pane)
