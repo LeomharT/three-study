@@ -13,7 +13,7 @@ export default function AsideNavi()
     const navigate = useNavigate();
 
 
-    const [collapsed, setCollapsed] = useState<boolean>(false);
+    const [collapsed, setCollapsed] = useState<boolean>(true);
 
 
     const toggleCollapsed = useCallback(() =>

@@ -56,7 +56,7 @@ export default class _Camera
             camera.userData.fovVolume += 5;
         } else
         {
-            if (camera.userData.fovVolume <= 60) return;
+            if (camera.userData.fovVolume <= 30) return;
             camera.userData.fovVolume -= 5;
         }
 

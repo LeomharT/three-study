@@ -71248,7 +71248,7 @@
           return;
         camera.userData.fovVolume += 5;
       } else {
-        if (camera.userData.fovVolume <= 60)
+        if (camera.userData.fovVolume <= 30)
           return;
         camera.userData.fovVolume -= 5;
       }
@@ -72289,9 +72289,13 @@
     useScene(container);
     const initScene = (0, import_react36.useCallback)(() => {
       const textureLoader = new TextureLoader();
-      const doorColorTexture = textureLoader.load("/assets/door/Door_Wood_001_basecolor.jpg");
+      textureLoader.setPath("/assets/texture/door/");
+      const doorColorTexture = textureLoader.load("minecraft.png");
+      doorColorTexture.minFilter = LinearFilter;
+      doorColorTexture.magFilter = NearestFilter;
       const geometry = new BoxGeometry(1, 1, 1);
       const material = new MeshBasicMaterial({
+        transparent: true,
         map: doorColorTexture
       });
       const cube = new Mesh(geometry, material);
@@ -72405,7 +72409,7 @@
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [collapsed, setCollapsed] = (0, import_react38.useState)(false);
+    const [collapsed, setCollapsed] = (0, import_react38.useState)(true);
     const toggleCollapsed = (0, import_react38.useCallback)(() => {
       setCollapsed(!collapsed);
     }, [collapsed]);
