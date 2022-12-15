@@ -70,8 +70,6 @@ export default function DebugUI()
     {
         initScene();
 
-        console.log(location);
-
         const { hash } = location;
 
         if (hash !== '#debug')
@@ -79,7 +77,7 @@ export default function DebugUI()
             pane.hidden = true;
         }
 
-    }, [initScene]);
+    }, [initScene, location]);
 
     return (
         <div ref={container} id='container'>

@@ -43,7 +43,7 @@ export default function GeometriesBase()
     useEffect(() =>
     {
         initScene();
-    }, []);
+    }, [initScene]);
 
     return (
         <div id='container' ref={container}>

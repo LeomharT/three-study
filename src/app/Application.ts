@@ -175,8 +175,6 @@ export class Application
 
         domElement.id = 'webgl_stats';
 
-        domElement.style.left = '330px';
-
         document.body.appendChild(domElement);
     };
 }
