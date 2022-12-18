@@ -7,7 +7,6 @@ class InjectFunctionList
 
 const aopWeakMap: WeakMap<object, InjectFunctionList> = new WeakMap();
 
-const function_list = new InjectFunctionList();
 
 
 function callFunctionList(funcList: Function[], target: object, ...args: any[])
@@ -21,6 +20,8 @@ function callFunctionList(funcList: Function[], target: object, ...args: any[])
 
 export function makeAop(target: (...args: any[]) => any): (...args: any[]) => any
 {
+    const function_list = new InjectFunctionList();
+
     const returnFunction = (...args: any[]) =>
     {
         callFunctionList(function_list.beginFunctionList, globalThis, ...args);

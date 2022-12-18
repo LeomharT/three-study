@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef47(initialValue) {
+          function useRef48(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect45(create, deps) {
+          function useEffect46(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback21(callback, deps) {
+          function useCallback22(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act3;
-          exports.useCallback = useCallback21;
+          exports.useCallback = useCallback22;
           exports.useContext = useContext46;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect45;
+          exports.useEffect = useEffect46;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle11;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo31;
           exports.useReducer = useReducer;
-          exports.useRef = useRef47;
+          exports.useRef = useRef48;
           exports.useState = useState24;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key, false);
             }
           }
-          var jsx13 = jsxWithValidationDynamic;
+          var jsx14 = jsxWithValidationDynamic;
           var jsxs3 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx13;
+          exports.jsx = jsx14;
           exports.jsxs = jsxs3;
         })();
       }
@@ -34210,7 +34210,7 @@
   }
 
   // src/app/App.tsx
-  var import_react40 = __toESM(require_react(), 1);
+  var import_react41 = __toESM(require_react(), 1);
 
   // node_modules/@ant-design/icons/es/components/Context.js
   var import_react = __toESM(require_react());
@@ -52059,7 +52059,7 @@
   var message_default = staticMethods;
 
   // src/components/AsideNavi.tsx
-  var import_react38 = __toESM(require_react(), 1);
+  var import_react39 = __toESM(require_react(), 1);
 
   // src/page/Chapter_1/Animation/Animations.tsx
   var import_react31 = __toESM(require_react(), 1);
@@ -67678,7 +67678,7 @@
     let _clippingEnabled = false;
     let _localClippingEnabled = false;
     let _transmissionRenderTarget = null;
-    const _projScreenMatrix = new Matrix4();
+    const _projScreenMatrix2 = new Matrix4();
     const _vector22 = new Vector2();
     const _vector3 = new Vector3();
     const _emptyScene = { background: null, fog: null, environment: null, overrideMaterial: null, isScene: true };
@@ -68119,8 +68119,8 @@
       currentRenderState = renderStates.get(scene, renderStateStack.length);
       currentRenderState.init();
       renderStateStack.push(currentRenderState);
-      _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-      _frustum.setFromProjectionMatrix(_projScreenMatrix);
+      _projScreenMatrix2.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      _frustum.setFromProjectionMatrix(_projScreenMatrix2);
       _localClippingEnabled = this.localClippingEnabled;
       _clippingEnabled = clipping.init(this.clippingPlanes, _localClippingEnabled, camera);
       currentRenderList = renderLists.get(scene, renderListStack.length);
@@ -68190,7 +68190,7 @@
         } else if (object4.isSprite) {
           if (!object4.frustumCulled || _frustum.intersectsSprite(object4)) {
             if (sortObjects) {
-              _vector3.setFromMatrixPosition(object4.matrixWorld).applyMatrix4(_projScreenMatrix);
+              _vector3.setFromMatrixPosition(object4.matrixWorld).applyMatrix4(_projScreenMatrix2);
             }
             const geometry = objects.update(object4);
             const material = object4.material;
@@ -68207,7 +68207,7 @@
           }
           if (!object4.frustumCulled || _frustum.intersectsObject(object4)) {
             if (sortObjects) {
-              _vector3.setFromMatrixPosition(object4.matrixWorld).applyMatrix4(_projScreenMatrix);
+              _vector3.setFromMatrixPosition(object4.matrixWorld).applyMatrix4(_projScreenMatrix2);
             }
             const geometry = objects.update(object4);
             const material = object4.material;
@@ -69226,6 +69226,202 @@
       }
     }
   };
+  var SphereGeometry = class extends BufferGeometry {
+    constructor(radius = 1, widthSegments = 32, heightSegments = 16, phiStart = 0, phiLength = Math.PI * 2, thetaStart = 0, thetaLength = Math.PI) {
+      super();
+      this.type = "SphereGeometry";
+      this.parameters = {
+        radius,
+        widthSegments,
+        heightSegments,
+        phiStart,
+        phiLength,
+        thetaStart,
+        thetaLength
+      };
+      widthSegments = Math.max(3, Math.floor(widthSegments));
+      heightSegments = Math.max(2, Math.floor(heightSegments));
+      const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
+      let index2 = 0;
+      const grid = [];
+      const vertex2 = new Vector3();
+      const normal = new Vector3();
+      const indices = [];
+      const vertices = [];
+      const normals = [];
+      const uvs = [];
+      for (let iy = 0; iy <= heightSegments; iy++) {
+        const verticesRow = [];
+        const v = iy / heightSegments;
+        let uOffset = 0;
+        if (iy == 0 && thetaStart == 0) {
+          uOffset = 0.5 / widthSegments;
+        } else if (iy == heightSegments && thetaEnd == Math.PI) {
+          uOffset = -0.5 / widthSegments;
+        }
+        for (let ix = 0; ix <= widthSegments; ix++) {
+          const u = ix / widthSegments;
+          vertex2.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+          vertex2.y = radius * Math.cos(thetaStart + v * thetaLength);
+          vertex2.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+          vertices.push(vertex2.x, vertex2.y, vertex2.z);
+          normal.copy(vertex2).normalize();
+          normals.push(normal.x, normal.y, normal.z);
+          uvs.push(u + uOffset, 1 - v);
+          verticesRow.push(index2++);
+        }
+        grid.push(verticesRow);
+      }
+      for (let iy = 0; iy < heightSegments; iy++) {
+        for (let ix = 0; ix < widthSegments; ix++) {
+          const a = grid[iy][ix + 1];
+          const b = grid[iy][ix];
+          const c = grid[iy + 1][ix];
+          const d = grid[iy + 1][ix + 1];
+          if (iy !== 0 || thetaStart > 0)
+            indices.push(a, b, d);
+          if (iy !== heightSegments - 1 || thetaEnd < Math.PI)
+            indices.push(b, c, d);
+        }
+      }
+      this.setIndex(indices);
+      this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+      this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
+      this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
+    }
+    static fromJSON(data) {
+      return new SphereGeometry(data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength);
+    }
+  };
+  var TorusGeometry = class extends BufferGeometry {
+    constructor(radius = 1, tube = 0.4, radialSegments = 8, tubularSegments = 6, arc = Math.PI * 2) {
+      super();
+      this.type = "TorusGeometry";
+      this.parameters = {
+        radius,
+        tube,
+        radialSegments,
+        tubularSegments,
+        arc
+      };
+      radialSegments = Math.floor(radialSegments);
+      tubularSegments = Math.floor(tubularSegments);
+      const indices = [];
+      const vertices = [];
+      const normals = [];
+      const uvs = [];
+      const center = new Vector3();
+      const vertex2 = new Vector3();
+      const normal = new Vector3();
+      for (let j = 0; j <= radialSegments; j++) {
+        for (let i = 0; i <= tubularSegments; i++) {
+          const u = i / tubularSegments * arc;
+          const v = j / radialSegments * Math.PI * 2;
+          vertex2.x = (radius + tube * Math.cos(v)) * Math.cos(u);
+          vertex2.y = (radius + tube * Math.cos(v)) * Math.sin(u);
+          vertex2.z = tube * Math.sin(v);
+          vertices.push(vertex2.x, vertex2.y, vertex2.z);
+          center.x = radius * Math.cos(u);
+          center.y = radius * Math.sin(u);
+          normal.subVectors(vertex2, center).normalize();
+          normals.push(normal.x, normal.y, normal.z);
+          uvs.push(i / tubularSegments);
+          uvs.push(j / radialSegments);
+        }
+      }
+      for (let j = 1; j <= radialSegments; j++) {
+        for (let i = 1; i <= tubularSegments; i++) {
+          const a = (tubularSegments + 1) * j + i - 1;
+          const b = (tubularSegments + 1) * (j - 1) + i - 1;
+          const c = (tubularSegments + 1) * (j - 1) + i;
+          const d = (tubularSegments + 1) * j + i;
+          indices.push(a, b, d);
+          indices.push(b, c, d);
+        }
+      }
+      this.setIndex(indices);
+      this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+      this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
+      this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
+    }
+    static fromJSON(data) {
+      return new TorusGeometry(data.radius, data.tube, data.radialSegments, data.tubularSegments, data.arc);
+    }
+  };
+  var MeshStandardMaterial = class extends Material {
+    constructor(parameters) {
+      super();
+      this.isMeshStandardMaterial = true;
+      this.defines = { "STANDARD": "" };
+      this.type = "MeshStandardMaterial";
+      this.color = new Color(16777215);
+      this.roughness = 1;
+      this.metalness = 0;
+      this.map = null;
+      this.lightMap = null;
+      this.lightMapIntensity = 1;
+      this.aoMap = null;
+      this.aoMapIntensity = 1;
+      this.emissive = new Color(0);
+      this.emissiveIntensity = 1;
+      this.emissiveMap = null;
+      this.bumpMap = null;
+      this.bumpScale = 1;
+      this.normalMap = null;
+      this.normalMapType = TangentSpaceNormalMap;
+      this.normalScale = new Vector2(1, 1);
+      this.displacementMap = null;
+      this.displacementScale = 1;
+      this.displacementBias = 0;
+      this.roughnessMap = null;
+      this.metalnessMap = null;
+      this.alphaMap = null;
+      this.envMap = null;
+      this.envMapIntensity = 1;
+      this.wireframe = false;
+      this.wireframeLinewidth = 1;
+      this.wireframeLinecap = "round";
+      this.wireframeLinejoin = "round";
+      this.flatShading = false;
+      this.fog = true;
+      this.setValues(parameters);
+    }
+    copy(source) {
+      super.copy(source);
+      this.defines = { "STANDARD": "" };
+      this.color.copy(source.color);
+      this.roughness = source.roughness;
+      this.metalness = source.metalness;
+      this.map = source.map;
+      this.lightMap = source.lightMap;
+      this.lightMapIntensity = source.lightMapIntensity;
+      this.aoMap = source.aoMap;
+      this.aoMapIntensity = source.aoMapIntensity;
+      this.emissive.copy(source.emissive);
+      this.emissiveMap = source.emissiveMap;
+      this.emissiveIntensity = source.emissiveIntensity;
+      this.bumpMap = source.bumpMap;
+      this.bumpScale = source.bumpScale;
+      this.normalMap = source.normalMap;
+      this.normalMapType = source.normalMapType;
+      this.normalScale.copy(source.normalScale);
+      this.displacementMap = source.displacementMap;
+      this.displacementScale = source.displacementScale;
+      this.displacementBias = source.displacementBias;
+      this.roughnessMap = source.roughnessMap;
+      this.metalnessMap = source.metalnessMap;
+      this.alphaMap = source.alphaMap;
+      this.envMap = source.envMap;
+      this.envMapIntensity = source.envMapIntensity;
+      this.wireframe = source.wireframe;
+      this.wireframeLinewidth = source.wireframeLinewidth;
+      this.wireframeLinecap = source.wireframeLinecap;
+      this.wireframeLinejoin = source.wireframeLinejoin;
+      this.flatShading = source.flatShading;
+      this.fog = source.fog;
+      return this;
+    }
+  };
   function arraySlice(array4, from2, to) {
     if (isTypedArray(array4)) {
       return new array4.constructor(array4.subarray(from2, to !== void 0 ? to : array4.length));
@@ -69877,6 +70073,33 @@
       return image;
     }
   };
+  var CubeTextureLoader = class extends Loader {
+    constructor(manager) {
+      super(manager);
+    }
+    load(urls, onLoad, onProgress, onError) {
+      const texture = new CubeTexture();
+      const loader = new ImageLoader(this.manager);
+      loader.setCrossOrigin(this.crossOrigin);
+      loader.setPath(this.path);
+      let loaded = 0;
+      function loadTexture(i) {
+        loader.load(urls[i], function(image) {
+          texture.images[i] = image;
+          loaded++;
+          if (loaded === 6) {
+            texture.needsUpdate = true;
+            if (onLoad)
+              onLoad(texture);
+          }
+        }, void 0, onError);
+      }
+      for (let i = 0; i < urls.length; ++i) {
+        loadTexture(i);
+      }
+      return texture;
+    }
+  };
   var TextureLoader = class extends Loader {
     constructor(manager) {
       super(manager);
@@ -69894,6 +70117,226 @@
         }
       }, onProgress, onError);
       return texture;
+    }
+  };
+  var Light = class extends Object3D {
+    constructor(color, intensity = 1) {
+      super();
+      this.isLight = true;
+      this.type = "Light";
+      this.color = new Color(color);
+      this.intensity = intensity;
+    }
+    dispose() {
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.color.copy(source.color);
+      this.intensity = source.intensity;
+      return this;
+    }
+    toJSON(meta) {
+      const data = super.toJSON(meta);
+      data.object.color = this.color.getHex();
+      data.object.intensity = this.intensity;
+      if (this.groundColor !== void 0)
+        data.object.groundColor = this.groundColor.getHex();
+      if (this.distance !== void 0)
+        data.object.distance = this.distance;
+      if (this.angle !== void 0)
+        data.object.angle = this.angle;
+      if (this.decay !== void 0)
+        data.object.decay = this.decay;
+      if (this.penumbra !== void 0)
+        data.object.penumbra = this.penumbra;
+      if (this.shadow !== void 0)
+        data.object.shadow = this.shadow.toJSON();
+      return data;
+    }
+  };
+  var _projScreenMatrix$1 = /* @__PURE__ */ new Matrix4();
+  var _lightPositionWorld$1 = /* @__PURE__ */ new Vector3();
+  var _lookTarget$1 = /* @__PURE__ */ new Vector3();
+  var LightShadow = class {
+    constructor(camera) {
+      this.camera = camera;
+      this.bias = 0;
+      this.normalBias = 0;
+      this.radius = 1;
+      this.blurSamples = 8;
+      this.mapSize = new Vector2(512, 512);
+      this.map = null;
+      this.mapPass = null;
+      this.matrix = new Matrix4();
+      this.autoUpdate = true;
+      this.needsUpdate = false;
+      this._frustum = new Frustum();
+      this._frameExtents = new Vector2(1, 1);
+      this._viewportCount = 1;
+      this._viewports = [
+        new Vector4(0, 0, 1, 1)
+      ];
+    }
+    getViewportCount() {
+      return this._viewportCount;
+    }
+    getFrustum() {
+      return this._frustum;
+    }
+    updateMatrices(light) {
+      const shadowCamera = this.camera;
+      const shadowMatrix = this.matrix;
+      _lightPositionWorld$1.setFromMatrixPosition(light.matrixWorld);
+      shadowCamera.position.copy(_lightPositionWorld$1);
+      _lookTarget$1.setFromMatrixPosition(light.target.matrixWorld);
+      shadowCamera.lookAt(_lookTarget$1);
+      shadowCamera.updateMatrixWorld();
+      _projScreenMatrix$1.multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse);
+      this._frustum.setFromProjectionMatrix(_projScreenMatrix$1);
+      shadowMatrix.set(
+        0.5,
+        0,
+        0,
+        0.5,
+        0,
+        0.5,
+        0,
+        0.5,
+        0,
+        0,
+        0.5,
+        0.5,
+        0,
+        0,
+        0,
+        1
+      );
+      shadowMatrix.multiply(_projScreenMatrix$1);
+    }
+    getViewport(viewportIndex) {
+      return this._viewports[viewportIndex];
+    }
+    getFrameExtents() {
+      return this._frameExtents;
+    }
+    dispose() {
+      if (this.map) {
+        this.map.dispose();
+      }
+      if (this.mapPass) {
+        this.mapPass.dispose();
+      }
+    }
+    copy(source) {
+      this.camera = source.camera.clone();
+      this.bias = source.bias;
+      this.radius = source.radius;
+      this.mapSize.copy(source.mapSize);
+      return this;
+    }
+    clone() {
+      return new this.constructor().copy(this);
+    }
+    toJSON() {
+      const object4 = {};
+      if (this.bias !== 0)
+        object4.bias = this.bias;
+      if (this.normalBias !== 0)
+        object4.normalBias = this.normalBias;
+      if (this.radius !== 1)
+        object4.radius = this.radius;
+      if (this.mapSize.x !== 512 || this.mapSize.y !== 512)
+        object4.mapSize = this.mapSize.toArray();
+      object4.camera = this.camera.toJSON(false).object;
+      delete object4.camera.matrix;
+      return object4;
+    }
+  };
+  var _projScreenMatrix = /* @__PURE__ */ new Matrix4();
+  var _lightPositionWorld = /* @__PURE__ */ new Vector3();
+  var _lookTarget = /* @__PURE__ */ new Vector3();
+  var PointLightShadow = class extends LightShadow {
+    constructor() {
+      super(new PerspectiveCamera(90, 1, 0.5, 500));
+      this.isPointLightShadow = true;
+      this._frameExtents = new Vector2(4, 2);
+      this._viewportCount = 6;
+      this._viewports = [
+        new Vector4(2, 1, 1, 1),
+        new Vector4(0, 1, 1, 1),
+        new Vector4(3, 1, 1, 1),
+        new Vector4(1, 1, 1, 1),
+        new Vector4(3, 0, 1, 1),
+        new Vector4(1, 0, 1, 1)
+      ];
+      this._cubeDirections = [
+        new Vector3(1, 0, 0),
+        new Vector3(-1, 0, 0),
+        new Vector3(0, 0, 1),
+        new Vector3(0, 0, -1),
+        new Vector3(0, 1, 0),
+        new Vector3(0, -1, 0)
+      ];
+      this._cubeUps = [
+        new Vector3(0, 1, 0),
+        new Vector3(0, 1, 0),
+        new Vector3(0, 1, 0),
+        new Vector3(0, 1, 0),
+        new Vector3(0, 0, 1),
+        new Vector3(0, 0, -1)
+      ];
+    }
+    updateMatrices(light, viewportIndex = 0) {
+      const camera = this.camera;
+      const shadowMatrix = this.matrix;
+      const far = light.distance || camera.far;
+      if (far !== camera.far) {
+        camera.far = far;
+        camera.updateProjectionMatrix();
+      }
+      _lightPositionWorld.setFromMatrixPosition(light.matrixWorld);
+      camera.position.copy(_lightPositionWorld);
+      _lookTarget.copy(camera.position);
+      _lookTarget.add(this._cubeDirections[viewportIndex]);
+      camera.up.copy(this._cubeUps[viewportIndex]);
+      camera.lookAt(_lookTarget);
+      camera.updateMatrixWorld();
+      shadowMatrix.makeTranslation(-_lightPositionWorld.x, -_lightPositionWorld.y, -_lightPositionWorld.z);
+      _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      this._frustum.setFromProjectionMatrix(_projScreenMatrix);
+    }
+  };
+  var PointLight = class extends Light {
+    constructor(color, intensity, distance = 0, decay = 1) {
+      super(color, intensity);
+      this.isPointLight = true;
+      this.type = "PointLight";
+      this.distance = distance;
+      this.decay = decay;
+      this.shadow = new PointLightShadow();
+    }
+    get power() {
+      return this.intensity * 4 * Math.PI;
+    }
+    set power(power) {
+      this.intensity = power / (4 * Math.PI);
+    }
+    dispose() {
+      this.shadow.dispose();
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.distance = source.distance;
+      this.decay = source.decay;
+      this.shadow = source.shadow.clone();
+      return this;
+    }
+  };
+  var AmbientLight = class extends Light {
+    constructor(color, intensity) {
+      super(color, intensity);
+      this.isAmbientLight = true;
+      this.type = "AmbientLight";
     }
   };
   var Clock = class {
@@ -71185,7 +71628,6 @@
     endFunctionList = [];
   };
   var aopWeakMap = /* @__PURE__ */ new WeakMap();
-  var function_list = new InjectFunctionList();
   function callFunctionList(funcList, target, ...args) {
     for (const f of funcList) {
       if (f.call(target, ...args))
@@ -71193,6 +71635,7 @@
     }
   }
   function makeAop(target) {
+    const function_list = new InjectFunctionList();
     const returnFunction = (...args) => {
       callFunctionList(function_list.beginFunctionList, globalThis, ...args);
       const result = target.call(globalThis, ...args);
@@ -72281,13 +72724,106 @@
     });
   }
 
-  // src/page/Chapter_1/WoodTexture/WoodTexture.tsx
+  // src/page/Chapter_1/WoodMaterial/WoodMaterial.tsx
   var import_react36 = __toESM(require_react(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  function WoodTexture() {
+  function WoodMaterial() {
     const container = (0, import_react36.useRef)(null);
     useScene(container);
     const initScene = (0, import_react36.useCallback)(() => {
+      const textureLoader = new TextureLoader();
+      textureLoader.setPath("/assets/texture/door/");
+      const doorColorTexture = textureLoader.load("Door_Wood_001_basecolor.jpg");
+      const doorAlphaTexture = textureLoader.load("Door_Wood_001_opacity.jpg");
+      const doorNormalTexture = textureLoader.load("Door_Wood_001_normal.jpg");
+      const doorRoughnessTexture = textureLoader.load("Door_Wood_001_roughness.jpg");
+      const doorMetallicTexture = textureLoader.load("Door_Wood_001_metallic.jpg");
+      const doorAmbientOcclusionTexture = textureLoader.load("Door_Wood_001_ambientOcclusion.jpg");
+      const doorHeightTexture = textureLoader.load("Door_Wood_001_height.png");
+      const cubeTexture = new CubeTextureLoader();
+      cubeTexture.setPath("/assets/texture/environmentMaps/0/");
+      const cubeEnv = cubeTexture.load([
+        "px.jpg",
+        "nx.jpg",
+        "py.jpg",
+        "ny.jpg",
+        "pz.jpg",
+        "nz.jpg"
+      ]);
+      const material = new MeshStandardMaterial({
+        transparent: true,
+        map: doorColorTexture,
+        side: DoubleSide,
+        alphaMap: doorAlphaTexture,
+        aoMap: doorAmbientOcclusionTexture,
+        displacementMap: doorHeightTexture,
+        displacementScale: 0.05,
+        roughnessMap: doorRoughnessTexture,
+        metalnessMap: doorMetallicTexture,
+        normalMap: doorNormalTexture,
+        envMap: cubeEnv
+      });
+      pane.addInput(material, "roughness", {
+        min: 0,
+        max: 1,
+        step: 1e-4
+      });
+      pane.addInput(material, "metalness", {
+        min: 0,
+        max: 1,
+        step: 1e-4
+      });
+      pane.addInput(material, "aoMapIntensity", {
+        min: 0,
+        max: 10
+      });
+      pane.addInput(material, "displacementScale", {
+        min: 0,
+        max: 1
+      });
+      doorColorTexture.magFilter = NearestFilter;
+      const sphere = new Mesh(
+        new SphereGeometry(0.5, 64, 64),
+        material
+      );
+      sphere.translateX(-1.5);
+      sphere.geometry.setAttribute("uv2", new BufferAttribute(sphere.geometry.attributes.uv.array, 2));
+      const plane = new Mesh(
+        new PlaneGeometry(1, 1, 100, 100),
+        material
+      );
+      plane.geometry.setAttribute("uv2", new BufferAttribute(plane.geometry.attributes.uv.array, 2));
+      const torus = new Mesh(
+        new TorusGeometry(0.3, 0.2, 64, 128),
+        material
+      );
+      torus.translateX(1.5);
+      torus.geometry.setAttribute("uv2", new BufferAttribute(torus.geometry.attributes.uv.array, 2));
+      app.scene.add(sphere, plane, torus);
+      const ambientLight = new AmbientLight(16777215, 1);
+      app.scene.add(ambientLight);
+      const pointLight = new PointLight(16777215, 1);
+      pointLight.position.x = 2;
+      pointLight.position.y = 3;
+      pointLight.position.z = 4;
+      app.scene.add(pointLight);
+    }, []);
+    (0, import_react36.useEffect)(() => {
+      initScene();
+    }, [initScene]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+      id: "container",
+      ref: container
+    });
+  }
+
+  // src/page/Chapter_1/WoodTexture/WoodTexture.tsx
+  var import_react37 = __toESM(require_react(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  function WoodTexture() {
+    const container = (0, import_react37.useRef)(null);
+    useScene(container);
+    const initScene = (0, import_react37.useCallback)(() => {
       const textureLoader = new TextureLoader();
       textureLoader.setPath("/assets/texture/door/");
       const doorColorTexture = textureLoader.load("minecraft.png");
@@ -72301,24 +72837,24 @@
       const cube = new Mesh(geometry, material);
       app.scene.add(cube);
     }, []);
-    (0, import_react36.useEffect)(() => {
+    (0, import_react37.useEffect)(() => {
       app.showStatus();
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/page/Extra/TwoCameras.tsx
-  var import_react37 = __toESM(require_react(), 1);
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_react38 = __toESM(require_react(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   var isSecondCamera = true;
   function TwoCameras() {
-    const container = (0, import_react37.useRef)(null);
+    const container = (0, import_react38.useRef)(null);
     useScene(container);
-    const initScene = (0, import_react37.useCallback)((width, height) => {
+    const initScene = (0, import_react38.useCallback)((width, height) => {
       const renderer = app.renderer.webGLRenderer;
       const innerWidth = width / 4;
       const innerHeight = height / 4;
@@ -72363,19 +72899,19 @@
         isSecondCamera = !isSecondCamera;
       });
     }, []);
-    (0, import_react37.useEffect)(() => {
+    (0, import_react38.useEffect)(() => {
       const { width, height } = getContainerSize();
       app.addArrowHelper();
       initScene(width, height);
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
       id: "container",
       ref: container
     });
   }
 
   // src/routes/route.tsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   function setItems({ label, key, path, type: type4, icon, children, element }) {
     return { key, icon, path, children, label, type: type4, element };
   }
@@ -72383,39 +72919,40 @@
     setItems({
       label: "Chapter01 Basics",
       key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TranslateObject, {}) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Animation, {}) }),
-        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(CameraBase, {}) }),
-        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GeometriesBase, {}) }),
-        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(DebugUI, {}) }),
-        setItems({ label: "WoodTexture", key: "/woodtexture", path: "/woodtexture", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(WoodTexture, {}) })
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Animation, {}) }),
+        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(CameraBase, {}) }),
+        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(GeometriesBase, {}) }),
+        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(DebugUI, {}) }),
+        setItems({ label: "WoodTexture", key: "/woodtexture", path: "/woodtexture", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(WoodTexture, {}) }),
+        setItems({ label: "WoodMaterial", key: "/woodMaterial", path: "/woodMaterial", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(WoodMaterial, {}) })
       ]
     }),
     setItems({
       label: "Extra",
       key: "Extra",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "TwoCamera", key: "/TwoCamera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TwoCameras, {}) })
+        setItems({ label: "TwoCamera", key: "/TwoCamera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TwoCameras, {}) })
       ]
     })
   ];
 
   // src/components/AsideNavi.tsx
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   var route = [...ROUTES];
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [collapsed, setCollapsed] = (0, import_react38.useState)(true);
-    const toggleCollapsed = (0, import_react38.useCallback)(() => {
+    const [collapsed, setCollapsed] = (0, import_react39.useState)(true);
+    const toggleCollapsed = (0, import_react39.useCallback)(() => {
       setCollapsed(!collapsed);
     }, [collapsed]);
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_jsx_runtime9.Fragment, {
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, {
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(menu_default2, {
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(menu_default2, {
           theme: "dark",
           items: route,
           defaultOpenKeys: ["Chapter01 Basics"],
@@ -72426,23 +72963,23 @@
             navigate(e.key);
           }
         }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(button_default2, {
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(button_default2, {
           type: "primary",
           onClick: toggleCollapsed,
           className: "close-menu",
-          children: collapsed ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuUnfoldOutlined_default2, {}) : /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuFoldOutlined_default2, {})
+          children: collapsed ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuUnfoldOutlined_default2, {}) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuFoldOutlined_default2, {})
         })
       ]
     });
   }
 
   // src/page/Index.tsx
-  var import_react39 = __toESM(require_react(), 1);
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_react40 = __toESM(require_react(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   function Index() {
-    const container = (0, import_react39.useRef)(null);
+    const container = (0, import_react40.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react39.useMemo)(() => {
+    const mesh = (0, import_react40.useMemo)(() => {
       const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line2 = new LineSegments(edge, new LineBasicMaterial({
@@ -72451,24 +72988,24 @@
       }));
       return line2;
     }, []);
-    const initScene = (0, import_react39.useCallback)(() => {
+    const initScene = (0, import_react40.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       end(app.loopRender, () => {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react39.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   var renderChildrenRoute = (route2) => {
     if (!route2)
       return [];
@@ -72480,28 +73017,28 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react40.useLayoutEffect)(() => {
+    (0, import_react41.useLayoutEffect)(() => {
       new Application();
     }, []);
     const location = useLocation();
-    (0, import_react40.useLayoutEffect)(() => {
+    (0, import_react41.useLayoutEffect)(() => {
       if (!location.pathname)
         return;
       if (!pane)
         return;
       pane.clear();
     }, [location]);
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", {
       id: "app",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(AsideNavi, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Routes, {
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(AsideNavi, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Routes, {
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Route, {
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Route, {
               path: "/",
-              element: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Index, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Index, {})
             }),
-            ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Route, {
+            ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Route, {
               path: r.path,
               element: r.element
             }, r.key))
@@ -72512,11 +73049,11 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(App, {})
     })
   );
 })();
