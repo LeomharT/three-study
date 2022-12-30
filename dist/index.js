@@ -1009,11 +1009,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef48(initialValue) {
+          function useRef49(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect46(create, deps) {
+          function useEffect47(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1025,7 +1025,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback22(callback, deps) {
+          function useCallback23(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1789,18 +1789,18 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act3;
-          exports.useCallback = useCallback22;
+          exports.useCallback = useCallback23;
           exports.useContext = useContext46;
           exports.useDebugValue = useDebugValue2;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect46;
+          exports.useEffect = useEffect47;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle11;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect8;
           exports.useMemo = useMemo31;
           exports.useReducer = useReducer;
-          exports.useRef = useRef48;
+          exports.useRef = useRef49;
           exports.useState = useState24;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
@@ -25519,10 +25519,10 @@
               return jsxWithValidation(type4, props, key, false);
             }
           }
-          var jsx14 = jsxWithValidationDynamic;
+          var jsx15 = jsxWithValidationDynamic;
           var jsxs3 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx14;
+          exports.jsx = jsx15;
           exports.jsxs = jsxs3;
         })();
       }
@@ -34210,7 +34210,7 @@
   }
 
   // src/app/App.tsx
-  var import_react41 = __toESM(require_react(), 1);
+  var import_react42 = __toESM(require_react(), 1);
 
   // node_modules/@ant-design/icons/es/components/Context.js
   var import_react = __toESM(require_react());
@@ -52059,7 +52059,7 @@
   var message_default = staticMethods;
 
   // src/components/AsideNavi.tsx
-  var import_react39 = __toESM(require_react(), 1);
+  var import_react40 = __toESM(require_react(), 1);
 
   // src/page/Chapter_1/Animation/Animations.tsx
   var import_react31 = __toESM(require_react(), 1);
@@ -72847,14 +72847,87 @@
     });
   }
 
-  // src/page/Extra/TwoCameras.tsx
+  // src/page/Extra/Rain.tsx
   var import_react38 = __toESM(require_react(), 1);
   var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-  var isSecondCamera = true;
-  function TwoCameras() {
+  function Rain() {
     const container = (0, import_react38.useRef)(null);
     useScene(container);
-    const initScene = (0, import_react38.useCallback)((width, height) => {
+    const addLight = (0, import_react38.useCallback)(() => {
+      const ambient_light = new AmbientLight(16777215, 1);
+      app.scene.add(ambient_light);
+      const light_folder = pane.addFolder({ title: "Light" });
+      light_folder.addInput(ambient_light, "intensity", {
+        min: 0,
+        max: 10,
+        step: 0.01
+      });
+    }, []);
+    const initScene = (0, import_react38.useCallback)(() => {
+      addLight();
+      app.addArrowHelper();
+      const textureLoader = new TextureLoader();
+      textureLoader.setPath("/assets/texture/bricks084/");
+      const brick_ambientOcclusion = textureLoader.load("Bricks084_4K_AmbientOcclusion.jpg");
+      const brick_color = textureLoader.load("Bricks084_4K_Color.jpg");
+      const brick_displacement = textureLoader.load("Bricks084_4K_Displacement.jpg");
+      const brick_normal = textureLoader.load("Bricks084_4K_NormalGL.jpg");
+      const brick_roughness = textureLoader.load("Bricks084_4K_Roughness.jpg");
+      brick_color.wrapS = RepeatWrapping;
+      brick_color.wrapT = RepeatWrapping;
+      brick_color.repeat.x = 5;
+      brick_color.repeat.y = 5;
+      brick_ambientOcclusion.wrapS = RepeatWrapping;
+      brick_ambientOcclusion.wrapT = RepeatWrapping;
+      brick_ambientOcclusion.repeat.x = 5;
+      brick_ambientOcclusion.repeat.y = 5;
+      brick_displacement.wrapS = MirroredRepeatWrapping;
+      brick_displacement.wrapT = MirroredRepeatWrapping;
+      brick_displacement.repeat.x = 5;
+      brick_displacement.repeat.y = 5;
+      brick_color.minFilter = NearestFilter;
+      brick_color.magFilter = NearestFilter;
+      const wall_gemotry = new PlaneGeometry(5, 5, 64, 64);
+      wall_gemotry.setAttribute("uv2", new BufferAttribute(wall_gemotry.getAttribute("uv").array, 2));
+      const wall_material = new MeshStandardMaterial({
+        transparent: true,
+        map: brick_color,
+        aoMap: brick_ambientOcclusion,
+        normalMap: brick_normal,
+        displacementMap: brick_displacement,
+        displacementScale: 0.15,
+        roughnessMap: brick_roughness,
+        side: DoubleSide
+      });
+      pane.addInput(wall_material, "roughness", {
+        min: 0,
+        max: 1,
+        step: 1e-4
+      });
+      pane.addInput(wall_material, "displacementScale", {
+        min: 0,
+        max: 1
+      });
+      const wall_back = new Mesh(wall_gemotry, wall_material);
+      app.scene.add(wall_back);
+    }, [addLight]);
+    (0, import_react38.useEffect)(() => {
+      initScene();
+    }, [initScene]);
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+      id: "container",
+      ref: container
+    });
+  }
+
+  // src/page/Extra/TwoCameras.tsx
+  var import_react39 = __toESM(require_react(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var isSecondCamera = true;
+  function TwoCameras() {
+    const container = (0, import_react39.useRef)(null);
+    useScene(container);
+    const initScene = (0, import_react39.useCallback)((width, height) => {
       const renderer = app.renderer.webGLRenderer;
       const innerWidth = width / 4;
       const innerHeight = height / 4;
@@ -72899,19 +72972,19 @@
         isSecondCamera = !isSecondCamera;
       });
     }, []);
-    (0, import_react38.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       const { width, height } = getContainerSize();
       app.addArrowHelper();
       initScene(width, height);
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {
       id: "container",
       ref: container
     });
   }
 
   // src/routes/route.tsx
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   function setItems({ label, key, path, type: type4, icon, children, element }) {
     return { key, icon, path, children, label, type: type4, element };
   }
@@ -72919,40 +72992,41 @@
     setItems({
       label: "Chapter01 Basics",
       key: "Chapter01 Basics",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TranslateObject, {}) }),
-        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Animation, {}) }),
-        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(CameraBase, {}) }),
-        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(GeometriesBase, {}) }),
-        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(DebugUI, {}) }),
-        setItems({ label: "WoodTexture", key: "/woodtexture", path: "/woodtexture", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(WoodTexture, {}) }),
-        setItems({ label: "WoodMaterial", key: "/woodMaterial", path: "/woodMaterial", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(WoodMaterial, {}) })
+        setItems({ label: "Transform Objects", key: "/transform_objects", path: "/transform_objects", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TranslateObject, {}) }),
+        setItems({ label: "Animations", key: "/animations", path: "/animations", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Animation, {}) }),
+        setItems({ label: "CameraBase", key: "/camera_base", path: "/camera_base", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(CameraBase, {}) }),
+        setItems({ label: "GeometriesBase", key: "/geometries_base", path: "/geometries_base", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(GeometriesBase, {}) }),
+        setItems({ label: "DebugUI", key: "/debugui", path: "/debugui", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(DebugUI, {}) }),
+        setItems({ label: "WoodTexture", key: "/woodtexture", path: "/woodtexture", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(WoodTexture, {}) }),
+        setItems({ label: "WoodMaterial", key: "/woodMaterial", path: "/woodMaterial", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(WoodMaterial, {}) })
       ]
     }),
     setItems({
       label: "Extra",
       key: "Extra",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(BookTwoTone_default2, {}),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(BookTwoTone_default2, {}),
       children: [
-        setItems({ label: "TwoCamera", key: "/TwoCamera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TwoCameras, {}) })
+        setItems({ label: "TwoCamera", key: "/two_camera", path: "/two_camera", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TwoCameras, {}) }),
+        setItems({ label: "Rain", key: "/rain", path: "/rain", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Rain, {}) })
       ]
     })
   ];
 
   // src/components/AsideNavi.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   var route = [...ROUTES];
   function AsideNavi() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [collapsed, setCollapsed] = (0, import_react39.useState)(true);
-    const toggleCollapsed = (0, import_react39.useCallback)(() => {
+    const [collapsed, setCollapsed] = (0, import_react40.useState)(true);
+    const toggleCollapsed = (0, import_react40.useCallback)(() => {
       setCollapsed(!collapsed);
     }, [collapsed]);
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, {
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(menu_default2, {
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(menu_default2, {
           theme: "dark",
           items: route,
           defaultOpenKeys: ["Chapter01 Basics"],
@@ -72963,23 +73037,23 @@
             navigate(e.key);
           }
         }),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(button_default2, {
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(button_default2, {
           type: "primary",
           onClick: toggleCollapsed,
           className: "close-menu",
-          children: collapsed ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuUnfoldOutlined_default2, {}) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuFoldOutlined_default2, {})
+          children: collapsed ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(MenuUnfoldOutlined_default2, {}) : /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(MenuFoldOutlined_default2, {})
         })
       ]
     });
   }
 
   // src/page/Index.tsx
-  var import_react40 = __toESM(require_react(), 1);
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_react41 = __toESM(require_react(), 1);
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   function Index() {
-    const container = (0, import_react40.useRef)(null);
+    const container = (0, import_react41.useRef)(null);
     useScene(container);
-    const mesh = (0, import_react40.useMemo)(() => {
+    const mesh = (0, import_react41.useMemo)(() => {
       const geometry = new BoxGeometry(1, 1, 1, 1, 1, 1);
       const edge = new EdgesGeometry(geometry);
       const line2 = new LineSegments(edge, new LineBasicMaterial({
@@ -72988,24 +73062,24 @@
       }));
       return line2;
     }, []);
-    const initScene = (0, import_react40.useCallback)(() => {
+    const initScene = (0, import_react41.useCallback)(() => {
       app.scene.add(mesh);
       app.renderer.setClearColor(16777215);
       end(app.loopRender, () => {
         mesh.rotation.y += 0.01;
       });
     }, [mesh]);
-    (0, import_react40.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       initScene();
     }, [initScene]);
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
       ref: container,
       id: "container"
     });
   }
 
   // src/app/App.tsx
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   var renderChildrenRoute = (route2) => {
     if (!route2)
       return [];
@@ -73017,28 +73091,28 @@
   };
   var ROUTE_COMPONENT = renderChildrenRoute(ROUTES);
   function App() {
-    (0, import_react41.useLayoutEffect)(() => {
+    (0, import_react42.useLayoutEffect)(() => {
       new Application();
     }, []);
     const location = useLocation();
-    (0, import_react41.useLayoutEffect)(() => {
+    (0, import_react42.useLayoutEffect)(() => {
       if (!location.pathname)
         return;
       if (!pane)
         return;
       pane.clear();
     }, [location]);
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", {
       id: "app",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(AsideNavi, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Routes, {
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(AsideNavi, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Routes, {
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Route, {
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Route, {
               path: "/",
-              element: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Index, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Index, {})
             }),
-            ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Route, {
+            ROUTE_COMPONENT.map((r) => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Route, {
               path: r.path,
               element: r.element
             }, r.key))
@@ -73049,11 +73123,11 @@
   }
 
   // src/index.tsx
-  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
   var root = import_client.default.createRoot(document.querySelector("#root"));
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(BrowserRouter, {
-      children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(App, {})
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(BrowserRouter, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(App, {})
     })
   );
 })();

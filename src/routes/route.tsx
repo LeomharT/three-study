@@ -7,6 +7,7 @@ import GeometriesBase from '../page/Chapter_1/Geometries/GeometriesBase';
 import TranslateObject from '../page/Chapter_1/TranslateObject/TranslateObject';
 import WoodMaterial from '../page/Chapter_1/WoodMaterial/WoodMaterial';
 import WoodTexture from '../page/Chapter_1/WoodTexture/WoodTexture';
+import Rain from '../page/Extra/Rain';
 import TwoCameras from '../page/Extra/TwoCameras';
 
 export type MenuItem = Required<MenuProps>['items'][number] &
@@ -44,7 +45,8 @@ export const ROUTES: MenuItem[] = [
     }),
     setItems({
         label: 'Extra', key: 'Extra', icon: <BookTwoTone />, children: [
-            setItems({ label: 'TwoCamera', key: '/TwoCamera', path: '/two_camera', element: <TwoCameras /> }),
+            setItems({ label: 'TwoCamera', key: '/two_camera', path: '/two_camera', element: <TwoCameras /> }),
+            setItems({ label: 'Rain', key: '/rain', path: '/rain', element: <Rain /> }),
         ]
     }),
 ];
