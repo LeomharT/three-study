@@ -72863,9 +72863,25 @@
         step: 0.01
       });
     }, []);
-    const initScene = (0, import_react38.useCallback)(() => {
-      addLight();
-      app.addArrowHelper();
+    const addBackground = (0, import_react38.useCallback)(() => {
+      const env = new CubeTextureLoader().setPath("/assets/texture/environmentMaps/0/").load(["px.jpg", "nx.jpg", "py.jpg", "ny.jpg", "pz.jpg", "nz.jpg"]);
+      app.scene.background = env;
+      const m = new MeshBasicMaterial({ envMap: env });
+      m.needsUpdate = true;
+      const sphere = new Mesh(
+        new SphereGeometry(1, 32, 32, 32),
+        m
+      );
+      pane.addButton({ title: "reflact" }).on("click", () => {
+        if (env.mapping === CubeReflectionMapping) {
+          env.mapping = CubeRefractionMapping;
+        } else {
+          env.mapping = CubeReflectionMapping;
+        }
+      });
+      app.scene.add(sphere);
+    }, []);
+    const addWalls = (0, import_react38.useCallback)(() => {
       const textureLoader = new TextureLoader();
       textureLoader.setPath("/assets/texture/bricks084/");
       const brick_ambientOcclusion = textureLoader.load("Bricks084_4K_AmbientOcclusion.jpg");
@@ -72910,6 +72926,11 @@
       });
       const wall_back = new Mesh(wall_gemotry, wall_material);
       app.scene.add(wall_back);
+    }, []);
+    const initScene = (0, import_react38.useCallback)(() => {
+      addLight();
+      addBackground();
+      app.addArrowHelper();
     }, [addLight]);
     (0, import_react38.useEffect)(() => {
       initScene();

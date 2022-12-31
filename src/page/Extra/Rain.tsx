@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { AmbientLight, BufferAttribute, DoubleSide, Mesh, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, PlaneGeometry, RepeatWrapping, TextureLoader } from "three";
+import { AmbientLight, BufferAttribute, CubeReflectionMapping, CubeRefractionMapping, CubeTextureLoader, DoubleSide, Mesh, MeshBasicMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, PlaneGeometry, RepeatWrapping, SphereGeometry, TextureLoader } from "three";
 import { app } from "../../app/Application";
 import { pane } from "../../app/core/pane";
 import useScene from "../../hooks/useScene";
@@ -29,12 +29,41 @@ export default function Rain()
     }, []);
 
 
-    const initScene = useCallback(() =>
+    const addBackground = useCallback(() =>
     {
-        addLight();
+        const env = new CubeTextureLoader()
+            .setPath('/assets/texture/environmentMaps/0/')
+            .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+        app.scene.background = env;
 
-        app.addArrowHelper();
+        const m = new MeshBasicMaterial({ envMap: env });
 
+        m.needsUpdate = true;
+
+        const sphere = new Mesh(
+            new SphereGeometry(1, 32, 32, 32),
+            m
+        );
+
+        pane.addButton({ title: 'reflact' })
+            .on('click', () =>
+            {
+                if (env.mapping === CubeReflectionMapping)
+                {
+                    env.mapping = CubeRefractionMapping;
+                } else
+                {
+                    env.mapping = CubeReflectionMapping;
+                }
+            });
+
+        app.scene.add(sphere);
+
+    }, []);
+
+
+    const addWalls = useCallback(() =>
+    {
         const textureLoader = new TextureLoader();
 
         textureLoader.setPath('/assets/texture/bricks084/');
@@ -91,6 +120,18 @@ export default function Rain()
         const wall_back = new Mesh(wall_gemotry, wall_material);
 
         app.scene.add(wall_back);
+    }, []);
+
+
+    const initScene = useCallback(() =>
+    {
+        addLight();
+
+        addBackground();
+
+        app.addArrowHelper();
+
+
 
     }, [addLight]);
 
