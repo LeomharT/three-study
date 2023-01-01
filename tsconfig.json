@@ -24,6 +24,7 @@
     },
     "include": [
         "src",
-        "module.d.ts"
+        "module.d.ts",
+        "dist/draco"
     ]
 }

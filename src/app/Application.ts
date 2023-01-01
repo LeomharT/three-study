@@ -177,6 +177,12 @@ export class Application
 
         document.body.appendChild(domElement);
     };
+
+    public enableShadow = () =>
+    {
+        //开启阴影->默认是关闭的
+        this.renderer.webGLRenderer.shadowMap.enabled = true;
+    };
 }
 
 export const getContainerSize = (): { width: number, height: number; } =>
