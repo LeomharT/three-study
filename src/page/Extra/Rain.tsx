@@ -1,8 +1,10 @@
+import { Easing, Tween } from "@tweenjs/tween.js";
 import { useCallback, useEffect, useRef } from "react";
-import { AmbientLight, BufferAttribute, CubeReflectionMapping, CubeRefractionMapping, CubeTextureLoader, DoubleSide, Mesh, MeshBasicMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, PlaneGeometry, RepeatWrapping, SphereGeometry, TextureLoader } from "three";
+import { AmbientLight, BufferAttribute, CubeReflectionMapping, CubeRefractionMapping, CubeTextureLoader, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, PerspectiveCamera, PlaneGeometry, RepeatWrapping, SphereGeometry, TextureLoader } from "three";
 import { app } from "../../app/Application";
 import { pane } from "../../app/core/pane";
 import useScene from "../../hooks/useScene";
+import { ramomValue } from "../../util/randomValue";
 
 export default function Rain()
 {
@@ -10,6 +12,16 @@ export default function Rain()
 
 
     useScene(container);
+
+
+    const setUpCamera = useCallback(() =>
+    {
+        const camera = app.camera.activeCamera as PerspectiveCamera;
+
+        camera.position.set(10, 10, 10);
+        camera.lookAt(app.scene.position);
+        camera.updateProjectionMatrix();
+    }, []);
 
 
     const addLight = useCallback(() =>
@@ -32,33 +44,60 @@ export default function Rain()
     const addBackground = useCallback(() =>
     {
         const env = new CubeTextureLoader()
-            .setPath('/assets/texture/environmentMaps/0/')
+            .setPath('/assets/texture/environmentMaps/2/')
             .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
 
         app.scene.background = env;
-        const m = new MeshBasicMaterial({ envMap: env });
 
+        const rain_material = new MeshBasicMaterial({
+            envMap: env,
+            transparent: true
+        });
 
-        const sphere = new Mesh(
-            new SphereGeometry(1, 32, 32, 32),
-            m
-        );
-
-        sphere.scale.x = 0.1;
-        sphere.scale.y = Math.random();
-        sphere.scale.z = 0.1;
-
+        const rain_geometry = new SphereGeometry(1, 32, 32, 32);
 
         pane.addButton({ title: 'reflact' })
             .on('click', () =>
             {
-                m.needsUpdate = true;
+                rain_material.needsUpdate = true;
                 if (env.mapping === CubeReflectionMapping) env.mapping = CubeRefractionMapping;
                 else env.mapping = CubeReflectionMapping;
             });
 
-        app.scene.add(sphere);
+        const rain_params = {
+            count: 200
+        };
 
+        const rain_base = new Mesh(rain_geometry, rain_material);
+
+
+        for (let i = 0; i < rain_params.count; i++)
+        {
+            const rain = rain_base.clone();
+
+            rain.scale.x = 0.1;
+            rain.scale.y = Math.random() + 0.5;
+            rain.scale.z = 0.1;
+
+            rain.rotation.z = 15 * MathUtils.DEG2RAD;
+
+            rain.position.set(ramomValue(-20, 20), 100, ramomValue(-20, 20));
+
+            const delay = ramomValue(0, 1000);
+
+            new Tween(rain.position)
+                .to({ y: -10 })
+                .delay(delay)
+                .duration(1000)
+                .easing(Easing.Quartic.In)
+                .repeat(Infinity)
+                .onUpdate(v =>
+                {
+                    console.log(v);
+                })
+                .start();
+            app.scene.add(rain);
+        }
     }, []);
 
 
@@ -125,13 +164,13 @@ export default function Rain()
 
     const initScene = useCallback(() =>
     {
+        setUpCamera();
+
         addLight();
 
         addBackground();
 
         app.addArrowHelper();
-
-
 
     }, [addLight]);
 
