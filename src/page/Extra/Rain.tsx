@@ -44,6 +44,11 @@ export default function Rain()
             m
         );
 
+        sphere.scale.x = 0.1;
+        sphere.scale.y = Math.random();
+        sphere.scale.z = 0.1;
+
+
         pane.addButton({ title: 'reflact' })
             .on('click', () =>
             {

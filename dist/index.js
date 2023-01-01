@@ -72871,6 +72871,9 @@
         new SphereGeometry(1, 32, 32, 32),
         m
       );
+      sphere.scale.x = 0.1;
+      sphere.scale.y = Math.random();
+      sphere.scale.z = 0.1;
       pane.addButton({ title: "reflact" }).on("click", () => {
         m.needsUpdate = true;
         if (env.mapping === CubeReflectionMapping)
