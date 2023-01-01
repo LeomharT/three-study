@@ -34,11 +34,10 @@ export default function Rain()
         const env = new CubeTextureLoader()
             .setPath('/assets/texture/environmentMaps/0/')
             .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
-        app.scene.background = env;
 
+        app.scene.background = env;
         const m = new MeshBasicMaterial({ envMap: env });
 
-        m.needsUpdate = true;
 
         const sphere = new Mesh(
             new SphereGeometry(1, 32, 32, 32),
@@ -48,13 +47,9 @@ export default function Rain()
         pane.addButton({ title: 'reflact' })
             .on('click', () =>
             {
-                if (env.mapping === CubeReflectionMapping)
-                {
-                    env.mapping = CubeRefractionMapping;
-                } else
-                {
-                    env.mapping = CubeReflectionMapping;
-                }
+                m.needsUpdate = true;
+                if (env.mapping === CubeReflectionMapping) env.mapping = CubeRefractionMapping;
+                else env.mapping = CubeReflectionMapping;
             });
 
         app.scene.add(sphere);
