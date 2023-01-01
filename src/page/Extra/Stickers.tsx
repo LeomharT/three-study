@@ -75,7 +75,7 @@ export default function Stickers()
         const texture_sticjer = textureLoader.load('/sticjer.png');
 
         const decal_params = {
-            x: 0, y: 1.8, z: 2.8
+            x: 0, y: 0.3, z: 0.8
         };
 
         function addSticker()
@@ -84,9 +84,9 @@ export default function Stickers()
 
             const decal_three = new DecalGeometry(
                 bunny,
-                new Vector3(decal_params.x * 0.3, decal_params.y * 0.3, decal_params.z * 0.3),
+                new Vector3(decal_params.x, decal_params.y, decal_params.z),
                 new Euler(Math.PI * 1.2),
-                new Vector3(0.45, 0.45, 0.45)
+                new Vector3(0.2, 0.2, 0.2)
             );
 
             const sticker_material = createStickerMaterial(texture_sticjer);
@@ -95,6 +95,7 @@ export default function Stickers()
             sticker_material.iridescenceThicknessRange = [0, 1400];
 
             const sticker_three = new Mesh(decal_three, sticker_material);
+
             bunny.add(sticker_three);
         }
 

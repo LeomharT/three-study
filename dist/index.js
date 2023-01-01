@@ -77896,16 +77896,16 @@
       const texture_sticjer = textureLoader.load("/sticjer.png");
       const decal_params = {
         x: 0,
-        y: 1.8,
-        z: 2.8
+        y: 0.3,
+        z: 0.8
       };
       function addSticker() {
         bunny.remove(...bunny.children);
         const decal_three = new DecalGeometry(
           bunny,
-          new Vector3(decal_params.x * 0.3, decal_params.y * 0.3, decal_params.z * 0.3),
+          new Vector3(decal_params.x, decal_params.y, decal_params.z),
           new Euler(Math.PI * 1.2),
-          new Vector3(0.45, 0.45, 0.45)
+          new Vector3(0.2, 0.2, 0.2)
         );
         const sticker_material = createStickerMaterial(texture_sticjer);
         sticker_material.iridescence = 1;
