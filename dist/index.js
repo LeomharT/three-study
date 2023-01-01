@@ -71495,6 +71495,63 @@
       return texture;
     }
   };
+  var DataTextureLoader = class extends Loader {
+    constructor(manager) {
+      super(manager);
+    }
+    load(url2, onLoad, onProgress, onError) {
+      const scope = this;
+      const texture = new DataTexture();
+      const loader = new FileLoader(this.manager);
+      loader.setResponseType("arraybuffer");
+      loader.setRequestHeader(this.requestHeader);
+      loader.setPath(this.path);
+      loader.setWithCredentials(scope.withCredentials);
+      loader.load(url2, function(buffer) {
+        const texData = scope.parse(buffer);
+        if (!texData)
+          return;
+        if (texData.image !== void 0) {
+          texture.image = texData.image;
+        } else if (texData.data !== void 0) {
+          texture.image.width = texData.width;
+          texture.image.height = texData.height;
+          texture.image.data = texData.data;
+        }
+        texture.wrapS = texData.wrapS !== void 0 ? texData.wrapS : ClampToEdgeWrapping;
+        texture.wrapT = texData.wrapT !== void 0 ? texData.wrapT : ClampToEdgeWrapping;
+        texture.magFilter = texData.magFilter !== void 0 ? texData.magFilter : LinearFilter;
+        texture.minFilter = texData.minFilter !== void 0 ? texData.minFilter : LinearFilter;
+        texture.anisotropy = texData.anisotropy !== void 0 ? texData.anisotropy : 1;
+        if (texData.encoding !== void 0) {
+          texture.encoding = texData.encoding;
+        }
+        if (texData.flipY !== void 0) {
+          texture.flipY = texData.flipY;
+        }
+        if (texData.format !== void 0) {
+          texture.format = texData.format;
+        }
+        if (texData.type !== void 0) {
+          texture.type = texData.type;
+        }
+        if (texData.mipmaps !== void 0) {
+          texture.mipmaps = texData.mipmaps;
+          texture.minFilter = LinearMipmapLinearFilter;
+        }
+        if (texData.mipmapCount === 1) {
+          texture.minFilter = LinearFilter;
+        }
+        if (texData.generateMipmaps !== void 0) {
+          texture.generateMipmaps = texData.generateMipmaps;
+        }
+        texture.needsUpdate = true;
+        if (onLoad)
+          onLoad(texture, texData);
+      }, onProgress, onError);
+      return texture;
+    }
+  };
   var TextureLoader = class extends Loader {
     constructor(manager) {
       super(manager);
@@ -72426,6 +72483,102 @@
       this.cone.material.dispose();
     }
   };
+  var _tables = /* @__PURE__ */ _generateTables();
+  function _generateTables() {
+    const buffer = new ArrayBuffer(4);
+    const floatView = new Float32Array(buffer);
+    const uint32View = new Uint32Array(buffer);
+    const baseTable = new Uint32Array(512);
+    const shiftTable = new Uint32Array(512);
+    for (let i = 0; i < 256; ++i) {
+      const e = i - 127;
+      if (e < -27) {
+        baseTable[i] = 0;
+        baseTable[i | 256] = 32768;
+        shiftTable[i] = 24;
+        shiftTable[i | 256] = 24;
+      } else if (e < -14) {
+        baseTable[i] = 1024 >> -e - 14;
+        baseTable[i | 256] = 1024 >> -e - 14 | 32768;
+        shiftTable[i] = -e - 1;
+        shiftTable[i | 256] = -e - 1;
+      } else if (e <= 15) {
+        baseTable[i] = e + 15 << 10;
+        baseTable[i | 256] = e + 15 << 10 | 32768;
+        shiftTable[i] = 13;
+        shiftTable[i | 256] = 13;
+      } else if (e < 128) {
+        baseTable[i] = 31744;
+        baseTable[i | 256] = 64512;
+        shiftTable[i] = 24;
+        shiftTable[i | 256] = 24;
+      } else {
+        baseTable[i] = 31744;
+        baseTable[i | 256] = 64512;
+        shiftTable[i] = 13;
+        shiftTable[i | 256] = 13;
+      }
+    }
+    const mantissaTable = new Uint32Array(2048);
+    const exponentTable = new Uint32Array(64);
+    const offsetTable = new Uint32Array(64);
+    for (let i = 1; i < 1024; ++i) {
+      let m = i << 13;
+      let e = 0;
+      while ((m & 8388608) === 0) {
+        m <<= 1;
+        e -= 8388608;
+      }
+      m &= ~8388608;
+      e += 947912704;
+      mantissaTable[i] = m | e;
+    }
+    for (let i = 1024; i < 2048; ++i) {
+      mantissaTable[i] = 939524096 + (i - 1024 << 13);
+    }
+    for (let i = 1; i < 31; ++i) {
+      exponentTable[i] = i << 23;
+    }
+    exponentTable[31] = 1199570944;
+    exponentTable[32] = 2147483648;
+    for (let i = 33; i < 63; ++i) {
+      exponentTable[i] = 2147483648 + (i - 32 << 23);
+    }
+    exponentTable[63] = 3347054592;
+    for (let i = 1; i < 64; ++i) {
+      if (i !== 32) {
+        offsetTable[i] = 1024;
+      }
+    }
+    return {
+      floatView,
+      uint32View,
+      baseTable,
+      shiftTable,
+      mantissaTable,
+      exponentTable,
+      offsetTable
+    };
+  }
+  function toHalfFloat(val) {
+    if (Math.abs(val) > 65504)
+      console.warn("THREE.DataUtils.toHalfFloat(): Value out of range.");
+    val = clamp(val, -65504, 65504);
+    _tables.floatView[0] = val;
+    const f = _tables.uint32View[0];
+    const e = f >> 23 & 511;
+    return _tables.baseTable[e] + ((f & 8388607) >> _tables.shiftTable[e]);
+  }
+  function fromHalfFloat(val) {
+    const m = val >> 10;
+    _tables.uint32View[0] = _tables.mantissaTable[_tables.offsetTable[m] + (val & 1023)] + _tables.exponentTable[m];
+    return _tables.floatView[0];
+  }
+  var DataUtils = /* @__PURE__ */ Object.freeze({
+    __proto__: null,
+    toHalfFloat,
+    fromHalfFloat
+  });
   if (typeof __THREE_DEVTOOLS__ !== "undefined") {
     __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("register", { detail: {
       revision: REVISION
@@ -77450,6 +77603,248 @@
     return newGeometry;
   }
 
+  // node_modules/three/examples/jsm/loaders/RGBELoader.js
+  var RGBELoader = class extends DataTextureLoader {
+    constructor(manager) {
+      super(manager);
+      this.type = HalfFloatType;
+    }
+    parse(buffer) {
+      const RGBE_RETURN_FAILURE = -1, rgbe_read_error = 1, rgbe_write_error = 2, rgbe_format_error = 3, rgbe_memory_error = 4, rgbe_error = function(rgbe_error_code, msg) {
+        switch (rgbe_error_code) {
+          case rgbe_read_error:
+            console.error("THREE.RGBELoader Read Error: " + (msg || ""));
+            break;
+          case rgbe_write_error:
+            console.error("THREE.RGBELoader Write Error: " + (msg || ""));
+            break;
+          case rgbe_format_error:
+            console.error("THREE.RGBELoader Bad File Format: " + (msg || ""));
+            break;
+          default:
+          case rgbe_memory_error:
+            console.error("THREE.RGBELoader: Error: " + (msg || ""));
+        }
+        return RGBE_RETURN_FAILURE;
+      }, RGBE_VALID_PROGRAMTYPE = 1, RGBE_VALID_FORMAT = 2, RGBE_VALID_DIMENSIONS = 4, NEWLINE = "\n", fgets = function(buffer2, lineLimit, consume) {
+        const chunkSize = 128;
+        lineLimit = !lineLimit ? 1024 : lineLimit;
+        let p = buffer2.pos, i = -1, len = 0, s = "", chunk = String.fromCharCode.apply(null, new Uint16Array(buffer2.subarray(p, p + chunkSize)));
+        while (0 > (i = chunk.indexOf(NEWLINE)) && len < lineLimit && p < buffer2.byteLength) {
+          s += chunk;
+          len += chunk.length;
+          p += chunkSize;
+          chunk += String.fromCharCode.apply(null, new Uint16Array(buffer2.subarray(p, p + chunkSize)));
+        }
+        if (-1 < i) {
+          if (false !== consume)
+            buffer2.pos += len + i + 1;
+          return s + chunk.slice(0, i);
+        }
+        return false;
+      }, RGBE_ReadHeader = function(buffer2) {
+        const magic_token_re = /^#\?(\S+)/, gamma_re = /^\s*GAMMA\s*=\s*(\d+(\.\d+)?)\s*$/, exposure_re = /^\s*EXPOSURE\s*=\s*(\d+(\.\d+)?)\s*$/, format_re = /^\s*FORMAT=(\S+)\s*$/, dimensions_re = /^\s*\-Y\s+(\d+)\s+\+X\s+(\d+)\s*$/, header = {
+          valid: 0,
+          string: "",
+          comments: "",
+          programtype: "RGBE",
+          format: "",
+          gamma: 1,
+          exposure: 1,
+          width: 0,
+          height: 0
+        };
+        let line2, match;
+        if (buffer2.pos >= buffer2.byteLength || !(line2 = fgets(buffer2))) {
+          return rgbe_error(rgbe_read_error, "no header found");
+        }
+        if (!(match = line2.match(magic_token_re))) {
+          return rgbe_error(rgbe_format_error, "bad initial token");
+        }
+        header.valid |= RGBE_VALID_PROGRAMTYPE;
+        header.programtype = match[1];
+        header.string += line2 + "\n";
+        while (true) {
+          line2 = fgets(buffer2);
+          if (false === line2)
+            break;
+          header.string += line2 + "\n";
+          if ("#" === line2.charAt(0)) {
+            header.comments += line2 + "\n";
+            continue;
+          }
+          if (match = line2.match(gamma_re)) {
+            header.gamma = parseFloat(match[1]);
+          }
+          if (match = line2.match(exposure_re)) {
+            header.exposure = parseFloat(match[1]);
+          }
+          if (match = line2.match(format_re)) {
+            header.valid |= RGBE_VALID_FORMAT;
+            header.format = match[1];
+          }
+          if (match = line2.match(dimensions_re)) {
+            header.valid |= RGBE_VALID_DIMENSIONS;
+            header.height = parseInt(match[1], 10);
+            header.width = parseInt(match[2], 10);
+          }
+          if (header.valid & RGBE_VALID_FORMAT && header.valid & RGBE_VALID_DIMENSIONS)
+            break;
+        }
+        if (!(header.valid & RGBE_VALID_FORMAT)) {
+          return rgbe_error(rgbe_format_error, "missing format specifier");
+        }
+        if (!(header.valid & RGBE_VALID_DIMENSIONS)) {
+          return rgbe_error(rgbe_format_error, "missing image size specifier");
+        }
+        return header;
+      }, RGBE_ReadPixels_RLE = function(buffer2, w, h) {
+        const scanline_width = w;
+        if (scanline_width < 8 || scanline_width > 32767 || (2 !== buffer2[0] || 2 !== buffer2[1] || buffer2[2] & 128)) {
+          return new Uint8Array(buffer2);
+        }
+        if (scanline_width !== (buffer2[2] << 8 | buffer2[3])) {
+          return rgbe_error(rgbe_format_error, "wrong scanline width");
+        }
+        const data_rgba = new Uint8Array(4 * w * h);
+        if (!data_rgba.length) {
+          return rgbe_error(rgbe_memory_error, "unable to allocate buffer space");
+        }
+        let offset2 = 0, pos = 0;
+        const ptr_end = 4 * scanline_width;
+        const rgbeStart = new Uint8Array(4);
+        const scanline_buffer = new Uint8Array(ptr_end);
+        let num_scanlines = h;
+        while (num_scanlines > 0 && pos < buffer2.byteLength) {
+          if (pos + 4 > buffer2.byteLength) {
+            return rgbe_error(rgbe_read_error);
+          }
+          rgbeStart[0] = buffer2[pos++];
+          rgbeStart[1] = buffer2[pos++];
+          rgbeStart[2] = buffer2[pos++];
+          rgbeStart[3] = buffer2[pos++];
+          if (2 != rgbeStart[0] || 2 != rgbeStart[1] || (rgbeStart[2] << 8 | rgbeStart[3]) != scanline_width) {
+            return rgbe_error(rgbe_format_error, "bad rgbe scanline format");
+          }
+          let ptr = 0, count;
+          while (ptr < ptr_end && pos < buffer2.byteLength) {
+            count = buffer2[pos++];
+            const isEncodedRun = count > 128;
+            if (isEncodedRun)
+              count -= 128;
+            if (0 === count || ptr + count > ptr_end) {
+              return rgbe_error(rgbe_format_error, "bad scanline data");
+            }
+            if (isEncodedRun) {
+              const byteValue = buffer2[pos++];
+              for (let i = 0; i < count; i++) {
+                scanline_buffer[ptr++] = byteValue;
+              }
+            } else {
+              scanline_buffer.set(buffer2.subarray(pos, pos + count), ptr);
+              ptr += count;
+              pos += count;
+            }
+          }
+          const l = scanline_width;
+          for (let i = 0; i < l; i++) {
+            let off = 0;
+            data_rgba[offset2] = scanline_buffer[i + off];
+            off += scanline_width;
+            data_rgba[offset2 + 1] = scanline_buffer[i + off];
+            off += scanline_width;
+            data_rgba[offset2 + 2] = scanline_buffer[i + off];
+            off += scanline_width;
+            data_rgba[offset2 + 3] = scanline_buffer[i + off];
+            offset2 += 4;
+          }
+          num_scanlines--;
+        }
+        return data_rgba;
+      };
+      const RGBEByteToRGBFloat = function(sourceArray, sourceOffset, destArray, destOffset) {
+        const e = sourceArray[sourceOffset + 3];
+        const scale = Math.pow(2, e - 128) / 255;
+        destArray[destOffset + 0] = sourceArray[sourceOffset + 0] * scale;
+        destArray[destOffset + 1] = sourceArray[sourceOffset + 1] * scale;
+        destArray[destOffset + 2] = sourceArray[sourceOffset + 2] * scale;
+        destArray[destOffset + 3] = 1;
+      };
+      const RGBEByteToRGBHalf = function(sourceArray, sourceOffset, destArray, destOffset) {
+        const e = sourceArray[sourceOffset + 3];
+        const scale = Math.pow(2, e - 128) / 255;
+        destArray[destOffset + 0] = DataUtils.toHalfFloat(Math.min(sourceArray[sourceOffset + 0] * scale, 65504));
+        destArray[destOffset + 1] = DataUtils.toHalfFloat(Math.min(sourceArray[sourceOffset + 1] * scale, 65504));
+        destArray[destOffset + 2] = DataUtils.toHalfFloat(Math.min(sourceArray[sourceOffset + 2] * scale, 65504));
+        destArray[destOffset + 3] = DataUtils.toHalfFloat(1);
+      };
+      const byteArray = new Uint8Array(buffer);
+      byteArray.pos = 0;
+      const rgbe_header_info = RGBE_ReadHeader(byteArray);
+      if (RGBE_RETURN_FAILURE !== rgbe_header_info) {
+        const w = rgbe_header_info.width, h = rgbe_header_info.height, image_rgba_data = RGBE_ReadPixels_RLE(byteArray.subarray(byteArray.pos), w, h);
+        if (RGBE_RETURN_FAILURE !== image_rgba_data) {
+          let data, type4;
+          let numElements;
+          switch (this.type) {
+            case FloatType:
+              numElements = image_rgba_data.length / 4;
+              const floatArray = new Float32Array(numElements * 4);
+              for (let j = 0; j < numElements; j++) {
+                RGBEByteToRGBFloat(image_rgba_data, j * 4, floatArray, j * 4);
+              }
+              data = floatArray;
+              type4 = FloatType;
+              break;
+            case HalfFloatType:
+              numElements = image_rgba_data.length / 4;
+              const halfArray = new Uint16Array(numElements * 4);
+              for (let j = 0; j < numElements; j++) {
+                RGBEByteToRGBHalf(image_rgba_data, j * 4, halfArray, j * 4);
+              }
+              data = halfArray;
+              type4 = HalfFloatType;
+              break;
+            default:
+              console.error("THREE.RGBELoader: unsupported type: ", this.type);
+              break;
+          }
+          return {
+            width: w,
+            height: h,
+            data,
+            header: rgbe_header_info.string,
+            gamma: rgbe_header_info.gamma,
+            exposure: rgbe_header_info.exposure,
+            type: type4
+          };
+        }
+      }
+      return null;
+    }
+    setDataType(value) {
+      this.type = value;
+      return this;
+    }
+    load(url2, onLoad, onProgress, onError) {
+      function onLoadCallback(texture, texData) {
+        switch (texture.type) {
+          case FloatType:
+          case HalfFloatType:
+            texture.encoding = LinearEncoding;
+            texture.minFilter = LinearFilter;
+            texture.magFilter = LinearFilter;
+            texture.generateMipmaps = false;
+            texture.flipY = true;
+            break;
+        }
+        if (onLoad)
+          onLoad(texture, texData);
+      }
+      return super.load(url2, onLoadCallback, onProgress, onError);
+    }
+  };
+
   // src/page/Extra/Stickers.tsx
   var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   function Stickers() {
@@ -77479,10 +77874,10 @@
       const hemiLight = new HemisphereLight(4469555, 1118498);
       app.scene.add(hemiLight);
       const spotLight = new SpotLight();
-      spotLight.angle = Math.PI / 16;
+      spotLight.angle = Math.PI / 8;
       spotLight.penumbra = 0.5;
       spotLight.castShadow = true;
-      spotLight.position.set(-1, 1, 1);
+      spotLight.position.set(-2, 2, 2);
       app.scene.add(spotLight);
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath("/draco/");
@@ -77491,24 +77886,46 @@
       gltfLoader.setDRACOLoader(dracoLoader);
       const bunny = (await gltfLoader.loadAsync("/assets/modules/bunny.gltf")).scene.children[0];
       bunny.castShadow = true;
-      bunny.scale.set(0.2, 0.2, 0.2);
       const textureLoader = new TextureLoader();
       textureLoader.setPath("/assets/texture/stickers");
-      const sticker_three = textureLoader.load("/three.png");
-      const sticker_react = textureLoader.load("/react.png");
-      const sticker_twemoji = textureLoader.load("/twemoji.png");
-      const sticker_sticjer = textureLoader.load("/sticjer.png");
-      const decal_three = new DecalGeometry(
-        bunny,
-        new Vector3(-0.1, 1.3, 0.55),
-        new Euler(Math.PI * 1.2),
-        new Vector3(0.45, 0.45, 0.45)
-      );
-      bunny.add(new Mesh(decal_three, createStickerMaterial(sticker_react)));
+      const rgbeLoader = new RGBELoader();
+      rgbeLoader.setPath("/assets/texture/");
+      const texture_three = textureLoader.load("/three.png");
+      const texture_react = textureLoader.load("/react.png");
+      const texture_twemoji = textureLoader.load("/twemoji.png");
+      const texture_sticjer = textureLoader.load("/sticjer.png");
+      const decal_params = {
+        x: 0,
+        y: 1.8,
+        z: 2.8
+      };
+      function addSticker() {
+        bunny.remove(...bunny.children);
+        const decal_three = new DecalGeometry(
+          bunny,
+          new Vector3(decal_params.x * 0.3, decal_params.y * 0.3, decal_params.z * 0.3),
+          new Euler(Math.PI * 1.2),
+          new Vector3(0.45, 0.45, 0.45)
+        );
+        const sticker_material = createStickerMaterial(texture_sticjer);
+        sticker_material.iridescence = 1;
+        sticker_material.iridescenceIOR = 1;
+        sticker_material.iridescenceThicknessRange = [0, 1400];
+        const sticker_three = new Mesh(decal_three, sticker_material);
+        bunny.add(sticker_three);
+      }
+      addSticker();
+      const folder_sticker_three = pane.addFolder({ title: "sticker_three" });
+      folder_sticker_three.addInput(decal_params, "x", { min: -2, max: 10, step: 1e-3 }).on("change", () => addSticker());
+      folder_sticker_three.addInput(decal_params, "y", { min: -2, max: 10, step: 1e-3 }).on("change", () => addSticker());
+      ;
+      folder_sticker_three.addInput(decal_params, "z", { min: -2, max: 10, step: 1e-3 }).on("change", () => addSticker());
+      ;
       app.scene.add(bunny);
     }, []);
     (0, import_react39.useEffect)(() => {
       app.enableShadow();
+      app.addArrowHelper();
       initScene();
     }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {

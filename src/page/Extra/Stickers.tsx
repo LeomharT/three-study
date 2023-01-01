@@ -3,7 +3,9 @@ import { Euler, HemisphereLight, Mesh, MeshPhongMaterial, MeshPhysicalMaterial, 
 import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry.js';
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { app } from "../../app/Application";
+import { pane } from "../../app/core/pane";
 import useScene from "../../hooks/useScene";
 export default function Stickers()
 {
@@ -44,10 +46,10 @@ export default function Stickers()
         app.scene.add(hemiLight);
 
         const spotLight = new SpotLight();
-        spotLight.angle = Math.PI / 16;
+        spotLight.angle = Math.PI / 8;
         spotLight.penumbra = 0.5;
         spotLight.castShadow = true;
-        spotLight.position.set(- 1, 1, 1);
+        spotLight.position.set(-2, 2, 2);
         app.scene.add(spotLight);
 
         const dracoLoader = new DRACOLoader();
@@ -60,26 +62,48 @@ export default function Stickers()
         const bunny = (await gltfLoader.loadAsync('/assets/modules/bunny.gltf')).scene.children[0] as Mesh;
 
         bunny.castShadow = true;
-        bunny.scale.set(0.2, 0.2, 0.2);
-
-
 
         const textureLoader = new TextureLoader();
         textureLoader.setPath('/assets/texture/stickers');
 
-        const sticker_three = textureLoader.load('/three.png');
-        const sticker_react = textureLoader.load('/react.png');
-        const sticker_twemoji = textureLoader.load('/twemoji.png');
-        const sticker_sticjer = textureLoader.load('/sticjer.png');
+        const rgbeLoader = new RGBELoader();
+        rgbeLoader.setPath('/assets/texture/');
 
-        const decal_three = new DecalGeometry(
-            bunny,
-            new Vector3(-0.1, 1.3, 0.55),
-            new Euler(Math.PI * 1.2),
-            new Vector3(0.45, 0.45, 0.45)
-        );
+        const texture_three = textureLoader.load('/three.png');
+        const texture_react = textureLoader.load('/react.png');
+        const texture_twemoji = textureLoader.load('/twemoji.png');
+        const texture_sticjer = textureLoader.load('/sticjer.png');
 
-        bunny.add(new Mesh(decal_three, createStickerMaterial(sticker_react)));
+        const decal_params = {
+            x: 0, y: 1.8, z: 2.8
+        };
+
+        function addSticker()
+        {
+            bunny.remove(...bunny.children);
+
+            const decal_three = new DecalGeometry(
+                bunny,
+                new Vector3(decal_params.x * 0.3, decal_params.y * 0.3, decal_params.z * 0.3),
+                new Euler(Math.PI * 1.2),
+                new Vector3(0.45, 0.45, 0.45)
+            );
+
+            const sticker_material = createStickerMaterial(texture_sticjer);
+            sticker_material.iridescence = 1;
+            sticker_material.iridescenceIOR = 1;
+            sticker_material.iridescenceThicknessRange = [0, 1400];
+
+            const sticker_three = new Mesh(decal_three, sticker_material);
+            bunny.add(sticker_three);
+        }
+
+        addSticker();
+
+        const folder_sticker_three = pane.addFolder({ title: "sticker_three" });
+        folder_sticker_three.addInput(decal_params, 'x', { min: -2, max: 10, step: 0.001 }).on('change', () => addSticker());
+        folder_sticker_three.addInput(decal_params, 'y', { min: -2, max: 10, step: 0.001 }).on('change', () => addSticker());;
+        folder_sticker_three.addInput(decal_params, 'z', { min: -2, max: 10, step: 0.001 }).on('change', () => addSticker());;
 
         app.scene.add(bunny);
 
@@ -89,6 +113,8 @@ export default function Stickers()
     useEffect(() =>
     {
         app.enableShadow();
+
+        app.addArrowHelper();
 
         initScene();
 
