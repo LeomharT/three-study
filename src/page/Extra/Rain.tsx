@@ -54,7 +54,7 @@ export default function Rain()
             transparent: true
         });
 
-        const rain_geometry = new SphereGeometry(1, 32, 32, 32);
+        const rain_geometry = new SphereGeometry(1, 4, 4);
 
         pane.addButton({ title: 'reflact' })
             .on('click', () =>
@@ -167,6 +167,8 @@ export default function Rain()
         setUpCamera();
 
         addLight();
+
+        // addWalls();
 
         addBackground();
 
