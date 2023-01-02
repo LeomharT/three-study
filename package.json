@@ -17,7 +17,7 @@
         "@tweakpane/core": "^1.1.0",
         "@types/react": "^18.0.21",
         "@types/react-dom": "^18.0.6",
-        "@types/three": "^0.144.0",
+        "@types/three": "^0.147.1",
         "@types/uuid": "^8.3.4",
         "@typescript-eslint/eslint-plugin": "^5.37.0",
         "esbuild": "^0.15.7",
