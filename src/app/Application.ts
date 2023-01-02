@@ -178,6 +178,8 @@ export class Application
         document.body.appendChild(domElement);
     };
 
+
+    /** 开启阴影 */
     public enableShadow = () =>
     {
         //开启阴影->默认是关闭的

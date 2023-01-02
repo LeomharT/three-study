@@ -74718,7 +74718,7 @@
       for (let i = 0; i < rain_params.count; i++) {
         const rain = rain_base.clone();
         rain.scale.x = 0.1;
-        rain.scale.y = Math.random() + 0.5;
+        rain.scale.y = Math.random() + 1.5;
         rain.scale.z = 0.1;
         rain.rotation.z = 15 * MathUtils.DEG2RAD;
         rain.position.set(ramomValue(-20, 20), 100, ramomValue(-20, 20));
@@ -77942,6 +77942,9 @@
       material.iridescence = 1;
       material.iridescenceIOR = 1;
       material.iridescenceThicknessRange = [1, 1400];
+      const material_folder = pane.addFolder({ title: "material" });
+      material_folder.addInput(material, "iridescence", { min: 0, max: 1, step: 0.01 });
+      material_folder.addInput(material, "iridescenceIOR", { min: 0, max: 1, step: 0.01 });
       return material;
     }, []);
     const initScene = (0, import_react39.useCallback)(async () => {
@@ -77977,7 +77980,6 @@
       spotLightFolder.addInput(spotLight, "penumbra", { min: 0, max: 1, step: 0.01 });
       spotLightFolder.addInput(spotLight, "distance", { min: 1, max: 200, step: 0.01 });
       spotLightFolder.addInput({ color: "#ffffff" }, "color").on("change", (v) => spotLight.color = new Color(v.value));
-      console.log(spotLight.distance);
       spotLightFolder.addInput({ map: "disturb" }, "map", {
         options: {
           none: "none",
@@ -78398,3 +78400,4 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+//# sourceMappingURL=index.js.map

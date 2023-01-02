@@ -11,6 +11,7 @@ await esbuild.build({
     minify: false,
     watch: true,
     assetNames: 'assets/[name]-[hash]',
+    sourcemap: true,
     loader: {
         '.png': 'file',
         '.svg': 'file',

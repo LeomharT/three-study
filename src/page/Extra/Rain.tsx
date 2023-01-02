@@ -76,7 +76,7 @@ export default function Rain()
             const rain = rain_base.clone();
 
             rain.scale.x = 0.1;
-            rain.scale.y = Math.random() + 0.5;
+            rain.scale.y = Math.random() + 1.5;
             rain.scale.z = 0.1;
 
             rain.rotation.z = 15 * MathUtils.DEG2RAD;

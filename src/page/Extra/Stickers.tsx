@@ -33,6 +33,11 @@ export default function Stickers()
         material.iridescenceIOR = 1;
         material.iridescenceThicknessRange = [1, 1400];
 
+        const material_folder = pane.addFolder({ title: "material" });
+
+        material_folder.addInput(material, 'iridescence', { min: 0, max: 1, step: 0.01 });
+        material_folder.addInput(material, 'iridescenceIOR', { min: 0, max: 1, step: 0.01 });
+
         return material;
     }, []);
 
@@ -84,7 +89,6 @@ export default function Stickers()
         spotLightFolder.addInput(spotLight, 'penumbra', { min: 0, max: 1, step: 0.01 });
         spotLightFolder.addInput(spotLight, 'distance', { min: 1, max: 200, step: 0.01 });
         spotLightFolder.addInput({ color: '#ffffff' }, 'color').on('change', v => spotLight.color = new Color(v.value));
-        console.log(spotLight.distance);
         spotLightFolder.addInput({ map: 'disturb' }, 'map', {
             options: {
                 none: 'none',
