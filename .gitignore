@@ -1,1 +1,5 @@
 node_modules/
+dist/index.css
+dist/index.css.map
+dist/index.js
+dist/index.js.map

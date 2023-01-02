@@ -1,6 +1,7 @@
 import { Easing, Tween } from "@tweenjs/tween.js";
 import { useCallback, useEffect, useRef } from "react";
-import { AmbientLight, BufferAttribute, CubeReflectionMapping, CubeRefractionMapping, CubeTextureLoader, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, PerspectiveCamera, PlaneGeometry, RepeatWrapping, SphereGeometry, TextureLoader } from "three";
+import { AmbientLight, BufferAttribute, CubeReflectionMapping, CubeRefractionMapping, CubeTextureLoader, DoubleSide, Euler, MathUtils, Mesh, MeshBasicMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, PerspectiveCamera, PlaneGeometry, RepeatWrapping, SphereGeometry, TextureLoader, Vector3 } from "three";
+import { DecalGeometry } from "three/examples/jsm/geometries/DecalGeometry.js";
 import { app } from "../../app/Application";
 import { pane } from "../../app/core/pane";
 import useScene from "../../hooks/useScene";
@@ -130,7 +131,6 @@ export default function Rain()
         brick_color.magFilter = NearestFilter;
 
 
-
         const wall_gemotry = new PlaneGeometry(5, 5, 64, 64);
         wall_gemotry.setAttribute('uv2', new BufferAttribute(wall_gemotry.getAttribute('uv').array, 2));
 
@@ -140,7 +140,7 @@ export default function Rain()
             aoMap: brick_ambientOcclusion,
             normalMap: brick_normal,
             displacementMap: brick_displacement,
-            displacementScale: 0.15,
+            displacementScale: 0,
             roughnessMap: brick_roughness,
             side: DoubleSide,
         });
@@ -158,19 +158,75 @@ export default function Rain()
 
         const wall_back = new Mesh(wall_gemotry, wall_material);
 
+        //Decal
+        textureLoader.setPath('/assets/texture/');
+        const shutte_diffuse = textureLoader.load('shutter-Diffuse.png');
+
+        function createMaterial()
+        {
+            const material_shutte_diffuse = new MeshPhysicalMaterial({
+                map: shutte_diffuse,
+                transparent: true,
+                polygonOffset: true,
+                polygonOffsetFactor: -10,
+                roughness: 1,
+                clearcoat: 0.5,
+                metalness: 0.75,
+                toneMapped: false,
+            });
+            const material_shutte_diffuse_folder = pane.addFolder({ title: "decalParams" });
+            material_shutte_diffuse_folder.addInput(material_shutte_diffuse, 'roughness', { min: 0, max: 1, step: 0.001 }).on('change', () => material_shutte_diffuse.needsUpdate = true);
+            material_shutte_diffuse_folder.addInput(material_shutte_diffuse, 'metalness', { min: 0, max: 1, step: 0.001 }).on('change', () => material_shutte_diffuse.needsUpdate = true);
+
+            return material_shutte_diffuse;
+        }
+
+        const decal_material = createMaterial();
+
+        const decal_params = {
+            x: 0, y: 0, z: 0, scale: 1, rotationX: 0, rotationY: 0, rotationZ: -Math.PI / 2,
+        };
+
+        function decal_test()
+        {
+            wall_back.remove(...wall_back.children);
+
+            const decal_shutte_diffuse = new DecalGeometry(
+                wall_back,
+                new Vector3(decal_params.x, decal_params.y, decal_params.z),
+                new Euler(decal_params.rotationX, decal_params.rotationY, decal_params.rotationZ, 'XYZ'),
+                new Vector3(decal_params.scale, decal_params.scale, decal_params.scale)
+            );
+
+            const decal_test = new Mesh(decal_shutte_diffuse, decal_material);
+
+            wall_back.add(decal_test);
+        }
+
+        decal_test();
+
+        const decal_folder = pane.addFolder({ title: 'DecalParams' });
+        decal_folder.addInput(decal_params, 'x', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());
+        decal_folder.addInput(decal_params, 'y', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());;
+        decal_folder.addInput(decal_params, 'z', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());;
+        decal_folder.addInput(decal_params, 'rotationX', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());;
+        decal_folder.addInput(decal_params, 'rotationY', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());;
+        decal_folder.addInput(decal_params, 'rotationZ', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());;
+        decal_folder.addInput(decal_params, 'scale', { min: -10, max: 10, step: 0.001 }).on('change', () => decal_test());;
+
         app.scene.add(wall_back);
     }, []);
 
 
     const initScene = useCallback(() =>
     {
-        setUpCamera();
+        // setUpCamera();
 
         addLight();
 
-        // addWalls();
+        addWalls();
 
-        addBackground();
+        // addBackground();
 
         app.addArrowHelper();
 
