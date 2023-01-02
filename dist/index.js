@@ -77928,6 +77928,12 @@
   function Stickers() {
     const container = (0, import_react39.useRef)(null);
     useScene(container);
+    const setupCamera = (0, import_react39.useCallback)(() => {
+      const camera = app.camera.activeCamera;
+      camera.position.set(0.8, 1.5, 0.8);
+      camera.lookAt(app.scene.position);
+      camera.updateProjectionMatrix();
+    }, []);
     const createStickerMaterial = (0, import_react39.useCallback)((texture) => {
       const material = new MeshPhysicalMaterial({
         map: texture,
@@ -77966,7 +77972,6 @@
       spotLight.penumbra = 0.5;
       spotLight.castShadow = true;
       spotLight.position.set(-2, 2, 2);
-      spotLight.map = disturb;
       spotLight.distance = 50;
       app.scene.add(spotLight);
       const spotLightHelper = new SpotLightHelper(spotLight);
@@ -77980,7 +77985,7 @@
       spotLightFolder.addInput(spotLight, "penumbra", { min: 0, max: 1, step: 0.01 });
       spotLightFolder.addInput(spotLight, "distance", { min: 1, max: 200, step: 0.01 });
       spotLightFolder.addInput({ color: "#ffffff" }, "color").on("change", (v) => spotLight.color = new Color(v.value));
-      spotLightFolder.addInput({ map: "disturb" }, "map", {
+      spotLightFolder.addInput({ map: "none" }, "map", {
         options: {
           none: "none",
           disturb: "disturb"
@@ -78081,6 +78086,7 @@
     (0, import_react39.useEffect)(() => {
       app.enableShadow();
       app.addArrowHelper();
+      setupCamera();
       initScene();
     }, [initScene]);
     return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Color, Euler, HemisphereLight, Mesh, MeshPhongMaterial, MeshPhysicalMaterial, PlaneGeometry, SpotLight, SpotLightHelper, Texture, TextureLoader, Vector3 } from "three";
+import { Color, Euler, HemisphereLight, Mesh, MeshPhongMaterial, MeshPhysicalMaterial, PerspectiveCamera, PlaneGeometry, SpotLight, SpotLightHelper, Texture, TextureLoader, Vector3 } from "three";
 import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry.js';
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -14,6 +14,16 @@ export default function Stickers()
 
 
     useScene(container);
+
+
+    const setupCamera = useCallback(() =>
+    {
+        const camera = app.camera.activeCamera as PerspectiveCamera;
+
+        camera.position.set(0.8, 1.5, 0.8);
+        camera.lookAt(app.scene.position);
+        camera.updateProjectionMatrix();
+    }, []);
 
 
     const createStickerMaterial = useCallback((texture: Texture) =>
@@ -69,7 +79,6 @@ export default function Stickers()
         spotLight.penumbra = 0.5;
         spotLight.castShadow = true;
         spotLight.position.set(-2, 2, 2);
-        spotLight.map = disturb;
         spotLight.distance = 50;
 
 
@@ -89,7 +98,7 @@ export default function Stickers()
         spotLightFolder.addInput(spotLight, 'penumbra', { min: 0, max: 1, step: 0.01 });
         spotLightFolder.addInput(spotLight, 'distance', { min: 1, max: 200, step: 0.01 });
         spotLightFolder.addInput({ color: '#ffffff' }, 'color').on('change', v => spotLight.color = new Color(v.value));
-        spotLightFolder.addInput({ map: 'disturb' }, 'map', {
+        spotLightFolder.addInput({ map: 'none' }, 'map', {
             options: {
                 none: 'none',
                 disturb: 'disturb'
@@ -212,6 +221,8 @@ export default function Stickers()
         app.enableShadow();
 
         app.addArrowHelper();
+
+        setupCamera();
 
         initScene();
 
